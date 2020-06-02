@@ -6,19 +6,52 @@ import Header from '../components/header';
 import Styles from '../constants/styles';
 import HomeCard from '../components/homeCard';
 import TaskCard from '../components/taskCard';
-import colors from '../constants/colors';
 
 export default class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = ({
+            items: [
+                {
+                    title: 'Pending',
+                    image: require('../assests/clock.png'),
+                    color: Colors.purple,
+                    lightColor: Colors.purpleLight,
+                    notificationCount: 10,
+                    tag: 'pending'
+                },
+                {
+                    title: 'In Progress',
+                    image: require('../assests/refresh.png'),
+                    color: Colors.blue,
+                    lightColor: Colors.blueLight,
+                    notificationCount: 90,
+                    tag: 'inProgress'
+                },
+                {
+                    title: 'New',
+                    image: require('../assests/new.png'),
+                    color: Colors.green,
+                    lightColor: Colors.greenLight,
+                    notificationCount: 4,
+                    tag: 'new'
+                },
+                {
+                    title: 'Overdue',
+                    image: require('../assests/warning.png'),
+                    color: Colors.red,
+                    lightColor: Colors.redLight,
+                    notificationCount: 8,
+                    tag: 'overdue'
+                },
+            ],
             tasks: [
                 {
                     id: 1,
                     title: 'Add Logo (Change Color. Blah Blah)',
                     product: 'ProTrackter',
                     assignee: 'Ciddarth',
-                    color: colors.blue,
+                    color: Colors.blue,
                     description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
                     status: 1,
                     taskHistory: [
@@ -39,7 +72,7 @@ export default class Home extends React.Component {
                     title: 'Add Logo (Change Color. Blah Blah)',
                     product: 'ProTrackter',
                     assignee: 'Ciddarth',
-                    color: colors.purple,
+                    color: Colors.purple,
                     description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
                     status: 2,
                     taskHistory: [
@@ -60,7 +93,7 @@ export default class Home extends React.Component {
                     title: 'Add Logo (Change Color. Blah Blah)',
                     product: 'ProTrackter',
                     assignee: 'Ciddarth',
-                    color: colors.green,
+                    color: Colors.green,
                     description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
                     status: 3,
                     taskHistory: [
@@ -81,7 +114,7 @@ export default class Home extends React.Component {
                     title: 'Add Logo (Change Color. Blah Blah)',
                     product: 'ProTrackter',
                     assignee: 'Ciddarth',
-                    color: colors.indigo,
+                    color: Colors.indigo,
                     description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
                     status: 1,
                     taskHistory: [
@@ -102,7 +135,7 @@ export default class Home extends React.Component {
     }
 
     render() {
-        const { tasks } = this.state;
+        const { tasks, items } = this.state;
         return (
             <>
                 <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
@@ -110,10 +143,18 @@ export default class Home extends React.Component {
                     <Header image={'https://i.imgur.com/0byOhwQ.jpg'} name={'Ciddarth Raaj'} />
                     <Text style={[Styles.headingText, { marginTop: 10 }]}>Today</Text>
                     <View style={styles.cardWrapper}>
-                        <HomeCard title={'Pending'} lightColor={Colors.purpleLight} color={Colors.purple} image={require('../assests/clock.png')} notificationCount={10} />
-                        <HomeCard title={'In Progress'} lightColor={Colors.blueLight} color={Colors.blue} image={require('../assests/refresh.png')} notificationCount={10} />
-                        <HomeCard title={'New'} lightColor={Colors.greenLight} color={Colors.green} image={require('../assests/new.png')} notificationCount={10} />
-                        <HomeCard title={'Overdue'} lightColor={Colors.redLight} color={Colors.red} image={require('../assests/warning.png')} notificationCount={10} />
+                        {
+                            items.map((i) => (
+                                <HomeCard
+                                    title={i.title}
+                                    lightColor={i.lightColor}
+                                    color={i.color}
+                                    image={i.image}
+                                    notificationCount={i.notificationCount}
+                                    tag={i.tag}
+                                    navigation={this.props.navigation} />
+                            ))
+                        }
                     </View>
 
                     <View style={Styles.tasksWrapper}>

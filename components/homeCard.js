@@ -5,10 +5,10 @@ import { StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from 'rea
 // import Styles from '../constants/styles';
 
 export default function HomeCard(props) {
-    const { lightColor, color, image, title, notificationCount, id } = props;
+    const { lightColor, color, image, title, notificationCount, id, tag, navigation } = props;
 
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Tasks', { tag: tag })}>
             <View style={[styles.mainLayout, { backgroundColor: lightColor }]}>
                 <View style={styles.notificationWrapper}>
                     <Text style={styles.notificationText}>{notificationCount}</Text>

@@ -9,8 +9,6 @@ export default function Header(props) {
     const { visible, setVisible, color } = props;
     const { title, product, assignee, description, status, taskHistory } = props;
 
-    console.log('modal', taskHistory);
-
     return (
         <Modal
             animationType="slide"
