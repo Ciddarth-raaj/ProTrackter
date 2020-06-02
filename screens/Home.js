@@ -5,6 +5,7 @@ import Colors from '../constants/colors';
 import Header from '../components/header';
 import Styles from '../constants/styles';
 import HomeCard from '../components/homeCard';
+import TaskCard from '../components/taskCard';
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -15,7 +16,7 @@ export default class Home extends React.Component {
         return (
             <>
                 <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
-                <ScrollView style={{ flex: 1, backgroundColor: Colors.background, padding: 20 }}>
+                <ScrollView style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
                     <Header image={'https://i.imgur.com/0byOhwQ.jpg'} name={'Ciddarth Raaj'} />
                     <Text style={[Styles.headingText, { marginTop: 10 }]}>Today</Text>
                     <View style={styles.cardWrapper}>
@@ -24,6 +25,12 @@ export default class Home extends React.Component {
                         <HomeCard title={'New'} lightColor={Colors.greenLight} color={Colors.green} image={require('../assests/new.png')} notificationCount={10} />
                         <HomeCard title={'Overdue'} lightColor={Colors.redLight} color={Colors.red} image={require('../assests/warning.png')} notificationCount={10} />
                     </View>
+
+                    <View style={Styles.tasksWrapper}>
+                        <TaskCard title={'Add Logo (Change Color. Blah Blah)'} product={'ProTrackter'} assignee={'Ciddarth'} color={Colors.blue} />
+                        <TaskCard title={'Add Logo (Change Color. Blah Blah)'} product={'ProTrackter'} assignee={'Ciddarth'} color={Colors.purple} />
+                    </View>
+
                 </ScrollView>
                 <SafeAreaView style={{ backgroundColor: Colors.background }} />
             </>
@@ -35,5 +42,7 @@ const styles = StyleSheet.create({
     cardWrapper: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-    }
+        justifyContent: 'center',
+        marginBottom: 10
+    },
 });
