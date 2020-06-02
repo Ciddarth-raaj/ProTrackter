@@ -20,7 +20,19 @@ export default class Home extends React.Component {
                     assignee: 'Ciddarth',
                     color: colors.blue,
                     description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-                    status: 1
+                    status: 1,
+                    taskHistory: [
+                        {
+                            id: 1,
+                            title: 'Task1',
+                            date: 'Wed Jun 03 2020'
+                        },
+                        {
+                            id: 2,
+                            title: 'Task2',
+                            date: 'Wed Jun 03 2020'
+                        },
+                    ]
                 },
                 {
                     id: 2,
@@ -29,7 +41,19 @@ export default class Home extends React.Component {
                     assignee: 'Ciddarth',
                     color: colors.purple,
                     description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-                    status: 2
+                    status: 2,
+                    taskHistory: [
+                        {
+                            id: 1,
+                            title: 'Task3',
+                            date: 'Wed Jun 03 2020'
+                        },
+                        {
+                            id: 2,
+                            title: 'Task4',
+                            date: 'Wed Jun 03 2020'
+                        },
+                    ]
                 },
                 {
                     id: 3,
@@ -38,7 +62,19 @@ export default class Home extends React.Component {
                     assignee: 'Ciddarth',
                     color: colors.green,
                     description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-                    status: 3
+                    status: 3,
+                    taskHistory: [
+                        {
+                            id: 1,
+                            title: 'Task5',
+                            date: 'Wed Jun 03 2020'
+                        },
+                        {
+                            id: 2,
+                            title: 'Task6',
+                            date: 'Wed Jun 03 2020'
+                        },
+                    ]
                 },
                 {
                     id: 4,
@@ -47,7 +83,19 @@ export default class Home extends React.Component {
                     assignee: 'Ciddarth',
                     color: colors.indigo,
                     description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-                    status: 1
+                    status: 1,
+                    taskHistory: [
+                        {
+                            id: 1,
+                            title: 'Task7',
+                            date: 'Wed Jun 03 2020'
+                        },
+                        {
+                            id: 2,
+                            title: 'Task8',
+                            date: 'Wed Jun 03 2020'
+                        },
+                    ]
                 }
             ]
         });
@@ -71,7 +119,16 @@ export default class Home extends React.Component {
                     <View style={Styles.tasksWrapper}>
                         {
                             tasks.map((t) => (
-                                <TaskCard id={t.id} title={t.title} product={t.product} assignee={t.assignee} color={t.color} description={t.description} status={t.status} />
+                                <TaskCard
+                                    id={t.id}
+                                    title={t.title}
+                                    product={t.product}
+                                    assignee={t.assignee}
+                                    color={t.color}
+                                    description={t.description}
+                                    status={t.status}
+                                    taskHistory={t.taskHistory}
+                                />
                             ))
                         }
                     </View>

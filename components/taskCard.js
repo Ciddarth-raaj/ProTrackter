@@ -14,8 +14,20 @@ export default function Header(props) {
 
     return (
         <TouchableOpacity
-            onPress={() => setVisible(true)}>
-            <TaskModal visible={visible} setVisible={setVisible} color={color} title={title} product={product} assignee={assignee} description={description} taskHistory={taskHistory} status={status} />
+            onPress={() => type != 'modal' && setVisible(true)}>
+
+            <TaskModal
+                visible={visible}
+                setVisible={setVisible}
+                color={color}
+                title={title}
+                product={product}
+                assignee={assignee}
+                description={description}
+                taskHistory={taskHistory}
+                status={status}
+            />
+
             <View style={[styles.container, { backgroundColor: color }, type == 'modal' && { padding: 0 }]}>
                 {
                     type != 'modal' && <Image source={require('../assests/expand.png')} style={styles.expandImage} />

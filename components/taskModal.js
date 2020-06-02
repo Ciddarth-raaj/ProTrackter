@@ -4,11 +4,12 @@ import { View, StyleSheet, Text, TouchableOpacity, Modal, Image, ScrollView, Tex
 import Colors from '../constants/colors';
 import Styles from '../constants/styles';
 import TaskCard from './taskCard';
-import colors from '../constants/colors';
 
 export default function Header(props) {
     const { visible, setVisible, color } = props;
-    const { title, product, assignee, description, tastHistory, status } = props;
+    const { title, product, assignee, description, status, taskHistory } = props;
+
+    console.log('modal', taskHistory);
 
     return (
         <Modal
@@ -26,7 +27,7 @@ export default function Header(props) {
                     </TouchableOpacity>
 
                     <ScrollView style={{ marginTop: 40, paddingHorizontal: 15 }}>
-                        <TaskCard title={title} product={product} assignee={assignee} color={color} type={'modal'} status={status} />
+                        <TaskCard title={title} product={product} assignee={assignee} color={color} type={'modal'} status={status} taskHistory={taskHistory} />
 
                         <Text style={[styles.text]} >{description}</Text>
 
@@ -37,17 +38,14 @@ export default function Header(props) {
 
                         <View>
                             <Text style={[styles.heading, styles.text]}>Task History</Text>
-
-                            <Text style={[styles.text, styles.tasksHistoryHeading]}>{'Test123'}</Text>
-                            <Text style={[styles.text, styles.tasksHistorySub]}>{'20th, Jan, 2020'}</Text>
-                            <Text style={[styles.text, styles.tasksHistoryHeading]}>{'Test123'}</Text>
-                            <Text style={[styles.text, styles.tasksHistorySub]}>{'20th, Jan, 2020'}</Text>
-                            <Text style={[styles.text, styles.tasksHistoryHeading]}>{'Test123'}</Text>
-                            <Text style={[styles.text, styles.tasksHistorySub]}>{'20th, Jan, 2020'}</Text>
-                            <Text style={[styles.text, styles.tasksHistoryHeading]}>{'Test123'}</Text>
-                            <Text style={[styles.text, styles.tasksHistorySub]}>{'20th, Jan, 2020'}</Text>
-                            <Text style={[styles.text, styles.tasksHistoryHeading]}>{'Test123'}</Text>
-                            <Text style={[styles.text, styles.tasksHistorySub]}>{'20th, Jan, 2020'}</Text>
+                            {
+                                taskHistory.map((t) => (
+                                    <View>
+                                        <Text style={[styles.text, styles.tasksHistoryHeading]}>{t.title}</Text>
+                                        <Text style={[styles.text, styles.tasksHistorySub]}>{t.date}</Text>
+                                    </View>
+                                ))
+                            }
                         </View>
 
                     </ScrollView>
