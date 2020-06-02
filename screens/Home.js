@@ -140,7 +140,7 @@ export default class Home extends React.Component {
             <>
                 <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
                 <ScrollView style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
-                    <Header image={'https://i.imgur.com/0byOhwQ.jpg'} name={'Ciddarth Raaj'} />
+                    <Header name={'Ciddarth Raaj'} />
                     <Text style={[Styles.headingText, { marginTop: 10 }]}>Today</Text>
                     <View style={styles.cardWrapper}>
                         {
