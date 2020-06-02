@@ -6,13 +6,51 @@ import Header from '../components/header';
 import Styles from '../constants/styles';
 import HomeCard from '../components/homeCard';
 import TaskCard from '../components/taskCard';
+import colors from '../constants/colors';
 
 export default class Home extends React.Component {
     constructor(props) {
         super(props);
+        this.state = ({
+            tasks: [
+                {
+                    id: 1,
+                    title: 'Add Logo (Change Color. Blah Blah)',
+                    product: 'ProTrackter',
+                    assignee: 'Ciddarth',
+                    color: colors.blue,
+                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)'
+                },
+                {
+                    id: 2,
+                    title: 'Add Logo (Change Color. Blah Blah)',
+                    product: 'ProTrackter',
+                    assignee: 'Ciddarth',
+                    color: colors.purple,
+                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)'
+                },
+                {
+                    id: 3,
+                    title: 'Add Logo (Change Color. Blah Blah)',
+                    product: 'ProTrackter',
+                    assignee: 'Ciddarth',
+                    color: colors.green,
+                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)'
+                },
+                {
+                    id: 4,
+                    title: 'Add Logo (Change Color. Blah Blah)',
+                    product: 'ProTrackter',
+                    assignee: 'Ciddarth',
+                    color: colors.blue,
+                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)'
+                }
+            ]
+        });
     }
 
     render() {
+        const { tasks } = this.state;
         return (
             <>
                 <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
@@ -27,8 +65,11 @@ export default class Home extends React.Component {
                     </View>
 
                     <View style={Styles.tasksWrapper}>
-                        <TaskCard title={'Add Logo (Change Color. Blah Blah)'} product={'ProTrackter'} assignee={'Ciddarth'} color={Colors.blue} />
-                        <TaskCard title={'Add Logo (Change Color. Blah Blah)'} product={'ProTrackter'} assignee={'Ciddarth'} color={Colors.purple} />
+                        {
+                            tasks.map((t) => (
+                                <TaskCard id={t.id} title={t.title} product={t.product} assignee={t.assignee} color={t.color} description={t.description} />
+                            ))
+                        }
                     </View>
 
                 </ScrollView>
