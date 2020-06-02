@@ -8,7 +8,7 @@ import colors from '../constants/colors';
 
 export default function Header(props) {
     const { visible, setVisible, color } = props;
-    const { title, product, assignee, description, tastHistory } = props;
+    const { title, product, assignee, description, tastHistory, status } = props;
 
     return (
         <Modal
@@ -26,11 +26,11 @@ export default function Header(props) {
                     </TouchableOpacity>
 
                     <ScrollView style={{ marginTop: 40, paddingHorizontal: 15 }}>
-                        <TaskCard title={title} product={product} assignee={assignee} color={color} type={'modal'} />
+                        <TaskCard title={title} product={product} assignee={assignee} color={color} type={'modal'} status={status} />
 
                         <Text style={[styles.text]} >{description}</Text>
 
-                        <TextInput multiline style={styles.textBox} placeholder="Enter Task Here" placeholderTextColor={Colors.grey} />
+                        <TextInput multiline style={styles.textBox} placeholder="What's Going in Right Now?" placeholderTextColor={Colors.grey} />
                         <TouchableOpacity style={[styles.doneButton]}>
                             <Text style={[styles.doneText, { color: color }]}>DONE</Text>
                         </TouchableOpacity>
@@ -84,6 +84,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
         borderRadius: 10,
         paddingHorizontal: 10,
+        textAlignVertical: 'top',
+        paddingTop: 10,
+        paddingBottom: 10
     },
     doneButton: {
         backgroundColor: 'white',

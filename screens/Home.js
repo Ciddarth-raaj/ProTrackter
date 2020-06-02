@@ -19,7 +19,8 @@ export default class Home extends React.Component {
                     product: 'ProTrackter',
                     assignee: 'Ciddarth',
                     color: colors.blue,
-                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)'
+                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
+                    status: 1
                 },
                 {
                     id: 2,
@@ -27,7 +28,8 @@ export default class Home extends React.Component {
                     product: 'ProTrackter',
                     assignee: 'Ciddarth',
                     color: colors.purple,
-                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)'
+                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
+                    status: 2
                 },
                 {
                     id: 3,
@@ -35,15 +37,17 @@ export default class Home extends React.Component {
                     product: 'ProTrackter',
                     assignee: 'Ciddarth',
                     color: colors.green,
-                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)'
+                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
+                    status: 3
                 },
                 {
                     id: 4,
                     title: 'Add Logo (Change Color. Blah Blah)',
                     product: 'ProTrackter',
                     assignee: 'Ciddarth',
-                    color: colors.blue,
-                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)'
+                    color: colors.indigo,
+                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
+                    status: 1
                 }
             ]
         });
@@ -67,7 +71,7 @@ export default class Home extends React.Component {
                     <View style={Styles.tasksWrapper}>
                         {
                             tasks.map((t) => (
-                                <TaskCard id={t.id} title={t.title} product={t.product} assignee={t.assignee} color={t.color} description={t.description} />
+                                <TaskCard id={t.id} title={t.title} product={t.product} assignee={t.assignee} color={t.color} description={t.description} status={t.status} />
                             ))
                         }
                     </View>
