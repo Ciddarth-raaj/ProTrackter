@@ -1,7 +1,9 @@
 import React from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 
-import '../constants/styles';
+import Colors from '../constants/colors';
+import Styles from '../constants/styles';
+
 
 export default class Tasks extends React.Component {
     constructor(props) {
@@ -11,11 +13,9 @@ export default class Tasks extends React.Component {
     render() {
         return (
             <>
-                <SafeAreaView style={{ backgroundColor: '#00CDFF' }} />
-                <ScrollView>
-
+                <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
+                <ScrollView style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
                 </ScrollView>
-                <SafeAreaView style={{ backgroundColor: 'white' }} />
             </>
         );
     }

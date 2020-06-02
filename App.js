@@ -1,7 +1,8 @@
 import React from 'react';
-
-import Home from './screens/Home';
 import { StatusBar } from 'react-native';
+
+import Tasks from './screens/Tasks';
+import Home from './screens/Home';
 
 function App() {
   return (

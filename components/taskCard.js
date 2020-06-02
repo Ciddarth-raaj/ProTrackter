@@ -14,7 +14,8 @@ export default function Header(props) {
 
     return (
         <TouchableOpacity
-            onPress={() => type != 'modal' && setVisible(true)}>
+            onPress={() => type != 'modal' && setVisible(true)}
+            activeOpacity={type == 'modal' ? 1 : 0.8}>
 
             <TaskModal
                 visible={visible}
