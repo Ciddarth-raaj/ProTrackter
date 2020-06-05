@@ -5,14 +5,16 @@ import { StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from 'rea
 // import Styles from '../constants/styles';
 
 export default function HomeCard(props) {
-    const { lightColor, color, image, title, notificationCount, id, tag, navigation } = props;
+    const { lightColor, color, image, title, notificationCount, id, tag, navigation, type, openPage } = props;
 
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('Tasks', { tag: tag })}>
+        <TouchableOpacity onPress={() => type === 'admin' ? openPage() : navigation.navigate('Tasks', { tag: tag })}>
             <View style={[styles.mainLayout, { backgroundColor: lightColor }]}>
-                <View style={styles.notificationWrapper}>
-                    <Text style={styles.notificationText}>{notificationCount}</Text>
-                </View>
+                {
+                    notificationCount != 0 && <View style={styles.notificationWrapper}>
+                        <Text style={styles.notificationText}>{notificationCount}</Text>
+                    </View>
+                }
                 <View>
                     <View style={[styles.imageWrapper, { backgroundColor: color }]}>
                         <Image source={image} style={styles.image} />

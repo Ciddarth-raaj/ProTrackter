@@ -5,6 +5,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Tasks from './screens/Tasks';
 import Home from './screens/Home';
+import Login from './screens/Login';
+
+import AdminHome from './screens/Admin/Home';
+import AdminTasks from './screens/Admin/Tasks';
+import AdminUsers from './screens/Admin/Users';
 
 const Stack = createStackNavigator();
 
@@ -15,14 +20,39 @@ function MyStack() {
       <Stack.Navigator>
 
         <Stack.Screen
+          name="AdminHome"
+          component={AdminHome}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
           name="Home"
           component={Home}
           options={{ headerShown: false }}
         />
 
         <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
           name="Tasks"
           component={Tasks}
+          options={{ headerShown: false }}
+        />
+
+
+        <Stack.Screen
+          name="AdminTasks"
+          component={AdminTasks}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="AdminUsers"
+          component={AdminUsers}
           options={{ headerShown: false }}
         />
 

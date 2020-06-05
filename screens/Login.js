@@ -1,4 +1,7 @@
 import React from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
+
+import Colors from '../constants/colors';
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -8,11 +11,11 @@ export default class Login extends React.Component {
     render() {
         return (
             <>
-                <SafeAreaView style={{ backgroundColor: '#00CDFF' }} />
-                <ScrollView>
+                <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
+                <ScrollView style={{ flex: 1, backgroundColor: Colors.background }}>
 
                 </ScrollView>
-                <SafeAreaView style={{ backgroundColor: 'white' }} />
+                <SafeAreaView style={{ backgroundColor: Colors.background }} />
             </>
         );
     }
