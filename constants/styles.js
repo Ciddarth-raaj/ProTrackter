@@ -6,6 +6,6 @@ export default styles = StyleSheet.create({
         fontSize: 30
     },
     tasksWrapper: {
-        alignItems: 'center'
+        alignItems: 'center',
     }
 })

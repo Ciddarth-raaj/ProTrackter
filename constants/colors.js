@@ -2,6 +2,7 @@ const colors = {
     notificationBar: '#FFFFFF',
     background: '#FFFFFF',
     grey: '#9E9E9E',
+
     purple: '#9c27b0',
     purpleLight: '#e1bee7',
     blue: '#2196f3',
@@ -13,7 +14,9 @@ const colors = {
     orange: '#ff9800',
     orangeLight: '#ffe0b2',
     indigo: '#3f51b5',
-    indigoLight: '#c5cae9'
+    indigoLight: '#c5cae9',
+
+    addGreen: '#4CAF50'
 }
 
 export default colors;
