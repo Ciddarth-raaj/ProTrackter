@@ -16,7 +16,8 @@ const colors = {
     indigo: '#3f51b5',
     indigoLight: '#c5cae9',
 
-    addGreen: '#4CAF50'
+    addGreen: '#4CAF50',
+    darkBlue: '#000EBC'
 }
 
 export default colors;

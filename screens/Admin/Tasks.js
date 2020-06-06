@@ -53,6 +53,26 @@ export default class Task extends React.Component {
                                     date: 'Wed Jun 03 2020'
                                 },
                             ]
+                        },
+                        {
+                            id: 1,
+                            title: 'Test 123',
+                            assignedTo: 'Ciddarth',
+                            color: Colors.orange,
+                            status: 3,
+                            description: 'This is test description',
+                            taskHistory: [
+                                {
+                                    id: 1,
+                                    title: 'Task3',
+                                    date: 'Wed Jun 03 2020'
+                                },
+                                {
+                                    id: 2,
+                                    title: 'Task4',
+                                    date: 'Wed Jun 03 2020'
+                                },
+                            ]
                         }
                     ]
                 },
@@ -140,6 +160,9 @@ export default class Task extends React.Component {
                                                 taskHistory={t.taskHistory} />
                                         ))
                                     }
+                                    <TouchableOpacity>
+                                        <Text style={styles.expandText}>Expand</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </>
                         ))
@@ -173,5 +196,9 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         textAlign: 'center'
+    },
+    expandText: {
+        color: Colors.darkBlue,
+        marginBottom: 20
     }
 });

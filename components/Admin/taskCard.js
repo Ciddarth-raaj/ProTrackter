@@ -89,6 +89,6 @@ const styles = StyleSheet.create({
         top: 5,
         right: 5,
         width: 20,
-        height: 20
+        height: 20,
     }
 });
