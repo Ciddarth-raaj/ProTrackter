@@ -13,6 +13,7 @@ export default class Task extends React.Component {
                 {
                     id: 1,
                     title: 'Project 1',
+                    expanded: false,
                     tasks: [
                         {
                             id: 1,
@@ -58,7 +59,7 @@ export default class Task extends React.Component {
                             id: 1,
                             title: 'Test 123',
                             assignedTo: 'Ciddarth',
-                            color: Colors.orange,
+                            color: Colors.purple,
                             status: 3,
                             description: 'This is test description',
                             taskHistory: [
@@ -77,8 +78,9 @@ export default class Task extends React.Component {
                     ]
                 },
                 {
-                    id: 1,
+                    id: 2,
                     title: 'Project 2',
+                    expanded: false,
                     tasks: [
                         {
                             id: 1,
@@ -126,6 +128,19 @@ export default class Task extends React.Component {
         }
     }
 
+    setExpand(id) {
+        const { projects } = this.state;
+
+        for (var i = 0; i < projects.length; i++) {
+            if (projects[i].id == id) {
+                projects[i].expanded = true;
+                break;
+            }
+        }
+
+        this.setState({ projects: projects });
+    }
+
     render() {
         const { projects } = this.state;
         const { navigation } = this.props;
@@ -150,17 +165,20 @@ export default class Task extends React.Component {
                                         <Text style={styles.newCardText}>ADD TASK</Text>
                                     </TouchableOpacity>
                                     {
-                                        p.tasks.map((t) => (
-                                            <TaskCard
-                                                title={t.title}
-                                                assignedTo={t.assignedTo}
-                                                color={t.color}
-                                                status={t.status}
-                                                description={t.description}
-                                                taskHistory={t.taskHistory} />
-                                        ))
+                                        p.tasks.map((t, index) => {
+                                            if (index < (p.expanded ? p.tasks.length : 2))
+                                                return (
+                                                    <TaskCard
+                                                        title={t.title}
+                                                        assignedTo={t.assignedTo}
+                                                        color={t.color}
+                                                        status={t.status}
+                                                        description={t.description}
+                                                        taskHistory={t.taskHistory} />
+                                                )
+                                        })
                                     }
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onPress={() => this.setExpand(p.id)}>
                                         <Text style={styles.expandText}>Expand</Text>
                                     </TouchableOpacity>
                                 </View>
