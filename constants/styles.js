@@ -7,5 +7,13 @@ export default styles = StyleSheet.create({
     },
     tasksWrapper: {
         alignItems: 'center',
+    },
+    filterTitle: {
+        fontSize: 16,
+    },
+    filterText: {
+        fontSize: 16,
+        marginLeft: 5,
+        fontWeight: 'bold'
     }
 })
