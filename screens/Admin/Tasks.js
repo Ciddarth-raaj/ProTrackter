@@ -4,17 +4,20 @@ import { SafeAreaView, ScrollView, Text, View, StyleSheet, TouchableOpacity, Ima
 import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
 import TaskCard from '../../components/Admin/taskCard';
+import FilterModal from '../../components/Admin/filterModal';
 
 export default class Task extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             filter: 'Product',
+            filterModalVisible: false,
+            noFilter: true,
             projects: [
                 {
                     id: 1,
                     title: 'Project 1',
-                    expanded: false,
+                    visible: false,
                     tasks: [
                         {
                             id: 1,
@@ -81,7 +84,7 @@ export default class Task extends React.Component {
                 {
                     id: 2,
                     title: 'Project 2',
-                    expanded: false,
+                    visible: false,
                     tasks: [
                         {
                             id: 1,
@@ -145,41 +148,101 @@ export default class Task extends React.Component {
                         }
                     ]
                 },
+                {
+                    id: 3,
+                    title: 'Project 3',
+                    visible: false,
+                    tasks: [
+                        {
+                            id: 1,
+                            title: 'Test',
+                            assignedTo: 'Ciddarth',
+                            color: Colors.blue,
+                            status: 1,
+                            description: 'This is test description',
+                            taskHistory: [
+                                {
+                                    id: 1,
+                                    title: 'Task3',
+                                    date: 'Wed Jun 03 2020'
+                                },
+                                {
+                                    id: 2,
+                                    title: 'Task4',
+                                    date: 'Wed Jun 03 2020'
+                                },
+                            ]
+                        },
+                    ]
+                },
+                {
+                    id: 4,
+                    title: 'Project 4',
+                    visible: false,
+                    tasks: [
+                        {
+                            id: 1,
+                            title: 'Test',
+                            assignedTo: 'Ciddarth',
+                            color: Colors.blue,
+                            status: 1,
+                            description: 'This is test description',
+                            taskHistory: [
+                                {
+                                    id: 1,
+                                    title: 'Task3',
+                                    date: 'Wed Jun 03 2020'
+                                },
+                                {
+                                    id: 2,
+                                    title: 'Task4',
+                                    date: 'Wed Jun 03 2020'
+                                },
+                            ]
+                        },
+                    ]
+                },
             ],
         }
     }
 
-    handleExpand(id, value) {
+    setModalVisibility = value => {
+        this.setState({ filterModalVisible: value });
+    }
+
+    setProjectVisible = (id, value) => {
         const { projects } = this.state;
 
         for (i = 0; i < projects.length; i++) {
             if (projects[i].id == id) {
-                projects[i].expanded = value;
+                projects[i].visible = value;
                 break;
             }
         }
 
-        this.setState({ projects: projects });
+        this.setState({ projects: projects, noFilter: false });
+    }
+
+    clearFilter = () => {
+        const { projects } = this.state;
+
+        for (i = 0; i < projects.length; i++) {
+            projects[i].visible = false;
+        }
+
+        this.setState({ projects: projects, noFilter: true, filterModalVisible: false });
     }
 
     renderCards(list) {
 
         return (list.map((l) => (
             <>
-                <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+                {(this.state.noFilter || l.visible) && <>
                     <Text style={styles.mainTitle}>{l.title}</Text>
 
-                    <TouchableOpacity style={{ alignSelf: 'center', position: 'absolute', right: 20 }}
-                        onPress={() => this.handleExpand(l.id, !l.expanded)}>
-                        <Image source={l.expanded ? require('../../assests/minus.png') : require('../../assests/plus.png')} style={{ width: 15, height: 15 }} />
-                    </TouchableOpacity>
-
-                </View>
-                {
-                    l.expanded && <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
+                    <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
                         {
-                            l.tasks.map((t, index) => {
-                                {/* if (index < (p.expanded ? p.tasks.length : 2)) */ }
+                            l.tasks.map((t) => {
                                 return (
                                     <TaskCard
                                         title={t.title}
@@ -192,41 +255,33 @@ export default class Task extends React.Component {
                             })
                         }
                     </View>
-                }
+                </>}
+
             </>
         )))
     }
 
-    // handleFilterClick() {
-    //     const { filter } = this.state;
-
-    //     if (filter === 'Product')
-    //         this.setState({ filter: 'User' })
-    //     else
-    //         this.setState({ filter: 'Product' })
-    // }
-
     render() {
-        const { projects, users, filter } = this.state;
+        const { projects, filterModalVisible } = this.state;
         const { navigation } = this.props;
 
         return (
             <>
                 <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
+
+                <FilterModal
+                    visible={filterModalVisible}
+                    setVisible={this.setModalVisibility}
+                    projects={projects}
+                    setProjectVisible={this.setProjectVisible}
+                    clearFilter={this.clearFilter} />
+
                 <ScrollView style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
                     <View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity onPress={() => navigation.pop()} style={{ alignSelf: 'center', marginRight: 10 }}>
                             <Image source={require("../../assests/back.png")} style={styles.backButton} />
                         </TouchableOpacity>
                         <Text style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>Tasks</Text>
-
-                        {/* <View style={{ alignSelf: 'center', position: 'absolute', right: 10, flexDirection: 'row' }}>
-                            <Text style={[Styles.filterTitle]}>Filter By</Text>
-                            <TouchableOpacity onPress={() => this.handleFilterClick()}>
-                                <Text style={[Styles.filterText]}>{filter}</Text>
-                            </TouchableOpacity>
-                        </View> */}
-
                     </View>
 
                     {
@@ -234,13 +289,14 @@ export default class Task extends React.Component {
                     }
 
                 </ScrollView>
-                {/* <TouchableOpacity style={styles.addProjectButton}>
-                    <Text style={styles.addProjectText}>ADD PROJECT</Text>
-                </TouchableOpacity> */}
-                <TouchableOpacity style={styles.addProjectButton}>
+                <TouchableOpacity style={[styles.addProjectButton, styles.floatingButton]}>
                     <Text style={styles.addProjectText}>+</Text>
                 </TouchableOpacity>
-                {/* <SafeAreaView style={{ backgroundColor: Colors.background }} /> */}
+
+                <TouchableOpacity style={[styles.filterButton, styles.floatingButton]}
+                    onPress={() => this.setState({ filterModalVisible: true })}>
+                    <Image source={require('../../assests/filter.png')} style={styles.filterImage} />
+                </TouchableOpacity>
             </>
         );
     }
@@ -250,7 +306,7 @@ const styles = StyleSheet.create({
     mainTitle: {
         fontWeight: 'bold',
         fontSize: 20,
-        // marginBottom: 10
+        marginBottom: 10
     },
     backButton: {
         width: 20,
@@ -273,25 +329,11 @@ const styles = StyleSheet.create({
         color: Colors.darkBlue,
         marginBottom: 20
     },
-    // addProjectButton: {
-    //     backgroundColor: Colors.addGreen,
-    //     padding: 15,
-    // },
-    // addProjectText: {
-    //     color: 'white',
-    //     fontWeight: 'bold',
-    //     fontSize: 18,
-    //     textAlign: 'center'
-    // }
-    addProjectButton: {
+    floatingButton: {
         width: 60,
         height: 60,
-        backgroundColor: 'white',
         borderRadius: 30,
         justifyContent: 'center',
-        position: 'absolute',
-        right: 10,
-        bottom: 10,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -299,8 +341,13 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.32,
         shadowRadius: 5.46,
-
         elevation: 9,
+    },
+    addProjectButton: {
+        backgroundColor: 'white',
+        position: 'absolute',
+        right: 10,
+        bottom: 30,
     },
     addProjectText: {
         textAlign: 'center',
@@ -309,5 +356,17 @@ const styles = StyleSheet.create({
         fontSize: 40,
         paddingBottom: 3,
         color: Colors.addGreen,
+    },
+    filterButton: {
+        backgroundColor: Colors.blue,
+        position: 'absolute',
+        left: 10,
+        bottom: 30,
+    },
+    filterImage: {
+        width: 30,
+        height: 30,
+        alignSelf: 'center',
+        marginTop: 5
     }
 });

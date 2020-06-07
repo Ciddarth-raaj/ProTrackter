@@ -5,7 +5,7 @@ import Colors from '../constants/colors';
 import Styles from '../constants/styles';
 import TaskCard from './taskCard';
 
-export default function Header(props) {
+export default function TaskModal(props) {
     const { visible, setVisible, color } = props;
     const { title, product, assignee, description, status, taskHistory } = props;
 
