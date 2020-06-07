@@ -79,8 +79,8 @@ export default class Task extends React.Component {
                     ]
                 },
                 {
-                    id: 1,
-                    title: 'Project 1',
+                    id: 2,
+                    title: 'Project 2',
                     expanded: false,
                     tasks: [
                         {
@@ -128,141 +128,7 @@ export default class Task extends React.Component {
                             title: 'Test 123',
                             assignedTo: 'Ciddarth',
                             color: Colors.purple,
-                            status: 3,
-                            description: 'This is test description',
-                            taskHistory: [
-                                {
-                                    id: 1,
-                                    title: 'Task3',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                                {
-                                    id: 2,
-                                    title: 'Task4',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                            ]
-                        }
-                    ]
-                },
-                {
-                    id: 1,
-                    title: 'Project 1',
-                    expanded: false,
-                    tasks: [
-                        {
-                            id: 1,
-                            title: 'Test',
-                            assignedTo: 'Ciddarth',
-                            color: Colors.blue,
-                            status: 1,
-                            description: 'This is test description',
-                            taskHistory: [
-                                {
-                                    id: 1,
-                                    title: 'Task3',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                                {
-                                    id: 2,
-                                    title: 'Task4',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                            ]
-                        },
-                        {
-                            id: 1,
-                            title: 'Test 123',
-                            assignedTo: 'Ciddarth',
-                            color: Colors.orange,
-                            status: 3,
-                            description: 'This is test description',
-                            taskHistory: [
-                                {
-                                    id: 1,
-                                    title: 'Task3',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                                {
-                                    id: 2,
-                                    title: 'Task4',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                            ]
-                        },
-                        {
-                            id: 1,
-                            title: 'Test 123',
-                            assignedTo: 'Ciddarth',
-                            color: Colors.purple,
-                            status: 3,
-                            description: 'This is test description',
-                            taskHistory: [
-                                {
-                                    id: 1,
-                                    title: 'Task3',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                                {
-                                    id: 2,
-                                    title: 'Task4',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                            ]
-                        }
-                    ]
-                },
-                {
-                    id: 1,
-                    title: 'Project 1',
-                    expanded: false,
-                    tasks: [
-                        {
-                            id: 1,
-                            title: 'Test',
-                            assignedTo: 'Ciddarth',
-                            color: Colors.blue,
-                            status: 1,
-                            description: 'This is test description',
-                            taskHistory: [
-                                {
-                                    id: 1,
-                                    title: 'Task3',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                                {
-                                    id: 2,
-                                    title: 'Task4',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                            ]
-                        },
-                        {
-                            id: 1,
-                            title: 'Test 123',
-                            assignedTo: 'Ciddarth',
-                            color: Colors.orange,
-                            status: 3,
-                            description: 'This is test description',
-                            taskHistory: [
-                                {
-                                    id: 1,
-                                    title: 'Task3',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                                {
-                                    id: 2,
-                                    title: 'Task4',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                            ]
-                        },
-                        {
-                            id: 1,
-                            title: 'Test 123',
-                            assignedTo: 'Ciddarth',
-                            color: Colors.purple,
-                            status: 3,
+                            status: 2,
                             description: 'This is test description',
                             taskHistory: [
                                 {
@@ -280,63 +146,15 @@ export default class Task extends React.Component {
                     ]
                 },
             ],
-            users: [
-                {
-                    id: 1,
-                    title: 'Ciddarth',
-                    tasks: [
-                        {
-                            id: 1,
-                            title: 'Test',
-                            assignedTo: 'Ciddarth',
-                            color: Colors.blue,
-                            status: 1,
-                            description: 'This is test description',
-                            taskHistory: [
-                                {
-                                    id: 1,
-                                    title: 'Task3',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                                {
-                                    id: 2,
-                                    title: 'Task4',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                            ]
-                        },
-                        {
-                            id: 1,
-                            title: 'Test 123',
-                            assignedTo: 'Ciddarth',
-                            color: Colors.orange,
-                            status: 3,
-                            description: 'This is test description',
-                            taskHistory: [
-                                {
-                                    id: 1,
-                                    title: 'Task3',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                                {
-                                    id: 2,
-                                    title: 'Task4',
-                                    date: 'Wed Jun 03 2020'
-                                },
-                            ]
-                        },
-                    ]
-                },
-            ]
         }
     }
 
-    setExpand(id) {
+    handleExpand(id, value) {
         const { projects } = this.state;
 
-        for (var i = 0; i < projects.length; i++) {
+        for (i = 0; i < projects.length; i++) {
             if (projects[i].id == id) {
-                projects[i].expanded = true;
+                projects[i].expanded = value;
                 break;
             }
         }
@@ -348,35 +166,45 @@ export default class Task extends React.Component {
 
         return (list.map((l) => (
             <>
-                <Text style={styles.mainTitle}>{l.title}</Text>
-                <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
-                    {
-                        l.tasks.map((t, index) => {
-                            {/* if (index < (p.expanded ? p.tasks.length : 2)) */ }
-                            return (
-                                <TaskCard
-                                    title={t.title}
-                                    assignedTo={t.assignedTo}
-                                    color={t.color}
-                                    status={t.status}
-                                    description={t.description}
-                                    taskHistory={t.taskHistory} />
-                            )
-                        })
-                    }
+                <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+                    <Text style={styles.mainTitle}>{l.title}</Text>
+
+                    <TouchableOpacity style={{ alignSelf: 'center', position: 'absolute', right: 20 }}
+                        onPress={() => this.handleExpand(l.id, !l.expanded)}>
+                        <Image source={l.expanded ? require('../../assests/minus.png') : require('../../assests/plus.png')} style={{ width: 15, height: 15 }} />
+                    </TouchableOpacity>
+
                 </View>
+                {
+                    l.expanded && <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
+                        {
+                            l.tasks.map((t, index) => {
+                                {/* if (index < (p.expanded ? p.tasks.length : 2)) */ }
+                                return (
+                                    <TaskCard
+                                        title={t.title}
+                                        assignedTo={t.assignedTo}
+                                        color={t.color}
+                                        status={t.status}
+                                        description={t.description}
+                                        taskHistory={t.taskHistory} />
+                                )
+                            })
+                        }
+                    </View>
+                }
             </>
         )))
     }
 
-    handleFilterClick() {
-        const { filter } = this.state;
+    // handleFilterClick() {
+    //     const { filter } = this.state;
 
-        if (filter === 'Product')
-            this.setState({ filter: 'User' })
-        else
-            this.setState({ filter: 'Product' })
-    }
+    //     if (filter === 'Product')
+    //         this.setState({ filter: 'User' })
+    //     else
+    //         this.setState({ filter: 'Product' })
+    // }
 
     render() {
         const { projects, users, filter } = this.state;
@@ -392,17 +220,17 @@ export default class Task extends React.Component {
                         </TouchableOpacity>
                         <Text style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>Tasks</Text>
 
-                        <View style={{ alignSelf: 'center', position: 'absolute', right: 10, flexDirection: 'row' }}>
+                        {/* <View style={{ alignSelf: 'center', position: 'absolute', right: 10, flexDirection: 'row' }}>
                             <Text style={[Styles.filterTitle]}>Filter By</Text>
                             <TouchableOpacity onPress={() => this.handleFilterClick()}>
                                 <Text style={[Styles.filterText]}>{filter}</Text>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
 
                     </View>
 
                     {
-                        filter === 'Product' ? this.renderCards(projects) : this.renderCards(users)
+                        this.renderCards(projects)
                     }
 
                 </ScrollView>
@@ -422,7 +250,7 @@ const styles = StyleSheet.create({
     mainTitle: {
         fontWeight: 'bold',
         fontSize: 20,
-        marginBottom: 10
+        // marginBottom: 10
     },
     backButton: {
         width: 20,
