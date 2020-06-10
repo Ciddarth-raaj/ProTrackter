@@ -29,7 +29,7 @@ export default function FilterModal(props) {
                         <View style={{ marginTop: 50, marginBottom: 20 }}>
                             <Text style={styles.heading}>Filter</Text>
                             <TouchableOpacity onPress={() => clearFilter()}>
-                                <Text>Clear</Text>
+                                <Text style={{ textAlign: 'center', color: 'red' }}>Clear</Text>
                             </TouchableOpacity>
                             {
                                 projects.map((p) => (

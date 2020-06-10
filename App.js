@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Tasks from './screens/Tasks';
 import Home from './screens/Home';
 import Login from './screens/Login';
+import Menu from './screens/Menu';
 
 import AdminHome from './screens/Admin/Home';
 import AdminTasks from './screens/Admin/Tasks';
@@ -18,6 +19,12 @@ function MyStack() {
     <NavigationContainer ref={this.navRef}>
       <StatusBar backgroundColor='#FFFFFF' barStyle='dark-content' />
       <Stack.Navigator>
+
+        <Stack.Screen
+          name="Menu"
+          component={Menu}
+          options={{ headerShown: false }}
+        />
 
         <Stack.Screen
           name="AdminHome"
