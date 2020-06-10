@@ -157,7 +157,7 @@ export default class Home extends React.Component {
                         }
                     </View>
 
-                    <View style={Styles.tasksWrapper}>
+                    <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
                         {
                             tasks.map((t) => (
                                 <TaskCard
@@ -175,7 +175,6 @@ export default class Home extends React.Component {
                     </View>
 
                 </ScrollView>
-                <SafeAreaView style={{ backgroundColor: Colors.background }} />
             </>
         );
     }
@@ -186,6 +185,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        marginBottom: 10
+        marginBottom: 10,
     },
 });

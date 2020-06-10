@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import TaskModal from '../components/taskModal';
+import BottomMenu from '../util/bottomMenu';
 
 export default function Header(props) {
     const statusImage = {
@@ -11,12 +12,20 @@ export default function Header(props) {
     };
     const { title, product, assignee, color, status, type, description, taskHistory } = props;
     const [visible, setVisible] = React.useState(false);
+    const [optionsVisible, setOptionsVisible] = React.useState(false);
 
     return (
         <TouchableOpacity
             style={{ width: '100%' }}
             onPress={() => type != 'modal' && setVisible(true)}
-            activeOpacity={type == 'modal' ? 1 : 0.8}>
+            activeOpacity={type == 'modal' ? 1 : 0.8}
+            onLongPress={() => setOptionsVisible(true)} >
+
+            <BottomMenu
+                visible={optionsVisible}
+                setVisible={setOptionsVisible}
+                options={[{ title: 'Start', onPress: () => { alert('Started') } }]}
+            />
 
             <TaskModal
                 visible={visible}
