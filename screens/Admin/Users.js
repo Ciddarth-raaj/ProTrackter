@@ -3,13 +3,73 @@ import { SafeAreaView, ScrollView, StyleSheet, View, TouchableOpacity, Image, Te
 
 import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
+import UserCard from '../../components/Admin/userCard';
 
 export default class Users extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            users: [
+                {
+                    id: 1,
+                    name: 'Ciddarth Raaj',
+                    color: Colors.purple,
+                    tasks: [
+                        {
+                            id: 1,
+                            title: 'Test'
+                        },
+                        {
+                            id: 2,
+                            title: 'Test'
+                        },
+                        {
+                            id: 3,
+                            title: 'Test'
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: 'Vinoth Raaj',
+                    color: Colors.orange,
+                    tasks: [
+                        {
+                            id: 1,
+                            title: 'Test'
+                        },
+                        {
+                            id: 2,
+                            title: 'Test'
+                        },
+                        {
+                            id: 3,
+                            title: 'Test'
+                        },
+                        {
+                            id: 3,
+                            title: 'Test'
+                        },
+                        {
+                            id: 3,
+                            title: 'Test'
+                        },
+                        {
+                            id: 3,
+                            title: 'Test'
+                        },
+                        {
+                            id: 3,
+                            title: 'Test'
+                        },
+                    ]
+                }
+            ]
+        }
     }
 
     render() {
+        const { users } = this.state;
         const { navigation } = this.props;
         return (
             <>
@@ -24,6 +84,14 @@ export default class Users extends React.Component {
 
                         <Text style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>Users</Text>
 
+                    </View>
+
+                    <View>
+                        {
+                            users.map((u) => (
+                                <UserCard id={u.id} name={u.name} color={u.color} tasks={u.tasks} />
+                            ))
+                        }
                     </View>
 
                 </ScrollView>
