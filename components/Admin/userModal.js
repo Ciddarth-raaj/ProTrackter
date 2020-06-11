@@ -3,10 +3,12 @@ import { View, StyleSheet, Text, TouchableOpacity, Modal, Image, ScrollView } fr
 
 import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
+import UserCard from './userCard';
+import TaskCard from './taskCard';
 
 export default function TaskModal(props) {
     const { visible, setVisible, color } = props;
-    const { id, name, tasks, taskHistory } = props;
+    const { id, name, tasks } = props;
 
     return (
         <Modal
@@ -25,6 +27,26 @@ export default function TaskModal(props) {
 
                     <ScrollView style={{ marginTop: 40, paddingHorizontal: 15 }}>
 
+                        <UserCard id={id} name={name} tasks={tasks} type={'modal'} />
+
+                        <Text style={[styles.text, styles.heading, { marginBottom: 10 }]}>Tasks Assigned</Text>
+
+                        <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
+                            {
+                                tasks.map((t) => {
+                                    return (
+                                        <TaskCard
+                                            title={t.title}
+                                            assignedTo={t.assignedTo}
+                                            color={t.color}
+                                            status={t.status}
+                                            description={t.description}
+                                            taskHistory={t.taskHistory}
+                                            type={'usermodal'} />
+                                    )
+                                })
+                            }
+                        </View>
                     </ScrollView>
 
                 </View>
@@ -51,44 +73,8 @@ const styles = StyleSheet.create({
     text: {
         color: 'white'
     },
-    textBox: {
-        width: '90%',
-        height: 170,
-        backgroundColor: 'white',
-        alignSelf: 'center',
-        marginTop: 20,
-        borderRadius: 10,
-        paddingHorizontal: 10,
-        textAlignVertical: 'top',
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-    doneButton: {
-        backgroundColor: 'white',
-        borderRadius: 10,
-        width: 160,
-        height: 40,
-        alignSelf: 'center',
-        marginTop: 10,
-        padding: 10,
-        justifyContent: 'center'
-    },
-    doneText: {
-        textAlign: 'center',
-        fontWeight: 'bold'
-    },
     heading: {
         fontWeight: 'bold',
-        fontSize: 18,
-        marginTop: 20,
-        marginBottom: 10
-    },
-    tasksHistoryHeading: {
-        fontSize: 16,
-        fontWeight: '600'
-    },
-    tasksHistorySub: {
-        fontSize: 16,
-        marginBottom: 10
+        fontSize: 18
     }
 });

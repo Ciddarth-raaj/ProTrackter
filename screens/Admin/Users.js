@@ -15,18 +15,6 @@ export default class Users extends React.Component {
                     name: 'Ciddarth Raaj',
                     color: Colors.purple,
                     tasks: [
-                        {
-                            id: 1,
-                            title: 'Test'
-                        },
-                        {
-                            id: 2,
-                            title: 'Test'
-                        },
-                        {
-                            id: 3,
-                            title: 'Test'
-                        }
                     ]
                 },
                 {
@@ -36,31 +24,43 @@ export default class Users extends React.Component {
                     tasks: [
                         {
                             id: 1,
-                            title: 'Test'
+                            title: 'Test 123',
+                            assignedTo: 'Ciddarth',
+                            color: Colors.orange,
+                            status: 3,
+                            description: 'This is test description',
+                            taskHistory: [
+                                {
+                                    id: 1,
+                                    title: 'Task3',
+                                    date: 'Wed Jun 03 2020'
+                                },
+                                {
+                                    id: 2,
+                                    title: 'Task4',
+                                    date: 'Wed Jun 03 2020'
+                                },
+                            ]
                         },
                         {
-                            id: 2,
-                            title: 'Test'
-                        },
-                        {
-                            id: 3,
-                            title: 'Test'
-                        },
-                        {
-                            id: 3,
-                            title: 'Test'
-                        },
-                        {
-                            id: 3,
-                            title: 'Test'
-                        },
-                        {
-                            id: 3,
-                            title: 'Test'
-                        },
-                        {
-                            id: 3,
-                            title: 'Test'
+                            id: 1,
+                            title: 'Test 123',
+                            assignedTo: 'Ciddarth',
+                            color: Colors.indigo,
+                            status: 3,
+                            description: 'This is test description',
+                            taskHistory: [
+                                {
+                                    id: 1,
+                                    title: 'Task3',
+                                    date: 'Wed Jun 03 2020'
+                                },
+                                {
+                                    id: 2,
+                                    title: 'Task4',
+                                    date: 'Wed Jun 03 2020'
+                                },
+                            ]
                         },
                     ]
                 }

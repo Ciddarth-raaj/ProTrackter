@@ -29,15 +29,15 @@ export default function Header(props) {
                 status={status}
             />
 
-            <View style={[styles.container, { backgroundColor: color }, type == 'modal' && { paddingHorizontal: 0 }]}>
+            <View style={[styles.container, { backgroundColor: type === 'usermodal' ? 'white' : color }, type == 'modal' && { paddingHorizontal: 0 }]}>
                 {
                     type != 'modal' && <Image source={require('../../assests/expand.png')} style={styles.expandImage} />
                 }
                 <View style={{ paddingRight: 80 }}>
-                    <Text numberOfLines={type == 'modal' ? 0 : 1} style={[styles.title, styles.containerText]}>{title}</Text>
-                    <Text style={[styles.assignee, styles.containerText, { marginBottom: 0 }]}>{assignedTo}</Text>
+                    <Text numberOfLines={type == 'modal' ? 0 : 1} style={[styles.title, styles.containerText, type === 'usermodal' && { color: 'black' }]}>{title}</Text>
+                    <Text style={[styles.assignee, styles.containerText, { marginBottom: 0 }, type === 'usermodal' && { color: 'black' }]}>{assignedTo}</Text>
                 </View>
-                <View style={styles.imageWrapper}>
+                <View style={[styles.imageWrapper]}>
                     <Image source={statusImage[status]} style={styles.image} />
                 </View>
             </View>

@@ -1,17 +1,24 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
+import UserModal from './userModal';
+
 export default function Header(props) {
-    const { id, name, tasks, color } = props;
+    const { id, name, tasks, color, type } = props;
     const [visible, setVisible] = React.useState(false);
 
     return (
         <TouchableOpacity
             style={{ width: '100%' }}
-            onPress={() => setVisible(true)}>
+            onPress={() => type != 'modal' && setVisible(true)}
+            activeOpacity={type != 'modal' ? 0.5 : 1}>
 
-            <View style={[styles.container, { backgroundColor: color }]}>
-                <Image source={require('../../assests/expand.png')} style={styles.expandImage} />
+            <UserModal visible={visible} setVisible={setVisible} color={color} id={id} name={name} tasks={tasks} />
+
+            <View style={[styles.container, { backgroundColor: color }, type === 'modal' && { paddingHorizontal: 0 }]}>
+                {
+                    type != 'modal' && <Image source={require('../../assests/expand.png')} style={styles.expandImage} />
+                }
                 <Text style={[styles.containerText, styles.name]}>{name}</Text>
                 <View style={styles.countCircle}>
                     <Text style={[styles.countText, { color: color }]}>{tasks.length}</Text>
@@ -46,8 +53,8 @@ const styles = StyleSheet.create({
         height: 20,
     },
     countCircle: {
-        width: 60,
-        height: 60,
+        width: 50,
+        height: 50,
         borderRadius: 30,
         position: 'absolute',
         right: 30,
