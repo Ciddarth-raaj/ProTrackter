@@ -3,6 +3,7 @@ import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import TaskModal from '../components/taskModal';
 import BottomMenu from '../util/bottomMenu';
+import API from '../api';
 
 export default function Header(props) {
     const statusImage = {
@@ -10,9 +11,30 @@ export default function Header(props) {
         'COMPLETED': require('../assests/Tick.png'),
         3: require('../assests/hourglass_red.png')
     };
-    const { title, product, assignee, color, status, type, description, taskHistory } = props;
+    const { id, title, product, assignee, color, status, type, description, taskHistory } = props;
+    const [state, setState] = React.useState(state);
     const [visible, setVisible] = React.useState(false);
     const [optionsVisible, setOptionsVisible] = React.useState(false);
+
+    setTaskState = (state) => {
+        API.patch('/task/state', { taskId: id, state: state },
+            {
+                headers: {
+                    'x-access-token': global.token
+                }
+            })
+            .then(async res => {
+                if (res.data.code === 200) {
+                    setState(state);
+                }
+                else {
+                    alert(res.data.msg);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
 
     return (
         <TouchableOpacity
@@ -24,7 +46,7 @@ export default function Header(props) {
             <BottomMenu
                 visible={optionsVisible}
                 setVisible={setOptionsVisible}
-                options={[{ title: 'Start', onPress: () => { alert('Started') } }]}
+                options={state === 'STOP' ? [{ title: 'Start', onPress: () => { setTaskState('START') } }] : [{ title: 'Stop', onPress: () => { setTaskState('STOP') } }]}
             />
 
             <TaskModal
