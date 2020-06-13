@@ -90,7 +90,6 @@ export default class Home extends React.Component {
     }
 
     getTasks() {
-        console.log(global.token);
         API.get('/task/user', {
             headers: {
                 'x-access-token': global.token

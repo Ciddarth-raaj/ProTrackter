@@ -5,6 +5,7 @@ import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
 import TaskCard from '../../components/Admin/taskCard';
 import FilterModal from '../../components/Admin/filterModal';
+import AddProjectModal from '../../components/Admin/addProjectModal';
 
 export default class Task extends React.Component {
     constructor(props) {
@@ -13,6 +14,7 @@ export default class Task extends React.Component {
             filter: 'Product',
             filterModalVisible: false,
             noFilter: true,
+            addProjectModalVisible: false,
             projects: [
                 {
                     id: 1,
@@ -210,6 +212,10 @@ export default class Task extends React.Component {
         this.setState({ filterModalVisible: value });
     }
 
+    setProjectModalVisible = value => {
+        this.setState({ addProjectModalVisible: value });
+    }
+
     setProjectVisible = (id, value) => {
         const { projects } = this.state;
 
@@ -262,12 +268,17 @@ export default class Task extends React.Component {
     }
 
     render() {
-        const { projects, filterModalVisible } = this.state;
+        const { projects, filterModalVisible, addProjectModalVisible } = this.state;
         const { navigation } = this.props;
 
         return (
             <>
                 <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
+
+                <AddProjectModal
+                    visible={addProjectModalVisible}
+                    setVisible={this.setProjectModalVisible}
+                />
 
                 <FilterModal
                     visible={filterModalVisible}
@@ -289,7 +300,8 @@ export default class Task extends React.Component {
                     }
 
                 </ScrollView>
-                <TouchableOpacity style={[styles.addProjectButton, styles.floatingButton]}>
+                <TouchableOpacity style={[styles.addProjectButton, styles.floatingButton]}
+                    onPress={() => this.setProjectModalVisible(true)}>
                     <Text style={styles.addProjectText}>+</Text>
                 </TouchableOpacity>
 
