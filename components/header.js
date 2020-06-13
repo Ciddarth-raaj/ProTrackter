@@ -1,13 +1,23 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native';
 
 import Colors from '../constants/colors';
 import Styles from '../constants/styles';
 
 export default function Header(props) {
-    const { image, name, isBack, navigation } = props;
+    const { image, isBack, navigation } = props;
+    const [name, setName] = React.useState('');
 
     const date = new Date().toDateString();
+
+    getName = async () => {
+        let fName = await AsyncStorage.getItem('firstName');
+        let lName = await AsyncStorage.getItem('lastName');
+
+        setName(fName);
+    }
+
+    getName();
 
     return (
         <View style={{ flexDirection: 'row' }}>

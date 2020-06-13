@@ -116,7 +116,7 @@ export default class Home extends React.Component {
             <>
                 <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
                 <ScrollView style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
-                    <Header name={'Ciddarth Raaj'} />
+                    <Header />
                     <Text style={[Styles.headingText, { marginTop: 10 }]}>Today</Text>
                     <View style={styles.cardWrapper}>
                         {

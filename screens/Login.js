@@ -33,6 +33,8 @@ export default class Login extends React.Component {
                     AsyncStorage.setItem('company_id', res.data.data.company_id + '');
                     AsyncStorage.setItem('role_id', res.data.data.role_id + '');
                     AsyncStorage.setItem('token', res.data.data.token);
+                    AsyncStorage.setItem('firstName', res.data.data.first_name);
+                    AsyncStorage.setItem('lastName', res.data.data.last_name);
                     global.token = res.data.data.token;
                     if (res.data.data.role_id === 2) {
                         this.props.navigation.navigate('AdminHome');

@@ -247,6 +247,11 @@ export default class Task extends React.Component {
                     <Text style={styles.mainTitle}>{l.title}</Text>
 
                     <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
+
+                        <TouchableOpacity style={styles.newCard}>
+                            <Text style={styles.newCardText}>Add Task</Text>
+                        </TouchableOpacity>
+
                         {
                             l.tasks.map((t) => {
                                 return (

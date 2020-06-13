@@ -131,7 +131,7 @@ export default class Tasks extends React.Component {
             <>
                 <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
                 <ScrollView style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
-                    <Header name={'Ciddarth Raaj'} isBack={true} navigation={this.props.navigation} />
+                    <Header isBack={true} navigation={this.props.navigation} />
 
                     <Text style={[Styles.headingText, { color: color, marginTop: 10 }]}>{title}</Text>
                     <Text style={[Styles.headingText, { marginBottom: 10 }]}>{'Today'}</Text>
