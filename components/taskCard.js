@@ -6,8 +6,8 @@ import BottomMenu from '../util/bottomMenu';
 
 export default function Header(props) {
     const statusImage = {
-        1: require('../assests/hourglass.png'),
-        2: require('../assests/Tick.png'),
+        'INPROGRESS': require('../assests/hourglass.png'),
+        'COMPLETED': require('../assests/Tick.png'),
         3: require('../assests/hourglass_red.png')
     };
     const { title, product, assignee, color, status, type, description, taskHistory } = props;

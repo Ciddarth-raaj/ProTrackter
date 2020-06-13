@@ -30,12 +30,10 @@ export default class Login extends React.Component {
             .then(async res => {
                 console.log(res.data);
                 if (res.data.code === 200) {
-                    console.log(res.data.data);
                     AsyncStorage.setItem('company_id', res.data.data.company_id + '');
                     AsyncStorage.setItem('role_id', res.data.data.role_id + '');
                     AsyncStorage.setItem('token', res.data.data.token);
                     global.token = res.data.data.token;
-                    console.log(global.token);
                     if (res.data.data.role_id === 2) {
                         this.props.navigation.navigate('AdminHome');
                     } else if (res.data.data.role_id === 3) {

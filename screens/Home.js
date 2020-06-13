@@ -6,6 +6,7 @@ import Header from '../components/header';
 import Styles from '../constants/styles';
 import HomeCard from '../components/homeCard';
 import TaskCard from '../components/taskCard';
+import API from '../api';
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -45,78 +46,25 @@ export default class Home extends React.Component {
                     tag: 'overdue'
                 },
             ],
-            tasks: [
-                {
+            tasks: []
+        });
+    }
+
+    formatResponse(response) {
+        const colors = [Colors.blue, Colors.orange, Colors.indigo, Colors.red, Colors.green, Colors.purple];
+        return new Promise(async (resolve, reject) => {
+            const tasks = [];
+            let count = 0;
+
+            for (const task of response) {
+                tasks.push({
                     id: 1,
-                    title: 'Add Logo (Change Color. Blah Blah)',
-                    product: 'ProTrackter',
+                    title: task.title,
+                    product: task.label,
                     assignee: 'Ciddarth',
-                    color: Colors.blue,
-                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-                    status: 1,
-                    taskHistory: [
-                        {
-                            id: 1,
-                            title: 'Task1',
-                            date: 'Wed Jun 03 2020'
-                        },
-                        {
-                            id: 2,
-                            title: 'Task2',
-                            date: 'Wed Jun 03 2020'
-                        },
-                    ]
-                },
-                {
-                    id: 2,
-                    title: 'Add Logo (Change Color. Blah Blah)',
-                    product: 'ProTrackter',
-                    assignee: 'Ciddarth',
-                    color: Colors.purple,
-                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-                    status: 2,
-                    taskHistory: [
-                        {
-                            id: 1,
-                            title: 'Task3',
-                            date: 'Wed Jun 03 2020'
-                        },
-                        {
-                            id: 2,
-                            title: 'Task4',
-                            date: 'Wed Jun 03 2020'
-                        },
-                    ]
-                },
-                {
-                    id: 3,
-                    title: 'Add Logo (Change Color. Blah Blah)',
-                    product: 'ProTrackter',
-                    assignee: 'Ciddarth',
-                    color: Colors.green,
-                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-                    status: 3,
-                    taskHistory: [
-                        {
-                            id: 1,
-                            title: 'Task5',
-                            date: 'Wed Jun 03 2020'
-                        },
-                        {
-                            id: 2,
-                            title: 'Task6',
-                            date: 'Wed Jun 03 2020'
-                        },
-                    ]
-                },
-                {
-                    id: 4,
-                    title: 'Add Logo (Change Color. Blah Blah)',
-                    product: 'ProTrackter',
-                    assignee: 'Ciddarth',
-                    color: Colors.indigo,
-                    description: 'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-                    status: 1,
+                    color: colors[count++],
+                    description: task.description,
+                    status: task.status,
                     taskHistory: [
                         {
                             id: 1,
@@ -129,9 +77,38 @@ export default class Home extends React.Component {
                             date: 'Wed Jun 03 2020'
                         },
                     ]
-                }
-            ]
+                });
+                if (count == colors.length)
+                    count = 0;
+            }
+            resolve(tasks);
         });
+    }
+
+    componentDidMount() {
+        this.getTasks();
+    }
+
+    getTasks() {
+        console.log(global.token);
+        API.get('/task/user', {
+            headers: {
+                'x-access-token': global.token
+            }
+        })
+            .then(async res => {
+                console.log(res.data);
+                if (res.data.code === 200) {
+                    const tasks = await this.formatResponse(res.data.tasks);
+                    this.setState({ tasks: tasks });
+                }
+                else {
+                    alert(res.data.msg);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     render() {
