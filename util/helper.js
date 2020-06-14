@@ -15,6 +15,10 @@ export default {
     let count = 0;
 
     for (const task of response) {
+      if (count >= colors.length) {
+        count = 0;
+      }
+
       tasks.push({
         id: task.task_id,
         title: task.title,
