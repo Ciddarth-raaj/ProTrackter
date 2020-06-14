@@ -27,7 +27,7 @@ export default class TaskCard extends React.Component {
     API.patch('/task/state', {taskId: id, state: state})
       .then(async (res) => {
         if (res.data.code === 200) {
-          this.setState({taskState: state});
+          this.setState({taskState: state, isOptionsVisible: false});
         } else {
           alert(res.data.msg);
         }
