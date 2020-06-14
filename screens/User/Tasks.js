@@ -6,13 +6,15 @@ import Styles from '../../constants/styles';
 import Header from '../../components/header';
 import TaskCard from '../../components/taskCard';
 
+import API from '../../api';
+
 export default class Tasks extends React.Component {
   types = {
     pending: {
       title: 'Pending',
       color: Colors.purple,
     },
-    inProgress: {
+    inprogress: {
       title: 'In Progress',
       color: Colors.blue,
     },
@@ -34,49 +36,52 @@ export default class Tasks extends React.Component {
     this.state = {
       title: this.types[type].title,
       color: this.types[type].color,
-      tasks: [
-        {
-          id: 1,
-          title: 'Add Logo (Change Color. Blah Blah)',
-          product: 'ProTrackter',
-          assignee: 'Ciddarth',
-          color: Colors.blue,
-          description:
-            'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-          status: 1,
-        },
-        {
-          id: 2,
-          title: 'Add Logo (Change Color. Blah Blah)',
-          product: 'ProTrackter',
-          assignee: 'Ciddarth',
-          color: Colors.purple,
-          description:
-            'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-          status: 2,
-        },
-        {
-          id: 3,
-          title: 'Add Logo (Change Color. Blah Blah)',
-          product: 'ProTrackter',
-          assignee: 'Ciddarth',
-          color: Colors.green,
-          description:
-            'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-          status: 3,
-        },
-        {
-          id: 4,
-          title: 'Add Logo (Change Color. Blah Blah)',
-          product: 'ProTrackter',
-          assignee: 'Ciddarth',
-          color: Colors.indigo,
-          description:
-            'Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah) Add Logo (Change Color. Blah Blah)',
-          status: 1,
-        },
-      ],
+      tasks: [],
     };
+  }
+
+  formatResponse(response) {
+    const colors = [
+      Colors.blue,
+      Colors.orange,
+      Colors.indigo,
+      Colors.red,
+      Colors.green,
+      Colors.purple,
+    ];
+
+    const tasks = [];
+    let count = 0;
+
+    for (const task of response) {
+      tasks.push({
+        id: task.task_id,
+        title: task.title,
+        product: task.label,
+        assignee: 'Ciddarth',
+        color: colors[count++],
+        description: task.description,
+        status: task.status,
+      });
+      if (count == colors.length) count = 0;
+    }
+    return tasks;
+  }
+
+  componentDidMount() {
+    const tag = this.props.route.params.tag;
+    API.get(`/task/filter?${tag}=true`)
+      .then((res) => {
+        if (res.data.code === 200) {
+          const tasks = this.formatResponse(res.data.tasks);
+          this.setState({tasks: tasks});
+        } else {
+          alert(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
   }
 
   render() {

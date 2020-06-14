@@ -27,7 +27,7 @@ export default class Home extends React.Component {
           color: Colors.blue,
           lightColor: Colors.blueLight,
           notificationCount: 0,
-          tag: 'inProgress',
+          tag: 'inprogress',
         },
         new: {
           title: 'New',
@@ -98,7 +98,7 @@ export default class Home extends React.Component {
   }
 
   getTasks() {
-    API.get('/task/user')
+    API.get('/task/filter')
       .then((res) => {
         if (res.data.code === 200) {
           const tasks = this.formatResponse(res.data.tasks);
