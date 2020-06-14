@@ -7,65 +7,37 @@ import Header from '../../components/header';
 import TaskCard from '../../components/taskCard';
 
 import API from '../../api';
+import util from '../../util/helper';
+
+const types = {
+  pending: {
+    title: 'Pending',
+    color: Colors.purple,
+  },
+  inprogress: {
+    title: 'In Progress',
+    color: Colors.blue,
+  },
+  new: {
+    title: 'New',
+    color: Colors.green,
+  },
+  overdue: {
+    title: 'Overdue',
+    color: Colors.red,
+  },
+};
 
 export default class Tasks extends React.Component {
-  types = {
-    pending: {
-      title: 'Pending',
-      color: Colors.purple,
-    },
-    inprogress: {
-      title: 'In Progress',
-      color: Colors.blue,
-    },
-    new: {
-      title: 'New',
-      color: Colors.green,
-    },
-    overdue: {
-      title: 'Overdue',
-      color: Colors.red,
-    },
-  };
-
   constructor(props) {
     super(props);
 
-    type = this.props.route.params.tag;
-
+    const type = this.props.route.params.tag;
     this.state = {
-      title: this.types[type].title,
-      color: this.types[type].color,
+      title: types[type].title,
+      color: types[type].color,
       tasks: [],
     };
-  }
-
-  formatResponse(response) {
-    const colors = [
-      Colors.blue,
-      Colors.orange,
-      Colors.indigo,
-      Colors.red,
-      Colors.green,
-      Colors.purple,
-    ];
-
-    const tasks = [];
-    let count = 0;
-
-    for (const task of response) {
-      tasks.push({
-        id: task.task_id,
-        title: task.title,
-        product: task.label,
-        assignee: 'Ciddarth',
-        color: colors[count++],
-        description: task.description,
-        status: task.status,
-      });
-      if (count == colors.length) count = 0;
-    }
-    return tasks;
   }
 
   componentDidMount() {
@@ -73,7 +45,7 @@ export default class Tasks extends React.Component {
     API.get(`/task/filter?${tag}=true`)
       .then((res) => {
         if (res.data.code === 200) {
-          const tasks = this.formatResponse(res.data.tasks);
+          const tasks = util.formatResponse(res.data.tasks);
           this.setState({tasks: tasks});
         } else {
           alert(res.data.msg);
@@ -103,12 +75,14 @@ export default class Tasks extends React.Component {
           <View style={Styles.tasksWrapper}>
             {tasks.map((t) => (
               <TaskCard
-                id={t.task_id}
+                key={'task-' + t.id}
+                id={t.id}
                 title={t.title}
                 product={t.product}
                 assignee={t.assignee}
                 color={t.color}
                 description={t.description}
+                state={t.state}
                 status={t.status}
               />
             ))}
@@ -118,6 +92,3 @@ export default class Tasks extends React.Component {
     );
   }
 }
-
-// const styles = StyleSheet.create({
-// });

@@ -1,12 +1,14 @@
 import React from 'react';
 import {SafeAreaView, ScrollView, Text, View, StyleSheet} from 'react-native';
 
-import Colors from '../../constants/colors';
 import Header from '../../components/header';
 import Styles from '../../constants/styles';
 import HomeCard from '../../components/homeCard';
 import TaskCard from '../../components/taskCard';
+
 import API from '../../api';
+import util from '../../util/helper';
+import Colors from '../../constants/colors';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -50,34 +52,6 @@ export default class Home extends React.Component {
     };
   }
 
-  formatResponse(response) {
-    const colors = [
-      Colors.blue,
-      Colors.orange,
-      Colors.indigo,
-      Colors.red,
-      Colors.green,
-      Colors.purple,
-    ];
-
-    const tasks = [];
-    let count = 0;
-
-    for (const task of response) {
-      tasks.push({
-        id: task.task_id,
-        title: task.title,
-        product: task.label,
-        assignee: 'Ciddarth',
-        color: colors[count++],
-        description: task.description,
-        status: task.status,
-      });
-      if (count == colors.length) count = 0;
-    }
-    return tasks;
-  }
-
   componentDidMount() {
     this.getTaskStats();
     this.getTasks();
@@ -101,7 +75,7 @@ export default class Home extends React.Component {
     API.get('/task/filter')
       .then((res) => {
         if (res.data.code === 200) {
-          const tasks = this.formatResponse(res.data.tasks);
+          const tasks = util.formatResponse(res.data.tasks);
           this.setState({tasks: tasks});
         } else {
           alert(res.data.msg);
@@ -139,12 +113,14 @@ export default class Home extends React.Component {
           <View style={[Styles.tasksWrapper, {marginBottom: 10}]}>
             {tasks.map((t) => (
               <TaskCard
+                key={'task-' + t.id}
                 id={t.id}
                 title={t.title}
                 product={t.product}
                 assignee={t.assignee}
                 color={t.color}
                 description={t.description}
+                state={t.state}
                 status={t.status}
                 taskHistory={t.taskHistory}
               />
