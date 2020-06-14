@@ -1,12 +1,12 @@
 import React from 'react';
 import {SafeAreaView, ScrollView, Text, View, StyleSheet} from 'react-native';
 
-import Colors from '../constants/colors';
-import Header from '../components/header';
-import Styles from '../constants/styles';
-import HomeCard from '../components/homeCard';
-import TaskCard from '../components/taskCard';
-import API from '../api';
+import Colors from '../../constants/colors';
+import Header from '../../components/header';
+import Styles from '../../constants/styles';
+import HomeCard from '../../components/homeCard';
+import TaskCard from '../../components/taskCard';
+import API from '../../api';
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -15,34 +15,34 @@ export default class Home extends React.Component {
       items: {
         pending: {
           title: 'Pending',
-          image: require('../assests/clock.png'),
+          image: require('../../assests/clock.png'),
           color: Colors.purple,
           lightColor: Colors.purpleLight,
-          notificationCount: 10,
+          notificationCount: 0,
           tag: 'pending',
         },
         inprogress: {
           title: 'In Progress',
-          image: require('../assests/refresh.png'),
+          image: require('../../assests/refresh.png'),
           color: Colors.blue,
           lightColor: Colors.blueLight,
-          notificationCount: 90,
+          notificationCount: 0,
           tag: 'inProgress',
         },
         new: {
           title: 'New',
-          image: require('../assests/new.png'),
+          image: require('../../assests/new.png'),
           color: Colors.green,
           lightColor: Colors.greenLight,
-          notificationCount: 4,
+          notificationCount: 0,
           tag: 'new',
         },
         overdue: {
           title: 'Overdue',
-          image: require('../assests/warning.png'),
+          image: require('../../assests/warning.png'),
           color: Colors.red,
           lightColor: Colors.redLight,
-          notificationCount: 8,
+          notificationCount: 0,
           tag: 'overdue',
         },
       },

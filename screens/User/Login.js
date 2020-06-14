@@ -9,8 +9,8 @@ import {
   AsyncStorage,
 } from 'react-native';
 
-import Colors from '../constants/colors';
-import API from '../api';
+import Colors from '../../constants/colors';
+import API from '../../api';
 
 export default class Login extends React.Component {
   constructor(props) {

@@ -1,11 +1,8 @@
 import constants from './constants/api';
 import axios from 'axios';
 
-export default axios.create({
+const custom = axios.create({
   baseURL: constants.BASE_URL,
-  headers: {
-    'x-access-token': global.token,
-  },
   transformResponse: [
     (res) => {
       try {
@@ -21,3 +18,7 @@ export default axios.create({
     },
   ],
 });
+
+custom.defaults.headers.common['x-access-token'] = global.token;
+
+export default custom;
