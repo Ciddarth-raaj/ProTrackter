@@ -25,25 +25,6 @@ export default function Header(props) {
   const [state, setState] = React.useState(state);
   const [visible, setVisible] = React.useState(false);
   const [optionsVisible, setOptionsVisible] = React.useState(false);
-  const [taskHistory, setTaskHistory] = React.useState([]);
-
-  React.useEffect(() => {
-    //this.getTaskHistory();
-    return () => {};
-  });
-
-  getTaskHistory = () => {
-    API.get('/taskprogress?taskId=' + id)
-      .then(async (res) => {
-        if (res.data.code === 200) {
-          alert(res.data.tasks.length);
-          setTaskHistory(res.data.tasks);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   setTaskState = (state) => {
     API.patch('/task/state', {taskId: id, state: state})
@@ -90,6 +71,7 @@ export default function Header(props) {
       />
 
       <TaskModal
+        taskId={id}
         visible={visible}
         setVisible={setVisible}
         color={color}
@@ -97,7 +79,7 @@ export default function Header(props) {
         product={product}
         assignee={assignee}
         description={description}
-        taskHistory={taskHistory}
+        //taskHistory={taskHistory}
         status={status}
       />
 

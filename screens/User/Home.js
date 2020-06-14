@@ -65,25 +65,13 @@ export default class Home extends React.Component {
 
     for (const task of response) {
       tasks.push({
-        id: 1,
+        id: task.task_id,
         title: task.title,
         product: task.label,
         assignee: 'Ciddarth',
         color: colors[count++],
         description: task.description,
         status: task.status,
-        taskHistory: [
-          {
-            id: 1,
-            title: 'Task7',
-            date: 'Wed Jun 03 2020',
-          },
-          {
-            id: 2,
-            title: 'Task8',
-            date: 'Wed Jun 03 2020',
-          },
-        ],
       });
       if (count == colors.length) count = 0;
     }

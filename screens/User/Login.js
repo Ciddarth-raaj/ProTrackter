@@ -40,7 +40,7 @@ export default class Login extends React.Component {
     API.post('/user/login', {email: email, password: password})
       .then(async (res) => {
         if (res.data.code === 200) {
-          global.token = res.data.data.token;
+          API.updateToken(res.data.data.token);
           const roleId = res.data.data.role_id;
 
           AsyncStorage.setItem(

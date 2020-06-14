@@ -19,6 +19,8 @@ const custom = axios.create({
   ],
 });
 
-custom.defaults.headers.common['x-access-token'] = global.token;
+custom.updateToken = (token) => {
+  custom.defaults.headers.common['x-access-token'] = token;
+};
 
 export default custom;
