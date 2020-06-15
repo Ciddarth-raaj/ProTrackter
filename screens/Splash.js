@@ -5,7 +5,7 @@ import API from '../api';
 export default function Splash({navigation}) {
   (async () => {
     const token = await AsyncStorage.getItem('token');
-    if (token === undefined) {
+    if (token === null) {
       navigation.navigate('Login');
       return;
     }
