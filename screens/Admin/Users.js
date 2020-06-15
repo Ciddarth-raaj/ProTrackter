@@ -84,6 +84,7 @@ export default class Users extends React.Component {
           }}
         />
         <ScrollView
+          showsHorizontalScrollIndicator={false}
           style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
           <View style={{flexDirection: 'row'}}>
             <TouchableOpacity

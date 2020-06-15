@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 
 import Colors from '../../constants/colors';
-import Styles from '../../constants/styles';
 import API from '../../api';
 
 export default function AddProjectModal(props) {
@@ -104,7 +103,7 @@ export default function AddProjectModal(props) {
 
 const styles = StyleSheet.create({
   container: {
-    height: '90%',
+    height: '60%',
     width: '100%',
     justifyContent: 'center',
     position: 'absolute',
