@@ -12,6 +12,7 @@ import {
 import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
 import UserCard from '../../components/Admin/userCard';
+import AddUserModal from '../../components/Admin/addUserModal';
 
 import API from '../../api';
 
@@ -20,6 +21,7 @@ export default class Users extends React.Component {
     super(props);
     this.state = {
       users: [],
+      isUserModalOpen: false,
     };
   }
 
@@ -67,11 +69,20 @@ export default class Users extends React.Component {
   }
 
   render() {
-    const {users} = this.state;
+    const {users, isUserModalOpen} = this.state;
     const {navigation} = this.props;
     return (
       <>
         <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
+        <AddUserModal
+          visible={isUserModalOpen}
+          setVisible={(visible) => {
+            this.setState({isUserModalOpen: visible});
+          }}
+          onCreate={() => {
+            this.getAllUsers();
+          }}
+        />
         <ScrollView
           style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
           <View style={{flexDirection: 'row'}}>
@@ -104,7 +115,11 @@ export default class Users extends React.Component {
             ))}
           </View>
         </ScrollView>
-        <SafeAreaView style={{backgroundColor: Colors.background}} />
+        <TouchableOpacity
+          style={[styles.addButton, styles.floatingButton]}
+          onPress={() => this.setState({isUserModalOpen: true})}>
+          <Text style={styles.addText}>+</Text>
+        </TouchableOpacity>
       </>
     );
   }
@@ -119,5 +134,33 @@ const styles = StyleSheet.create({
   backButton: {
     width: 20,
     height: 20,
+  },
+  floatingButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+    elevation: 9,
+  },
+  addButton: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    right: 10,
+    bottom: 30,
+  },
+  addText: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 40,
+    paddingBottom: 3,
+    color: Colors.addGreen,
   },
 });
