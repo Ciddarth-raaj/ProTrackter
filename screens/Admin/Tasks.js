@@ -13,7 +13,7 @@ import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
 import TaskCard from '../../components/Admin/taskCard';
 import FilterModal from '../../components/Admin/filterModal';
-import AddProjectModal from '../../components/Admin/addProjectModal';
+import AddTaskModal from '../../components/Admin/addTaskModal';
 
 export default class Tasks extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class Tasks extends React.Component {
     this.state = {
       filterModalVisible: false,
       noFilter: true,
-      addProjectModalVisible: false,
+      addTaskModalVisible: false,
       title: 'Tasks',
       tasks: [
         {
@@ -111,8 +111,8 @@ export default class Tasks extends React.Component {
     this.setState({ filterModalVisible: value });
   };
 
-  setProjectModalVisible = (value) => {
-    this.setState({ addProjectModalVisible: value });
+  setTaskModalVisible = (value) => {
+    this.setState({ addTaskModalVisible: value });
   };
 
   clearFilter = () => {
@@ -142,17 +142,14 @@ export default class Tasks extends React.Component {
   }
 
   render() {
-    const { tasks, filterModalVisible, addProjectModalVisible, title } = this.state;
+    const { tasks, filterModalVisible, addTaskModalVisible, title } = this.state;
     const { navigation } = this.props;
 
     return (
       <>
         <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
 
-        {/* <AddProjectModal
-          visible={addProjectModalVisible}
-          setVisible={this.setProjectModalVisible}
-        /> */}
+        <AddTaskModal visible={addTaskModalVisible} setVisible={this.setTaskModalVisible} />
 
         <FilterModal
           visible={filterModalVisible}
@@ -186,7 +183,7 @@ export default class Tasks extends React.Component {
         </ScrollView>
         <TouchableOpacity
           style={[styles.addProjectButton, styles.floatingButton]}
-          onPress={() => this.setProjectModalVisible(true)}>
+          onPress={() => this.setTaskModalVisible(true)}>
           <Text style={styles.addProjectText}>+</Text>
         </TouchableOpacity>
 

@@ -6,60 +6,42 @@ import {
   TouchableOpacity,
   Modal,
   Image,
-  ScrollView,
   TextInput,
+  Picker
 } from 'react-native';
+import DatePicker from 'react-native-datepicker'
 
 import Colors from '../../constants/colors';
 import API from '../../api';
 
-export default class AddTaskModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: '',
-      description: '',
-      projects: [],
-      users: [],
-      deadline: new Date(),
-    };
-  }
+export default function AddTaskModal(props) {
+  const { visible, setVisible } = props;
+  const [title, setTitle] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const [userId, setUserId] = React.useState(0);
+  const [date, setDate] = React.useState();
 
-  componentDidMount() {
-    this.getUsers();
-    this.getProjects();
-  }
+  const users = [
+    {
+      id: 1,
+      name: 'Ciddarth'
+    },
+    {
+      id: 2,
+      name: 'Vinoth'
+    }
+  ]
 
-  getUsers() {
-    API.get('/user/company')
-      .then((res) => {
-        if (res.data.code === 200) {
-          this.setState({users: res.data.users});
-        }
-      })
-      .catch((err) => {});
-  }
-
-  getProjects() {
-    API.get('/project')
-      .then((res) => {
-        if (res.data.code === 200) {
-          this.setState({projects: res.data.project});
-        }
-      })
-      .catch((err) => {});
-  }
-
-  handleCreateProject() {
+  handleCreateProject = () => {
     if (title === '') {
       alert('Enter Title to Continue');
     } else {
       createProject(title, description);
     }
-  }
+  };
 
-  createProject(title, description) {
-    API.post('/task', {label: title, description: description})
+  createProject = (title, description) => {
+    API.post('/project', { label: title, description: description })
       .then(async (res) => {
         console.log(res.data);
         if (res.data.code === 200) {
@@ -73,73 +55,105 @@ export default class AddTaskModal extends React.Component {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
-  render() {
-    const {title, description, projects, users, deadline} = this.state;
-    const {visible, setVisible} = props;
-    return (
-      <Modal animationType="slide" transparent={true} visible={visible}>
-        <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>
+  return (
+    <Modal animationType="slide" transparent={true} visible={visible}>
+      <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
+        <TouchableOpacity
+          style={{ width: '100%', height: '10%', position: 'absolute', top: 0 }}
+          onPress={() => setVisible(false)}
+        />
+
+        <View style={[styles.container]}>
           <TouchableOpacity
-            style={{width: '100%', height: '10%', position: 'absolute', top: 0}}
-            onPress={() => setVisible(false)}
-          />
+            style={styles.crossButton}
+            onPress={() => setVisible(false)}>
+            <Image
+              source={require('../../assests/cross_black.png')}
+              style={{ width: 15, height: 15 }}
+            />
+          </TouchableOpacity>
 
-          <View style={[styles.container]}>
-            <TouchableOpacity
-              style={styles.crossButton}
-              onPress={() => setVisible(false)}>
-              <Image
-                source={require('../../assests/cross_black.png')}
-                style={{width: 15, height: 15}}
-              />
-            </TouchableOpacity>
+          <View
+            style={{
+              marginTop: 50,
+              marginBottom: 20,
+              alignSelf: 'center',
+              width: '90%',
+            }}>
+            <Text style={styles.heading}>Create Task</Text>
 
-            <ScrollView>
-              <View
-                style={{
-                  marginTop: 50,
-                  marginBottom: 20,
-                  alignSelf: 'center',
-                  width: '90%',
-                }}>
-                <Text style={styles.heading}>Create Task</Text>
+            <TextInput
+              placeholder={'Task Title'}
+              style={styles.inputBox}
+              placeholderTextColor={'white'}
+              value={title}
+              onChangeText={setTitle}
+            />
 
-                <TextInput
-                  placeholder={'Project Title'}
-                  style={styles.inputBox}
-                  placeholderTextColor={'white'}
-                  value={title}
-                  onChangeText={setTitle}
+            <TextInput
+              placeholder={'Description'}
+              style={[styles.inputBox, { height: 260, paddingTop: 20 }]}
+              placeholderTextColor={'white'}
+              multiline={true}
+              value={description}
+              onChangeText={setDescription}
+            />
+
+            <Picker
+              selectedValue={userId}
+              itemStyle={styles.inputBox}
+              onValueChange={setUserId}>
+              {users.map((u) => (
+                <Picker.Item label={u.name} value={u.id} />
+              ))}
+            </Picker>
+
+            <View style={{ alignItems: 'center', marginBottom: 15 }}>
+              <View style={{ flexDirection: 'row' }}>
+                <DatePicker
+                  style={{ width: 200 }}
+                  date={date}
+                  mode="date"
+                  placeholder="Select Date (Optional)"
+                  format="DD-MM-YYYY"
+                  minDate={new Date()}
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  showIcon={false}
+                  customStyles={{
+                    dateInput: {
+                      marginTop: 0,
+                      borderColor: Colors.blue,
+                      borderWidth: 2,
+                      borderRadius: 10
+                    }
+                  }}
+                  onDateChange={(date) => { setDate(date) }}
                 />
 
-                <TextInput
-                  placeholder={'Description'}
-                  style={[styles.inputBox, {height: 260, paddingTop: 20}]}
-                  placeholderTextColor={'white'}
-                  multiline={true}
-                  value={description}
-                  onChangeText={setDescription}
-                />
-
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => handleCreateProject()}>
-                  <Text style={styles.buttonText}>Create</Text>
+                <TouchableOpacity style={{ alignSelf: 'center', marginLeft: 10 }} onPress={() => setDate('')}>
+                  <Text style={{ color: Colors.grey }}>Clear</Text>
                 </TouchableOpacity>
               </View>
-            </ScrollView>
+            </View>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => handleCreateProject()}>
+              <Text style={styles.buttonText}>Create</Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </Modal>
-    );
-  }
+      </View>
+    </Modal>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: '90%',
+    height: '70%',
     width: '100%',
     justifyContent: 'center',
     position: 'absolute',
