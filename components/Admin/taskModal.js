@@ -4,10 +4,31 @@ import { View, StyleSheet, Text, TouchableOpacity, Modal, Image, ScrollView, Tex
 import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
 import TaskCard from './taskCard';
+import API from '../../api';
 
 export default function TaskModal(props) {
     const { visible, setVisible, color } = props;
-    const { title, product, assignedTo, description, status, taskHistory } = props;
+    const { id, title, product, assignedTo, description, status } = props;
+
+    const [taskHistory, setTaskHistory] = React.useState([]);
+    const [loading, setLoading] = React.useState(false);
+
+    getTaskHistory = () => {
+        API.get('/taskprogress?taskId=' + id)
+            .then((res) => {
+                console.log(res.data);
+                if (res.data.code === 200) {
+                    setTaskHistory(res.data.tasks);
+                    setLoading(true);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    if (loading == false)
+        getTaskHistory();
 
     return (
         <Modal
@@ -33,8 +54,8 @@ export default function TaskModal(props) {
                             {
                                 taskHistory.map((t) => (
                                     <View>
-                                        <Text style={[styles.text, styles.tasksHistoryHeading]}>{t.title}</Text>
-                                        <Text style={[styles.text, styles.tasksHistorySub]}>{t.date}</Text>
+                                        <Text style={[styles.text, styles.tasksHistoryHeading]}>{t.progress}</Text>
+                                        <Text style={[styles.text, styles.tasksHistorySub]}>{t.created_at}</Text>
                                     </View>
                                 ))
                             }

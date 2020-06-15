@@ -14,6 +14,7 @@ import Styles from '../../constants/styles';
 import TaskCard from '../../components/Admin/taskCard';
 import FilterModal from '../../components/Admin/filterModal';
 import AddTaskModal from '../../components/Admin/addTaskModal';
+import API from '../../api';
 
 export default class Tasks extends React.Component {
   constructor(props) {
@@ -23,71 +24,8 @@ export default class Tasks extends React.Component {
       noFilter: true,
       addTaskModalVisible: false,
       title: 'Tasks',
-      tasks: [
-        {
-          id: 1,
-          title: 'Test',
-          assignedTo: 'Ciddarth',
-          color: Colors.blue,
-          status: 'INPROGRESS',
-          visible: false,
-          description: 'This is test description',
-          taskHistory: [
-            {
-              id: 1,
-              title: 'Task3',
-              date: 'Wed Jun 03 2020',
-            },
-            {
-              id: 2,
-              title: 'Task4',
-              date: 'Wed Jun 03 2020',
-            },
-          ],
-        },
-        {
-          id: 1,
-          title: 'Test 123',
-          assignedTo: 'Ciddarth',
-          visible: false,
-          color: Colors.orange,
-          status: 'INPROGRESS',
-          description: 'This is test description',
-          taskHistory: [
-            {
-              id: 1,
-              title: 'Task3',
-              date: 'Wed Jun 03 2020',
-            },
-            {
-              id: 2,
-              title: 'Task4',
-              date: 'Wed Jun 03 2020',
-            },
-          ],
-        },
-        {
-          id: 1,
-          title: 'Test 123',
-          assignedTo: 'Ciddarth',
-          visible: false,
-          color: Colors.purple,
-          status: 'COMPLETED',
-          description: 'This is test description',
-          taskHistory: [
-            {
-              id: 1,
-              title: 'Task3',
-              date: 'Wed Jun 03 2020',
-            },
-            {
-              id: 2,
-              title: 'Task4',
-              date: 'Wed Jun 03 2020',
-            },
-          ],
-        },
-      ],
+      users: [],
+      tasks: []
     };
   }
 
@@ -105,6 +43,9 @@ export default class Tasks extends React.Component {
   componentDidMount() {
     params = this.props.route.params;
     this.setState({ title: params.title });
+
+    this.getUsers();
+    this.getTasks(params.id);
   }
 
   setModalVisibility = (value) => {
@@ -131,25 +72,107 @@ export default class Tasks extends React.Component {
     return list.map((t) => (
       (this.state.noFilter || t.visible) &&
       <TaskCard
+        id={t.id}
         title={t.title}
         assignedTo={t.assignedTo}
         color={t.color}
         status={t.status}
         description={t.description}
-        taskHistory={t.taskHistory}
       />
     ));
   }
 
+  formatTasks(res) {
+    const colors = [
+      Colors.blue,
+      Colors.orange,
+      Colors.indigo,
+      Colors.red,
+      Colors.green,
+      Colors.purple,
+    ];
+
+    let count = 0;
+    const tasks = [];
+
+    for (const task of res) {
+      if (count >= colors.length) {
+        count = 0;
+      }
+      tasks.push({
+        id: task.task_id,
+        title: task.title,
+        assignedTo: task.first_name,
+        visible: false,
+        color: colors[count++],
+        status: task.status,
+        description: task.description,
+      })
+    }
+
+    return tasks;
+  }
+
+  getTasks(id) {
+    API.get('/task/company?project_id=' + id)
+      .then(async (res) => {
+        if (res.data.code === 200) {
+          tasks = this.formatTasks(res.data.tasks);
+          this.setState({ tasks: tasks });
+        } else {
+          alert(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  formatUsers(response) {
+    const users = [];
+    users.push({
+      id: 0,
+      name: 'Select an User'
+    });
+    for (const user of response) {
+      users.push({
+        id: user.user_id,
+        name: user.first_name + ' ' + user.last_name,
+      });
+    }
+
+    return users;
+  }
+
+  getUsers() {
+    API.get('/user/company')
+      .then(async (res) => {
+        if (res.data.code === 200) {
+          users = await this.formatUsers(res.data.users);
+          this.setState({ users: users });
+        } else {
+          alert('Error Getting Users. Try Again Later');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
   render() {
-    const { tasks, filterModalVisible, addTaskModalVisible, title } = this.state;
+    const { tasks, filterModalVisible, addTaskModalVisible, title, users } = this.state;
     const { navigation } = this.props;
 
     return (
       <>
         <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
 
-        <AddTaskModal visible={addTaskModalVisible} setVisible={this.setTaskModalVisible} />
+        <AddTaskModal
+          visible={addTaskModalVisible}
+          setVisible={this.setTaskModalVisible}
+          projectId={this.props.route.params.id}
+          users={users}
+        />
 
         <FilterModal
           visible={filterModalVisible}

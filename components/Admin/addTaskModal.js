@@ -15,39 +15,32 @@ import Colors from '../../constants/colors';
 import API from '../../api';
 
 export default function AddTaskModal(props) {
-  const { visible, setVisible } = props;
+  const { visible, setVisible, projectId, users } = props;
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [userId, setUserId] = React.useState(0);
   const [date, setDate] = React.useState();
 
-  const users = [
-    {
-      id: 1,
-      name: 'Ciddarth'
-    },
-    {
-      id: 2,
-      name: 'Vinoth'
-    }
-  ]
-
   handleCreateProject = () => {
-    if (title === '') {
-      alert('Enter Title to Continue');
+    if (title === '' || description === '' || userId === 0) {
+      alert('Enter All Fields to Continue');
     } else {
-      createProject(title, description);
+      createTask(title, description, projectId, userId, date);
     }
   };
 
-  createProject = (title, description) => {
-    API.post('/project', { label: title, description: description })
+  createTask = (title, description, projectId, userId, deadline) => {
+    console.log(deadline);
+    API.post('/task', deadline === undefined ? { title: title, description: description, projectId: projectId, userId: userId } : { title: title, description: description, projectId: projectId, userId: userId, deadlineAt: new Date(deadline) })
       .then(async (res) => {
         console.log(res.data);
         if (res.data.code === 200) {
           setTitle('');
           setDescription('');
+          setUserId(0);
+          setDate();
           alert('Successfully Created');
+          // setVisible(false);
         } else {
           alert(res.data.msg);
         }

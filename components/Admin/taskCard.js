@@ -9,7 +9,7 @@ export default function Header(props) {
         COMPLETED: require('../../assests/Tick.png'),
         3: require('../../assests/hourglass_red.png')
     };
-    const { title, assignedTo, color, status, type, description, taskHistory } = props;
+    const { id, title, assignedTo, color, status, type, description } = props;
     const [visible, setVisible] = React.useState(false);
 
     return (
@@ -25,8 +25,8 @@ export default function Header(props) {
                 title={title}
                 assignedTo={assignedTo}
                 description={description}
-                taskHistory={taskHistory}
                 status={status}
+                id={id}
             />
 
             <View style={[styles.container, { backgroundColor: type === 'usermodal' ? 'white' : color }, type == 'modal' && { paddingHorizontal: 0 }]}>
