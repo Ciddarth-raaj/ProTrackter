@@ -10,7 +10,7 @@ export default function Header(props) {
     return (
         <TouchableOpacity
             style={{ width: '100%' }}
-            onPress={() => navigation.navigate("AdminTasks", { id: id })}>
+            onPress={() => navigation.navigate("AdminTasks", { id: id, title: title })}>
 
             <View style={[styles.container, { backgroundColor: color }]}>
                 <View>

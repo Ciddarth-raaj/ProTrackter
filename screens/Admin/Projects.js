@@ -12,8 +12,8 @@ import {
 import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
 import ProjectCard from '../../components/Admin/projectCard';
-// import FilterModal from '../../components/Admin/filterModal';
 import AddProjectModal from '../../components/Admin/addProjectModal';
+import API from '../../api';
 
 export default class Projects extends React.Component {
   constructor(props) {
@@ -24,31 +24,15 @@ export default class Projects extends React.Component {
       noFilter: true,
       addProjectModalVisible: false,
       projects: [
-        {
-          id: 1,
-          title: 'Project 1',
-          description: 'Thi is test desc'
-        },
-        {
-          id: 1,
-          title: 'Project 1',
-          description: 'Thi is test desc'
-        },
-        {
-          id: 1,
-          title: 'Project 1',
-          description: 'Thi is test desc'
-        },
-        {
-          id: 1,
-          title: 'Project 1',
-          description: 'Thi is test desc'
-        }
       ],
     };
   }
 
-  formatResponse = () => {
+  componentDidMount() {
+    this.getProjects();
+  }
+
+  formatResponse(response) {
     const colors = [
       Colors.blue,
       Colors.orange,
@@ -57,55 +41,58 @@ export default class Projects extends React.Component {
       Colors.green,
       Colors.purple,
     ];
+
+    const projects = [];
+    let count = 0;
+
+    for (const project of response) {
+      if (count >= colors.length) {
+        count = 0;
+      }
+
+      projects.push({
+        id: project.project_id,
+        title: project.label,
+        description: project.description,
+        color: colors[count++]
+      });
+    }
+
+    return projects;
   }
 
-  setModalVisibility = (value) => {
-    this.setState({ filterModalVisible: value });
-  };
+  getProjects() {
+    API.get('/project')
+      .then((res) => {
+        // console.log(res.data.projects);
+        if (res.data.code === 200) {
+          const projects = this.formatResponse(res.data.projects);
+          this.setState({ projects: projects });
+        } else {
+          alert(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   setProjectModalVisible = (value) => {
     this.setState({ addProjectModalVisible: value });
-  };
-
-  setProjectVisible = (id, value) => {
-    const { projects } = this.state;
-
-    for (i = 0; i < projects.length; i++) {
-      if (projects[i].id == id) {
-        projects[i].visible = value;
-        break;
-      }
-    }
-
-    this.setState({ projects: projects, noFilter: false });
-  };
-
-  clearFilter = () => {
-    const { projects } = this.state;
-
-    for (i = 0; i < projects.length; i++) {
-      projects[i].visible = false;
-    }
-
-    this.setState({
-      projects: projects,
-      noFilter: true,
-      filterModalVisible: false,
-    });
   };
 
   renderCards(list) {
     return list.map((l) => (
       <>
         {(this.state.noFilter || l.visible) && (
-          <ProjectCard id={l.id} title={l.title} description={l.description} navigation={this.props.navigation} color={Colors.blue} />
+          <ProjectCard id={l.id} title={l.title} description={l.description} navigation={this.props.navigation} color={l.color} />
         )}
       </>
     ));
   }
 
   render() {
-    const { projects, filterModalVisible, addProjectModalVisible } = this.state;
+    const { projects, addProjectModalVisible } = this.state;
     const { navigation } = this.props;
 
     return (
@@ -116,14 +103,6 @@ export default class Projects extends React.Component {
           visible={addProjectModalVisible}
           setVisible={this.setProjectModalVisible}
         />
-
-        {/* <FilterModal
-          visible={filterModalVisible}
-          setVisible={this.setModalVisibility}
-          projects={projects}
-          setProjectVisible={this.setProjectVisible}
-          clearFilter={this.clearFilter}
-        /> */}
 
         <ScrollView
           showsHorizontalScrollIndicator={false}
@@ -151,15 +130,6 @@ export default class Projects extends React.Component {
           onPress={() => this.setProjectModalVisible(true)}>
           <Text style={styles.addProjectText}>+</Text>
         </TouchableOpacity>
-
-        {/* <TouchableOpacity
-          style={[styles.filterButton, styles.floatingButton]}
-          onPress={() => this.setState({ filterModalVisible: true })}>
-          <Image
-            source={require('../../assests/filter.png')}
-            style={styles.filterImage}
-          />
-        </TouchableOpacity> */}
       </>
     );
   }
@@ -175,19 +145,6 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
-  // newCard: {
-  //   width: '100%',
-  //   padding: 10,
-  //   justifyContent: 'center',
-  //   backgroundColor: Colors.addGreen,
-  //   borderRadius: 10,
-  //   marginBottom: 10,
-  // },
-  // newCardText: {
-  //   color: 'white',
-  //   fontWeight: 'bold',
-  //   textAlign: 'center',
-  // },
   floatingButton: {
     width: 60,
     height: 60,
@@ -216,16 +173,4 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
     color: Colors.addGreen,
   },
-  // filterButton: {
-  //   backgroundColor: Colors.blue,
-  //   position: 'absolute',
-  //   left: 10,
-  //   bottom: 30,
-  // },
-  // filterImage: {
-  //   width: 30,
-  //   height: 30,
-  //   alignSelf: 'center',
-  //   marginTop: 5,
-  // },
 });

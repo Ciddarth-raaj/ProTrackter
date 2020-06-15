@@ -29,7 +29,6 @@ export default {
         state: task.state,
         status: task.status,
       });
-      if (count == colors.length) count = 0;
     }
     return tasks;
   },
