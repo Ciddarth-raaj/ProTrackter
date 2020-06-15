@@ -15,7 +15,7 @@ import Colors from '../../constants/colors';
 import API from '../../api';
 
 export default function AddTaskModal(props) {
-  const { visible, setVisible, projectId, users } = props;
+  const { visible, setVisible, projectId, users, getTasks } = props;
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [userId, setUserId] = React.useState(0);
@@ -40,6 +40,7 @@ export default function AddTaskModal(props) {
           setUserId(0);
           setDate();
           alert('Successfully Created');
+          getTasks();
           // setVisible(false);
         } else {
           alert(res.data.msg);

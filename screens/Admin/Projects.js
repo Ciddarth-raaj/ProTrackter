@@ -61,7 +61,7 @@ export default class Projects extends React.Component {
     return projects;
   }
 
-  getProjects() {
+  getProjects = () => {
     API.get('/project')
       .then((res) => {
         // console.log(res.data.projects);
@@ -102,6 +102,7 @@ export default class Projects extends React.Component {
         <AddProjectModal
           visible={addProjectModalVisible}
           setVisible={this.setProjectModalVisible}
+          getProjects={this.getProjects}
         />
 
         <ScrollView

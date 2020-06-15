@@ -113,7 +113,8 @@ export default class Tasks extends React.Component {
     return tasks;
   }
 
-  getTasks(id) {
+  getTasks = () => {
+    id = this.props.route.params.id;
     API.get('/task/company?project_id=' + id)
       .then(async (res) => {
         if (res.data.code === 200) {
@@ -172,6 +173,7 @@ export default class Tasks extends React.Component {
           setVisible={this.setTaskModalVisible}
           projectId={this.props.route.params.id}
           users={users}
+          getTasks={this.getTasks}
         />
 
         <FilterModal
