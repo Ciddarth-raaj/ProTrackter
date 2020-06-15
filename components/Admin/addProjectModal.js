@@ -14,7 +14,7 @@ import Colors from '../../constants/colors';
 import API from '../../api';
 
 export default function AddProjectModal(props) {
-  const { visible, setVisible, getProjects } = props;
+  const {visible, setVisible, getProjects} = props;
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
 
@@ -27,7 +27,7 @@ export default function AddProjectModal(props) {
   };
 
   createProject = (title, description) => {
-    API.post('/project', { label: title, description: description })
+    API.post('/project', {label: title, description: description})
       .then(async (res) => {
         console.log(res.data);
         if (res.data.code === 200) {
@@ -46,9 +46,9 @@ export default function AddProjectModal(props) {
 
   return (
     <Modal animationType="slide" transparent={true} visible={visible}>
-      <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
+      <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>
         <TouchableOpacity
-          style={{ width: '100%', height: '10%', position: 'absolute', top: 0 }}
+          style={{width: '100%', height: '10%', position: 'absolute', top: 0}}
           onPress={() => setVisible(false)}
         />
 
@@ -58,7 +58,7 @@ export default function AddProjectModal(props) {
             onPress={() => setVisible(false)}>
             <Image
               source={require('../../assests/cross_black.png')}
-              style={{ width: 15, height: 15 }}
+              style={{width: 15, height: 15}}
             />
           </TouchableOpacity>
 
@@ -82,7 +82,7 @@ export default function AddProjectModal(props) {
 
               <TextInput
                 placeholder={'Description'}
-                style={[styles.inputBox, { height: 260, paddingTop: 20 }]}
+                style={[styles.inputBox, {height: 260, paddingTop: 20}]}
                 placeholderTextColor={'white'}
                 multiline={true}
                 value={description}
@@ -104,7 +104,7 @@ export default function AddProjectModal(props) {
 
 const styles = StyleSheet.create({
   container: {
-    height: '60%',
+    height: '90%',
     width: '100%',
     justifyContent: 'center',
     position: 'absolute',

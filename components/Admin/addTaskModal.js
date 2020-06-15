@@ -7,15 +7,15 @@ import {
   Modal,
   Image,
   TextInput,
-  Picker
+  Picker,
 } from 'react-native';
-import DatePicker from 'react-native-datepicker'
+import DatePicker from 'react-native-datepicker';
 
 import Colors from '../../constants/colors';
 import API from '../../api';
 
 export default function AddTaskModal(props) {
-  const { visible, setVisible, projectId, users, getTasks } = props;
+  const {visible, setVisible, projectId, users, getTasks} = props;
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [userId, setUserId] = React.useState(0);
@@ -31,7 +31,23 @@ export default function AddTaskModal(props) {
 
   createTask = (title, description, projectId, userId, deadline) => {
     console.log(deadline);
-    API.post('/task', deadline === undefined ? { title: title, description: description, projectId: projectId, userId: userId } : { title: title, description: description, projectId: projectId, userId: userId, deadlineAt: new Date(deadline) })
+    API.post(
+      '/task',
+      deadline === undefined
+        ? {
+            title: title,
+            description: description,
+            projectId: projectId,
+            userId: userId,
+          }
+        : {
+            title: title,
+            description: description,
+            projectId: projectId,
+            userId: userId,
+            deadlineAt: new Date(deadline),
+          },
+    )
       .then(async (res) => {
         console.log(res.data);
         if (res.data.code === 200) {
@@ -53,9 +69,9 @@ export default function AddTaskModal(props) {
 
   return (
     <Modal animationType="slide" transparent={true} visible={visible}>
-      <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
+      <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>
         <TouchableOpacity
-          style={{ width: '100%', height: '10%', position: 'absolute', top: 0 }}
+          style={{width: '100%', height: '10%', position: 'absolute', top: 0}}
           onPress={() => setVisible(false)}
         />
 
@@ -65,80 +81,86 @@ export default function AddTaskModal(props) {
             onPress={() => setVisible(false)}>
             <Image
               source={require('../../assests/cross_black.png')}
-              style={{ width: 15, height: 15 }}
+              style={{width: 15, height: 15}}
             />
           </TouchableOpacity>
 
-          <View
-            style={{
-              marginTop: 50,
-              marginBottom: 20,
-              alignSelf: 'center',
-              width: '90%',
-            }}>
-            <Text style={styles.heading}>Create Task</Text>
+          <ScrollView>
+            <View
+              style={{
+                marginTop: 50,
+                marginBottom: 20,
+                alignSelf: 'center',
+                width: '90%',
+              }}>
+              <Text style={styles.heading}>Create Task</Text>
 
-            <TextInput
-              placeholder={'Task Title'}
-              style={styles.inputBox}
-              placeholderTextColor={'white'}
-              value={title}
-              onChangeText={setTitle}
-            />
+              <TextInput
+                placeholder={'Task Title'}
+                style={styles.inputBox}
+                placeholderTextColor={'white'}
+                value={title}
+                onChangeText={setTitle}
+              />
 
-            <TextInput
-              placeholder={'Description'}
-              style={[styles.inputBox, { height: 260, paddingTop: 20 }]}
-              placeholderTextColor={'white'}
-              multiline={true}
-              value={description}
-              onChangeText={setDescription}
-            />
+              <TextInput
+                placeholder={'Description'}
+                style={[styles.inputBox, {height: 260, paddingTop: 20}]}
+                placeholderTextColor={'white'}
+                multiline={true}
+                value={description}
+                onChangeText={setDescription}
+              />
 
-            <Picker
-              selectedValue={userId}
-              itemStyle={styles.inputBox}
-              onValueChange={setUserId}>
-              {users.map((u) => (
-                <Picker.Item label={u.name} value={u.id} />
-              ))}
-            </Picker>
+              <Picker
+                selectedValue={userId}
+                itemStyle={styles.inputBox}
+                onValueChange={setUserId}>
+                {users.map((u) => (
+                  <Picker.Item label={u.name} value={u.id} />
+                ))}
+              </Picker>
 
-            <View style={{ alignItems: 'center', marginBottom: 15 }}>
-              <View style={{ flexDirection: 'row' }}>
-                <DatePicker
-                  style={{ width: 200 }}
-                  date={date}
-                  mode="date"
-                  placeholder="Select Date (Optional)"
-                  format="DD-MM-YYYY"
-                  minDate={new Date()}
-                  confirmBtnText="Confirm"
-                  cancelBtnText="Cancel"
-                  showIcon={false}
-                  customStyles={{
-                    dateInput: {
-                      marginTop: 0,
-                      borderColor: Colors.blue,
-                      borderWidth: 2,
-                      borderRadius: 10
-                    }
-                  }}
-                  onDateChange={(date) => { setDate(date) }}
-                />
+              <View style={{alignItems: 'center', marginBottom: 15}}>
+                <View style={{flexDirection: 'row'}}>
+                  <DatePicker
+                    style={{width: 200}}
+                    date={date}
+                    mode="date"
+                    placeholder="Select Date (Optional)"
+                    format="DD-MM-YYYY"
+                    minDate={new Date()}
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    showIcon={false}
+                    customStyles={{
+                      dateInput: {
+                        marginTop: 0,
+                        borderColor: Colors.blue,
+                        borderWidth: 2,
+                        borderRadius: 10,
+                      },
+                    }}
+                    onDateChange={(date) => {
+                      setDate(date);
+                    }}
+                  />
 
-                <TouchableOpacity style={{ alignSelf: 'center', marginLeft: 10 }} onPress={() => setDate('')}>
-                  <Text style={{ color: Colors.grey }}>Clear</Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={{alignSelf: 'center', marginLeft: 10}}
+                    onPress={() => setDate('')}>
+                    <Text style={{color: Colors.grey}}>Clear</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => handleCreateProject()}>
-              <Text style={styles.buttonText}>Create</Text>
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => handleCreateProject()}>
+                <Text style={styles.buttonText}>Create</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
         </View>
       </View>
     </Modal>
@@ -147,7 +169,7 @@ export default function AddTaskModal(props) {
 
 const styles = StyleSheet.create({
   container: {
-    height: '70%',
+    height: '90%',
     width: '100%',
     justifyContent: 'center',
     position: 'absolute',

@@ -161,7 +161,7 @@ export default class AddUserModal extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: '50%',
+    height: '90%',
     width: '100%',
     justifyContent: 'center',
     position: 'absolute',
