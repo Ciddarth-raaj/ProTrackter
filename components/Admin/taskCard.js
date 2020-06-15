@@ -5,8 +5,8 @@ import TaskModal from './taskModal';
 
 export default function Header(props) {
     const statusImage = {
-        1: require('../../assests/hourglass.png'),
-        2: require('../../assests/Tick.png'),
+        INPROGRESS: require('../../assests/hourglass.png'),
+        COMPLETED: require('../../assests/Tick.png'),
         3: require('../../assests/hourglass_red.png')
     };
     const { title, assignedTo, color, status, type, description, taskHistory } = props;

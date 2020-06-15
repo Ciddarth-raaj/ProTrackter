@@ -15,7 +15,7 @@ import TaskCard from '../../components/Admin/taskCard';
 import FilterModal from '../../components/Admin/filterModal';
 import AddProjectModal from '../../components/Admin/addProjectModal';
 
-export default class Task extends React.Component {
+export default class Tasks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -217,15 +217,15 @@ export default class Task extends React.Component {
   }
 
   setModalVisibility = (value) => {
-    this.setState({filterModalVisible: value});
+    this.setState({ filterModalVisible: value });
   };
 
   setProjectModalVisible = (value) => {
-    this.setState({addProjectModalVisible: value});
+    this.setState({ addProjectModalVisible: value });
   };
 
   setProjectVisible = (id, value) => {
-    const {projects} = this.state;
+    const { projects } = this.state;
 
     for (i = 0; i < projects.length; i++) {
       if (projects[i].id == id) {
@@ -234,11 +234,11 @@ export default class Task extends React.Component {
       }
     }
 
-    this.setState({projects: projects, noFilter: false});
+    this.setState({ projects: projects, noFilter: false });
   };
 
   clearFilter = () => {
-    const {projects} = this.state;
+    const { projects } = this.state;
 
     for (i = 0; i < projects.length; i++) {
       projects[i].visible = false;
@@ -258,7 +258,7 @@ export default class Task extends React.Component {
           <>
             <Text style={styles.mainTitle}>{l.title}</Text>
 
-            <View style={[Styles.tasksWrapper, {marginBottom: 10}]}>
+            <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
               <TouchableOpacity style={styles.newCard}>
                 <Text style={styles.newCardText}>Add Task</Text>
               </TouchableOpacity>
@@ -283,12 +283,12 @@ export default class Task extends React.Component {
   }
 
   render() {
-    const {projects, filterModalVisible, addProjectModalVisible} = this.state;
-    const {navigation} = this.props;
+    const { projects, filterModalVisible, addProjectModalVisible } = this.state;
+    const { navigation } = this.props;
 
     return (
       <>
-        <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
+        <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
 
         <AddProjectModal
           visible={addProjectModalVisible}
@@ -305,18 +305,18 @@ export default class Task extends React.Component {
 
         <ScrollView
           showsHorizontalScrollIndicator={false}
-          style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
-          <View style={{flexDirection: 'row'}}>
+          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
+          <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity
               onPress={() => navigation.pop()}
-              style={{alignSelf: 'center', marginRight: 10}}>
+              style={{ alignSelf: 'center', marginRight: 10 }}>
               <Image
                 source={require('../../assests/back.png')}
                 style={styles.backButton}
               />
             </TouchableOpacity>
             <Text
-              style={[Styles.headingText, {marginTop: 10, marginBottom: 10}]}>
+              style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>
               Tasks
             </Text>
           </View>
@@ -331,7 +331,7 @@ export default class Task extends React.Component {
 
         <TouchableOpacity
           style={[styles.filterButton, styles.floatingButton]}
-          onPress={() => this.setState({filterModalVisible: true})}>
+          onPress={() => this.setState({ filterModalVisible: true })}>
           <Image
             source={require('../../assests/filter.png')}
             style={styles.filterImage}

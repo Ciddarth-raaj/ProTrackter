@@ -1,7 +1,7 @@
 import React from 'react';
-import {StatusBar} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 global.token = null;
 
@@ -13,6 +13,7 @@ import Login from './screens/User/Login';
 import Menu from './screens/User/Menu';
 
 import AdminHome from './screens/Admin/Home';
+import AdminProjects from './screens/Admin/Projects';
 import AdminTasks from './screens/Admin/Tasks';
 import AdminUsers from './screens/Admin/Users';
 
@@ -26,46 +27,52 @@ function MyStack() {
         <Stack.Screen
           name="Splash"
           component={Splash}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="Menu"
           component={Menu}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name="AdminHome"
           component={AdminHome}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name="Home"
           component={Home}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name="Tasks"
           component={Tasks}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name="AdminTasks"
           component={AdminTasks}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="AdminProjects"
+          component={AdminProjects}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name="AdminUsers"
           component={AdminUsers}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
