@@ -2,21 +2,53 @@ import React from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import TaskModal from './taskModal';
+import BottomMenu from '../../util/bottomMenu';
+import API from '../../api';
 
 export default function Header(props) {
     const statusImage = {
         INPROGRESS: require('../../assests/hourglass.png'),
         COMPLETED: require('../../assests/Tick.png'),
-        3: require('../../assests/hourglass_red.png')
+        CLOSED: require('../../assests/hourglass_red.png')
     };
-    const { id, title, assignedTo, color, status, type, description } = props;
+    const { id, title, assignedTo, color, type, description } = props;
     const [visible, setVisible] = React.useState(false);
+    const [isOptionsVisible, setOptionsVisible] = React.useState(false);
+    const [status, setStatus] = React.useState(props.status);
+
+    changeState = (val) => {
+        if (val == 'CLOSED')
+            url = '/task/close';
+        else
+            url = '/task/open';
+
+        API.patch(url, { taskId: id })
+            .then(async (res) => {
+                console.log(res.data);
+                if (res.data.code === 200) {
+                    alert(res.data.msg);
+                    setStatus(val);
+                } else {
+                    alert(res.data.msg);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     return (
         <TouchableOpacity
             style={{ width: '100%' }}
             onPress={() => type != 'modal' && setVisible(true)}
-            activeOpacity={type == 'modal' ? 1 : 0.8}>
+            activeOpacity={type == 'modal' ? 1 : 0.8}
+            onLongPress={() => setOptionsVisible(true)}>
+
+            <BottomMenu
+                visible={isOptionsVisible}
+                setVisible={setOptionsVisible}
+                options={status === 'INPROGRESS' ? [{ title: 'Close', onPress: () => changeState('CLOSED') }] : [{ title: 'Reopen', onPress: () => changeState('INPROGRESS') }]}
+            />
 
             <TaskModal
                 visible={visible}
