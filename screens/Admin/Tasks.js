@@ -19,201 +19,92 @@ export default class Tasks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter: 'Product',
       filterModalVisible: false,
       noFilter: true,
       addProjectModalVisible: false,
-      projects: [
+      title: 'Tasks',
+      tasks: [
         {
           id: 1,
-          title: 'Project 1',
+          title: 'Test',
+          assignedTo: 'Ciddarth',
+          color: Colors.blue,
+          status: 'INPROGRESS',
           visible: false,
-          tasks: [
+          description: 'This is test description',
+          taskHistory: [
             {
               id: 1,
-              title: 'Test',
-              assignedTo: 'Ciddarth',
-              color: Colors.blue,
-              status: 1,
-              description: 'This is test description',
-              taskHistory: [
-                {
-                  id: 1,
-                  title: 'Task3',
-                  date: 'Wed Jun 03 2020',
-                },
-                {
-                  id: 2,
-                  title: 'Task4',
-                  date: 'Wed Jun 03 2020',
-                },
-              ],
+              title: 'Task3',
+              date: 'Wed Jun 03 2020',
             },
             {
-              id: 1,
-              title: 'Test 123',
-              assignedTo: 'Ciddarth',
-              color: Colors.orange,
-              status: 3,
-              description: 'This is test description',
-              taskHistory: [
-                {
-                  id: 1,
-                  title: 'Task3',
-                  date: 'Wed Jun 03 2020',
-                },
-                {
-                  id: 2,
-                  title: 'Task4',
-                  date: 'Wed Jun 03 2020',
-                },
-              ],
-            },
-            {
-              id: 1,
-              title: 'Test 123',
-              assignedTo: 'Ciddarth',
-              color: Colors.purple,
-              status: 3,
-              description: 'This is test description',
-              taskHistory: [
-                {
-                  id: 1,
-                  title: 'Task3',
-                  date: 'Wed Jun 03 2020',
-                },
-                {
-                  id: 2,
-                  title: 'Task4',
-                  date: 'Wed Jun 03 2020',
-                },
-              ],
+              id: 2,
+              title: 'Task4',
+              date: 'Wed Jun 03 2020',
             },
           ],
         },
         {
-          id: 2,
-          title: 'Project 2',
+          id: 1,
+          title: 'Test 123',
+          assignedTo: 'Ciddarth',
           visible: false,
-          tasks: [
+          color: Colors.orange,
+          status: 'INPROGRESS',
+          description: 'This is test description',
+          taskHistory: [
             {
               id: 1,
-              title: 'Test',
-              assignedTo: 'Ciddarth',
-              color: Colors.blue,
-              status: 1,
-              description: 'This is test description',
-              taskHistory: [
-                {
-                  id: 1,
-                  title: 'Task3',
-                  date: 'Wed Jun 03 2020',
-                },
-                {
-                  id: 2,
-                  title: 'Task4',
-                  date: 'Wed Jun 03 2020',
-                },
-              ],
+              title: 'Task3',
+              date: 'Wed Jun 03 2020',
             },
             {
-              id: 1,
-              title: 'Test 123',
-              assignedTo: 'Ciddarth',
-              color: Colors.orange,
-              status: 3,
-              description: 'This is test description',
-              taskHistory: [
-                {
-                  id: 1,
-                  title: 'Task3',
-                  date: 'Wed Jun 03 2020',
-                },
-                {
-                  id: 2,
-                  title: 'Task4',
-                  date: 'Wed Jun 03 2020',
-                },
-              ],
-            },
-            {
-              id: 1,
-              title: 'Test 123',
-              assignedTo: 'Ciddarth',
-              color: Colors.purple,
-              status: 2,
-              description: 'This is test description',
-              taskHistory: [
-                {
-                  id: 1,
-                  title: 'Task3',
-                  date: 'Wed Jun 03 2020',
-                },
-                {
-                  id: 2,
-                  title: 'Task4',
-                  date: 'Wed Jun 03 2020',
-                },
-              ],
+              id: 2,
+              title: 'Task4',
+              date: 'Wed Jun 03 2020',
             },
           ],
         },
         {
-          id: 3,
-          title: 'Project 3',
+          id: 1,
+          title: 'Test 123',
+          assignedTo: 'Ciddarth',
           visible: false,
-          tasks: [
+          color: Colors.purple,
+          status: 'COMPLETED',
+          description: 'This is test description',
+          taskHistory: [
             {
               id: 1,
-              title: 'Test',
-              assignedTo: 'Ciddarth',
-              color: Colors.blue,
-              status: 1,
-              description: 'This is test description',
-              taskHistory: [
-                {
-                  id: 1,
-                  title: 'Task3',
-                  date: 'Wed Jun 03 2020',
-                },
-                {
-                  id: 2,
-                  title: 'Task4',
-                  date: 'Wed Jun 03 2020',
-                },
-              ],
+              title: 'Task3',
+              date: 'Wed Jun 03 2020',
             },
-          ],
-        },
-        {
-          id: 4,
-          title: 'Project 4',
-          visible: false,
-          tasks: [
             {
-              id: 1,
-              title: 'Test',
-              assignedTo: 'Ciddarth',
-              color: Colors.blue,
-              status: 1,
-              description: 'This is test description',
-              taskHistory: [
-                {
-                  id: 1,
-                  title: 'Task3',
-                  date: 'Wed Jun 03 2020',
-                },
-                {
-                  id: 2,
-                  title: 'Task4',
-                  date: 'Wed Jun 03 2020',
-                },
-              ],
+              id: 2,
+              title: 'Task4',
+              date: 'Wed Jun 03 2020',
             },
           ],
         },
       ],
     };
+  }
+
+  filterTasks = (status, val) => {
+    const { tasks } = this.state;
+
+    tasks.forEach((t) => {
+      if (t.status == status)
+        t.visible = val;
+    });
+
+    this.setState({ tasks: tasks, noFilter: false });
+  }
+
+  componentDidMount() {
+    params = this.props.route.params;
+    this.setState({ title: params.title });
   }
 
   setModalVisibility = (value) => {
@@ -224,82 +115,49 @@ export default class Tasks extends React.Component {
     this.setState({ addProjectModalVisible: value });
   };
 
-  setProjectVisible = (id, value) => {
-    const { projects } = this.state;
-
-    for (i = 0; i < projects.length; i++) {
-      if (projects[i].id == id) {
-        projects[i].visible = value;
-        break;
-      }
-    }
-
-    this.setState({ projects: projects, noFilter: false });
-  };
-
   clearFilter = () => {
-    const { projects } = this.state;
+    const { tasks } = this.state;
 
-    for (i = 0; i < projects.length; i++) {
-      projects[i].visible = false;
-    }
+    tasks.forEach((t) => t.visible = false)
 
     this.setState({
-      projects: projects,
+      tasks: tasks,
       noFilter: true,
       filterModalVisible: false,
     });
   };
 
   renderCards(list) {
-    return list.map((l) => (
-      <>
-        {(this.state.noFilter || l.visible) && (
-          <>
-            <Text style={styles.mainTitle}>{l.title}</Text>
-
-            <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
-              <TouchableOpacity style={styles.newCard}>
-                <Text style={styles.newCardText}>Add Task</Text>
-              </TouchableOpacity>
-
-              {l.tasks.map((t) => {
-                return (
-                  <TaskCard
-                    title={t.title}
-                    assignedTo={t.assignedTo}
-                    color={t.color}
-                    status={t.status}
-                    description={t.description}
-                    taskHistory={t.taskHistory}
-                  />
-                );
-              })}
-            </View>
-          </>
-        )}
-      </>
+    return list.map((t) => (
+      (this.state.noFilter || t.visible) &&
+      <TaskCard
+        title={t.title}
+        assignedTo={t.assignedTo}
+        color={t.color}
+        status={t.status}
+        description={t.description}
+        taskHistory={t.taskHistory}
+      />
     ));
   }
 
   render() {
-    const { projects, filterModalVisible, addProjectModalVisible } = this.state;
+    const { tasks, filterModalVisible, addProjectModalVisible, title } = this.state;
     const { navigation } = this.props;
 
     return (
       <>
         <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
 
-        <AddProjectModal
+        {/* <AddProjectModal
           visible={addProjectModalVisible}
           setVisible={this.setProjectModalVisible}
-        />
+        /> */}
 
         <FilterModal
           visible={filterModalVisible}
           setVisible={this.setModalVisibility}
-          projects={projects}
-          setProjectVisible={this.setProjectVisible}
+          filterTasks={this.filterTasks}
           clearFilter={this.clearFilter}
         />
 
@@ -317,11 +175,14 @@ export default class Tasks extends React.Component {
             </TouchableOpacity>
             <Text
               style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>
-              Tasks
+              {title}
             </Text>
           </View>
 
-          {this.renderCards(projects)}
+          <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
+            {this.renderCards(tasks)}
+          </View>
+
         </ScrollView>
         <TouchableOpacity
           style={[styles.addProjectButton, styles.floatingButton]}

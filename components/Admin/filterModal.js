@@ -5,7 +5,29 @@ import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
 
 export default function FilterModal(props) {
-    const { visible, setVisible, projects, setProjectVisible, clearFilter } = props;
+    const { visible, setVisible, filterTasks, clearFilter } = props;
+    const [options, setOptions] = React.useState([
+        {
+            title: 'In Progress',
+            key: 'INPROGRESS',
+            selected: false,
+        },
+        {
+            title: 'Completed',
+            key: 'COMPLETED',
+            selected: false,
+        }
+    ]);
+
+    setSelected = (key, val) => {
+        options.forEach((o) => {
+            if (o.key === key) {
+                o.selected = val;
+            }
+        });
+
+        setOptions(options);
+    }
 
     return (
         <Modal
@@ -31,17 +53,19 @@ export default function FilterModal(props) {
                             <TouchableOpacity onPress={() => clearFilter()}>
                                 <Text style={{ textAlign: 'center', color: 'red' }}>Clear</Text>
                             </TouchableOpacity>
+
                             {
-                                projects.map((p) => (
+                                options.map((o) => (
                                     <TouchableOpacity style={styles.projectTitleWrapper}
-                                        onPress={() => setProjectVisible(p.id, !p.visible)}>
-                                        <Text style={styles.projectTitle}>{p.title}</Text>
+                                        onPress={() => { filterTasks(o.key, !o.selected); setSelected(o.key, !o.selected) }}>
+                                        <Text style={styles.projectTitle}>{o.title}</Text>
                                         {
-                                            p.visible && <Image source={require('../../assests/tick_blue.png')} style={styles.tick} />
+                                            o.selected && <Image source={require('../../assests/tick_blue.png')} style={styles.tick} />
                                         }
                                     </TouchableOpacity>
                                 ))
                             }
+
                         </View>
                     </ScrollView>
 
