@@ -11,7 +11,6 @@ export default function Splash({navigation}) {
     }
 
     API.updateToken(token);
-    console.log(API.defaults.headers);
 
     const roleId = await AsyncStorage.getItem('role_id');
     if (roleId == 2 || roleId == 1) {

@@ -4,8 +4,9 @@ import {
   Image,
   Text,
   StyleSheet,
-  TouchableOpacity,
+  Button,
   AsyncStorage,
+  TouchableOpacity,
 } from 'react-native';
 
 import BottomMenu from '../util/bottomMenu';
@@ -30,6 +31,12 @@ export default class Header extends React.Component {
   async componentDidMount() {
     this.getUserDetails();
     this.getAllStatus();
+  }
+
+  logout() {
+    const {navigation} = this.props;
+    AsyncStorage.clear();
+    navigation.navigate('Login');
   }
 
   getUserDetails() {
@@ -119,6 +126,14 @@ export default class Header extends React.Component {
             </Text>
           </TouchableOpacity>
           <Text style={styles.date}>{date}</Text>
+        </View>
+        <View style={{justifyContent: 'flex-end', flex: 1}}>
+          <Button
+            title="Logout"
+            onPress={() => {
+              this.logout();
+            }}
+          />
         </View>
         <BottomMenu
           visible={isStatusModalOpen}

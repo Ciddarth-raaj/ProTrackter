@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, Text, View, StyleSheet } from 'react-native';
+import {SafeAreaView, ScrollView, Text, View, StyleSheet} from 'react-native';
 
 import Header from '../../components/header';
 import Styles from '../../constants/styles';
@@ -61,14 +61,14 @@ export default class Home extends React.Component {
     API.get('/task/stats')
       .then((res) => {
         if (res.data.code === 200) {
-          const { items } = this.state;
+          const {items} = this.state;
           for (const key in items) {
             items[key].notificationCount = res.data.stats[key];
           }
-          this.setState({ items: items });
+          this.setState({items: items});
         }
       })
-      .catch((err) => { });
+      .catch((err) => {});
   }
 
   getTasks() {
@@ -77,7 +77,7 @@ export default class Home extends React.Component {
         console.log(res.data.tasks);
         if (res.data.code === 200) {
           const tasks = util.formatResponse(res.data.tasks);
-          this.setState({ tasks: tasks });
+          this.setState({tasks: tasks});
         } else {
           alert(res.data.msg);
         }
@@ -88,14 +88,15 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const { tasks, items } = this.state;
+    const {tasks, items} = this.state;
+    const {navigation} = this.props;
     return (
       <>
-        <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
+        <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
         <ScrollView
-          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
-          <Header />
-          <Text style={[Styles.headingText, { marginTop: 10 }]}>Today</Text>
+          style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
+          <Header navigation={navigation} />
+          <Text style={[Styles.headingText, {marginTop: 10}]}>Today</Text>
           <View style={styles.cardWrapper}>
             {Object.keys(items).map((i) => (
               <HomeCard
@@ -111,7 +112,7 @@ export default class Home extends React.Component {
             ))}
           </View>
 
-          <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
+          <View style={[Styles.tasksWrapper, {marginBottom: 10}]}>
             {tasks.map((t) => (
               <TaskCard
                 key={'task-' + t.id}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, Text, View, StyleSheet } from 'react-native';
+import {SafeAreaView, ScrollView, Text, View, StyleSheet} from 'react-native';
 
 import Colors from '../../constants/colors';
 import Header from '../../components/header';
@@ -49,13 +49,14 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const { items } = this.state;
+    const {items} = this.state;
+    const {navigation} = this.props;
     return (
       <>
-        <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
+        <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
         <ScrollView
-          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
-          <Header name={'Ciddarth Raaj'} />
+          style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
+          <Header navigation={navigation} />
           <View style={styles.cardWrapper}>
             {items.map((i) => (
               <HomeCard
@@ -72,7 +73,7 @@ export default class Home extends React.Component {
             ))}
           </View>
         </ScrollView>
-        <SafeAreaView style={{ backgroundColor: Colors.background }} />
+        <SafeAreaView style={{backgroundColor: Colors.background}} />
       </>
     );
   }
