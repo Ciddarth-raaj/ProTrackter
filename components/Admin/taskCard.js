@@ -10,6 +10,7 @@ export default function Header(props) {
     INPROGRESS: require('../../assests/hourglass.png'),
     COMPLETED: require('../../assests/Tick.png'),
     CLOSED: require('../../assests/cross_red.png'),
+    OVERDUE: require('../../assests/hourglass_red.png')
   };
   const { id, title, assignedTo, color, type, description } = props;
   const [visible, setVisible] = React.useState(false);

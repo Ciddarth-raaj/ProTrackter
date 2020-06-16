@@ -9,6 +9,7 @@ const statusImage = {
   INPROGRESS: require('../assests/hourglass.png'),
   COMPLETED: require('../assests/Tick.png'),
   CLOSED: require('../assests/cross_red.png'),
+  OVERDUE: require('../../assests/hourglass_red.png')
 };
 
 export default class TaskCard extends React.Component {
