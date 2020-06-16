@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, Text, View, StyleSheet} from 'react-native';
+import { SafeAreaView, ScrollView, Text, View, StyleSheet } from 'react-native';
 
 import Colors from '../../constants/colors';
 import Header from '../../components/header';
@@ -14,7 +14,7 @@ export default class Home extends React.Component {
       items: [
         {
           title: 'Projects',
-          image: require('../../assests/clock.png'),
+          image: require('../../assests/projects.png'),
           color: Colors.purple,
           lightColor: Colors.purpleLight,
           notificationCount: 0,
@@ -22,7 +22,7 @@ export default class Home extends React.Component {
         },
         {
           title: 'Users',
-          image: require('../../assests/refresh.png'),
+          image: require('../../assests/users.png'),
           color: Colors.blue,
           lightColor: Colors.blueLight,
           notificationCount: 0,
@@ -30,7 +30,7 @@ export default class Home extends React.Component {
         },
         {
           title: 'Reports',
-          image: require('../../assests/new.png'),
+          image: require('../../assests/stats.png'),
           color: Colors.green,
           lightColor: Colors.greenLight,
           notificationCount: 0,
@@ -38,7 +38,7 @@ export default class Home extends React.Component {
         },
         {
           title: 'Settings',
-          image: require('../../assests/warning.png'),
+          image: require('../../assests/settings.png'),
           color: Colors.red,
           lightColor: Colors.redLight,
           notificationCount: 0,
@@ -49,13 +49,13 @@ export default class Home extends React.Component {
   }
 
   render() {
-    const {items} = this.state;
-    const {navigation} = this.props;
+    const { items } = this.state;
+    const { navigation } = this.props;
     return (
       <>
-        <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
+        <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
         <ScrollView
-          style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
+          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
           <Header navigation={navigation} />
           <View style={styles.cardWrapper}>
             {items.map((i) => (
@@ -73,7 +73,7 @@ export default class Home extends React.Component {
             ))}
           </View>
         </ScrollView>
-        <SafeAreaView style={{backgroundColor: Colors.background}} />
+        <SafeAreaView style={{ backgroundColor: Colors.background }} />
       </>
     );
   }
