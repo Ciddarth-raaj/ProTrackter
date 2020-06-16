@@ -23,7 +23,7 @@ export default {
         id: task.task_id,
         title: task.title,
         product: task.label,
-        assignee: 'Ciddarth',
+        assignee: '',
         color: colors[count++],
         description: task.description,
         state: task.state,
