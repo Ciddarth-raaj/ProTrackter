@@ -53,8 +53,15 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    this.getTaskStats();
+    this.onFocus = this.props.navigation.addListener('focus', () => {
+      this.getTaskStats();
+    });
+
     this.getTasks();
+  }
+
+  componentWillUnmount() {
+    this.props.navigation.removeListener('focus', this.onFocus);
   }
 
   getTaskStats() {
