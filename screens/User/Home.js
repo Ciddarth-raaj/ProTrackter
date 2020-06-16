@@ -94,6 +94,7 @@ export default class Home extends React.Component {
       <>
         <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
         <ScrollView
+          showsVerticalScrollIndicator={false}
           style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
           <Header navigation={navigation} />
           <Text style={[Styles.headingText, {marginTop: 10}]}>Today</Text>

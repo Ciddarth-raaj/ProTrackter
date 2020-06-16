@@ -23,8 +23,7 @@ export default class Projects extends React.Component {
       filterModalVisible: false,
       noFilter: true,
       addProjectModalVisible: false,
-      projects: [
-      ],
+      projects: [],
     };
   }
 
@@ -54,7 +53,7 @@ export default class Projects extends React.Component {
         id: project.project_id,
         title: project.label,
         description: project.description,
-        color: colors[count++]
+        color: colors[count++],
       });
     }
 
@@ -67,7 +66,7 @@ export default class Projects extends React.Component {
         // console.log(res.data.projects);
         if (res.data.code === 200) {
           const projects = this.formatResponse(res.data.projects);
-          this.setState({ projects: projects });
+          this.setState({projects: projects});
         } else {
           alert(res.data.msg);
         }
@@ -75,29 +74,36 @@ export default class Projects extends React.Component {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   setProjectModalVisible = (value) => {
-    this.setState({ addProjectModalVisible: value });
+    this.setState({addProjectModalVisible: value});
   };
 
   renderCards(list) {
     return list.map((l) => (
       <>
         {(this.state.noFilter || l.visible) && (
-          <ProjectCard id={l.id} title={l.title} description={l.description} navigation={this.props.navigation} color={l.color} />
+          <ProjectCard
+            key={'project-' + l.id}
+            id={l.id}
+            title={l.title}
+            description={l.description}
+            navigation={this.props.navigation}
+            color={l.color}
+          />
         )}
       </>
     ));
   }
 
   render() {
-    const { projects, addProjectModalVisible } = this.state;
-    const { navigation } = this.props;
+    const {projects, addProjectModalVisible} = this.state;
+    const {navigation} = this.props;
 
     return (
       <>
-        <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
+        <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
 
         <AddProjectModal
           visible={addProjectModalVisible}
@@ -107,24 +113,23 @@ export default class Projects extends React.Component {
 
         <ScrollView
           showsHorizontalScrollIndicator={false}
-          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
-          <View style={{ flexDirection: 'row' }}>
+          style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
+          <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               onPress={() => navigation.pop()}
-              style={{ alignSelf: 'center', marginRight: 10 }}>
+              style={{alignSelf: 'center', marginRight: 10}}>
               <Image
                 source={require('../../assests/back.png')}
                 style={styles.backButton}
               />
             </TouchableOpacity>
             <Text
-              style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>
+              style={[Styles.headingText, {marginTop: 10, marginBottom: 10}]}>
               Projects
             </Text>
           </View>
 
           {this.renderCards(projects)}
-
         </ScrollView>
         <TouchableOpacity
           style={[styles.addProjectButton, styles.floatingButton]}
