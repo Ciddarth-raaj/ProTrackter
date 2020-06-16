@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import TaskModal from '../components/taskModal';
 import BottomMenu from '../util/bottomMenu';
@@ -8,7 +8,8 @@ import API from '../api';
 const statusImage = {
   INPROGRESS: require('../assests/hourglass.png'),
   COMPLETED: require('../assests/Tick.png'),
-  3: require('../assests/hourglass_red.png'),
+  CLOSED: require('../assests/cross_red.png'),
+  OVERDUE: require('../assests/hourglass_red.png')
 };
 
 export default class TaskCard extends React.Component {
@@ -22,12 +23,12 @@ export default class TaskCard extends React.Component {
   }
 
   setTaskState(state) {
-    const {id} = this.props;
+    const { id } = this.props;
 
-    API.patch('/task/state', {taskId: id, state: state})
+    API.patch('/task/state', { taskId: id, state: state })
       .then(async (res) => {
         if (res.data.code === 200) {
-          this.setState({taskState: state, isOptionsVisible: false});
+          this.setState({ taskState: state, isOptionsVisible: false });
         } else {
           alert(res.data.msg);
         }
@@ -38,7 +39,7 @@ export default class TaskCard extends React.Component {
   }
 
   render() {
-    const {taskState, isOptionsVisible, isModalVisible} = this.state;
+    const { taskState, isOptionsVisible, isModalVisible } = this.state;
 
     const {
       id,
@@ -71,14 +72,14 @@ export default class TaskCard extends React.Component {
 
     return (
       <TouchableOpacity
-        style={{width: '100%'}}
-        onPress={() => type != 'modal' && this.setState({isModalVisible: true})}
+        style={{ width: '100%' }}
+        onPress={() => type != 'modal' && this.setState({ isModalVisible: true })}
         activeOpacity={type == 'modal' ? 1 : 0.8}
-        onLongPress={() => this.setState({isOptionsVisible: true})}>
+        onLongPress={() => this.setState({ isOptionsVisible: true })}>
         <BottomMenu
           visible={isOptionsVisible}
           setVisible={(isVisible) => {
-            this.setState({isOptionsVisible: isVisible});
+            this.setState({ isOptionsVisible: isVisible });
           }}
           options={options}
         />
@@ -87,7 +88,7 @@ export default class TaskCard extends React.Component {
           taskId={id}
           visible={isModalVisible}
           setVisible={(isVisible) => {
-            this.setState({isModalVisible: isVisible});
+            this.setState({ isModalVisible: isVisible });
           }}
           color={color}
           title={title}
@@ -101,8 +102,8 @@ export default class TaskCard extends React.Component {
         <View
           style={[
             styles.container,
-            {backgroundColor: color},
-            type == 'modal' && {padding: 0},
+            { backgroundColor: color },
+            type == 'modal' && { padding: 0 },
           ]}>
           {type != 'modal' && (
             <Image
@@ -110,7 +111,7 @@ export default class TaskCard extends React.Component {
               style={styles.expandImage}
             />
           )}
-          <View style={{paddingRight: 80}}>
+          <View style={{ paddingRight: 80 }}>
             <Text
               numberOfLines={type == 'modal' ? 0 : 1}
               style={[styles.title, styles.containerText]}>
@@ -123,7 +124,7 @@ export default class TaskCard extends React.Component {
               style={[
                 styles.assignee,
                 styles.containerText,
-                {marginBottom: 0},
+                { marginBottom: 0 },
               ]}>
               {assignee}
             </Text>

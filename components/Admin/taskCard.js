@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import TaskModal from './taskModal';
 import BottomMenu from '../../util/bottomMenu';
@@ -9,9 +9,10 @@ export default function Header(props) {
   const statusImage = {
     INPROGRESS: require('../../assests/hourglass.png'),
     COMPLETED: require('../../assests/Tick.png'),
-    CLOSED: require('../../assests/hourglass_red.png'),
+    CLOSED: require('../../assests/cross_red.png'),
+    OVERDUE: require('../../assests/hourglass_red.png')
   };
-  const {id, title, assignedTo, color, type, description} = props;
+  const { id, title, assignedTo, color, type, description } = props;
   const [visible, setVisible] = React.useState(false);
   const [isOptionsVisible, setOptionsVisible] = React.useState(false);
   const [status, setStatus] = React.useState(props.status);
@@ -20,7 +21,7 @@ export default function Header(props) {
     if (val == 'CLOSED') url = '/task/close';
     else url = '/task/open';
 
-    API.patch(url, {taskId: id})
+    API.patch(url, { taskId: id })
       .then(async (res) => {
         console.log(res.data);
         if (res.data.code === 200) {
@@ -36,7 +37,7 @@ export default function Header(props) {
 
   return (
     <TouchableOpacity
-      style={{width: '100%'}}
+      style={{ width: '100%' }}
       onPress={() => type != 'modal' && setVisible(true)}
       activeOpacity={type == 'modal' ? 1 : 0.8}
       onLongPress={() => setOptionsVisible(true)}>
@@ -45,8 +46,8 @@ export default function Header(props) {
         setVisible={setOptionsVisible}
         options={
           status === 'INPROGRESS'
-            ? [{title: 'Close', onPress: () => changeState('CLOSED')}]
-            : [{title: 'Reopen', onPress: () => changeState('INPROGRESS')}]
+            ? [{ title: 'Close', onPress: () => changeState('CLOSED') }]
+            : [{ title: 'Reopen', onPress: () => changeState('INPROGRESS') }]
         }
       />
 
@@ -64,8 +65,8 @@ export default function Header(props) {
       <View
         style={[
           styles.container,
-          {backgroundColor: type === 'usermodal' ? 'white' : color},
-          type == 'modal' && {paddingHorizontal: 0},
+          { backgroundColor: type === 'usermodal' ? 'white' : color },
+          type == 'modal' && { paddingHorizontal: 0 },
         ]}>
         {type != 'modal' && (
           <Image
@@ -73,13 +74,13 @@ export default function Header(props) {
             style={styles.expandImage}
           />
         )}
-        <View style={{paddingRight: 80}}>
+        <View style={{ paddingRight: 80 }}>
           <Text
             numberOfLines={type == 'modal' ? 0 : 1}
             style={[
               styles.title,
               styles.containerText,
-              type === 'usermodal' && {color: 'black'},
+              type === 'usermodal' && { color: 'black' },
             ]}>
             {title}
           </Text>
@@ -87,8 +88,8 @@ export default function Header(props) {
             style={[
               styles.assignee,
               styles.containerText,
-              {marginBottom: 0},
-              type === 'usermodal' && {color: 'black'},
+              { marginBottom: 0 },
+              type === 'usermodal' && { color: 'black' },
             ]}>
             {assignedTo}
           </Text>
