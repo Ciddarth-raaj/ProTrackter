@@ -10,6 +10,7 @@ import {
   ScrollView,
   Picker,
 } from 'react-native';
+import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
 
 import Colors from '../../constants/colors';
@@ -20,7 +21,7 @@ export default function AddTaskModal(props) {
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [userId, setUserId] = React.useState(0);
-  const [date, setDate] = React.useState();
+  const [date, setDate] = React.useState(null);
 
   handleCreateProject = () => {
     if (title === '' || description === '' || userId === 0) {
@@ -31,24 +32,18 @@ export default function AddTaskModal(props) {
   };
 
   createTask = (title, description, projectId, userId, deadline) => {
-    console.log(deadline);
-    API.post(
-      '/task',
-      deadline === undefined
-        ? {
-            title: title,
-            description: description,
-            projectId: projectId,
-            userId: userId,
-          }
-        : {
-            title: title,
-            description: description,
-            projectId: projectId,
-            userId: userId,
-            deadlineAt: new Date(deadline),
-          },
-    )
+    const body = {
+      title: title,
+      description: description,
+      projectId: projectId,
+      userId: userId,
+    };
+
+    if (deadline !== null) {
+      body.deadlineAt = moment(deadline, 'DD-MM-YYYY').toDate();
+    }
+
+    API.post('/task', body)
       .then(async (res) => {
         console.log(res.data);
         if (res.data.code === 200) {
@@ -129,7 +124,7 @@ export default function AddTaskModal(props) {
                     date={date}
                     mode="date"
                     placeholder="Select Date (Optional)"
-                    format="YYYY-MM-DD"
+                    format="DD-MM-YYYY"
                     minDate={new Date()}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"

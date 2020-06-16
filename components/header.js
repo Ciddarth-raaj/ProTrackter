@@ -28,7 +28,14 @@ export default class Header extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    AsyncStorage.getItem('firstName', (err, value) => {
+      if (err) {
+        return;
+      }
+      this.setState({fName: value, date: new Date().toDateString()});
+    });
+
     this.getUserDetails();
     this.getAllStatus();
   }
@@ -43,10 +50,10 @@ export default class Header extends React.Component {
     API.get('/user/details')
       .then((res) => {
         if (res.data.code === 200) {
+          AsyncStorage.setItem('firstName', res.data.details.first_name);
           const userDetails = {
             fName: res.data.details.first_name,
             status: res.data.details.status,
-            date: new Date().toDateString(),
           };
 
           this.setState(userDetails);

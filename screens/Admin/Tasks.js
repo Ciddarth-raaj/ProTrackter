@@ -25,41 +25,40 @@ export default class Tasks extends React.Component {
       addTaskModalVisible: false,
       title: 'Tasks',
       users: [],
-      tasks: []
+      tasks: [],
     };
   }
 
   filterTasks = (status, val) => {
-    const { tasks } = this.state;
+    const {tasks} = this.state;
 
     tasks.forEach((t) => {
-      if (t.status == status)
-        t.visible = val;
+      if (t.status == status) t.visible = val;
     });
 
-    this.setState({ tasks: tasks, noFilter: false });
-  }
+    this.setState({tasks: tasks, noFilter: false});
+  };
 
   componentDidMount() {
     params = this.props.route.params;
-    this.setState({ title: params.title });
+    this.setState({title: params.title});
 
     this.getUsers();
     this.getTasks(params.id);
   }
 
   setModalVisibility = (value) => {
-    this.setState({ filterModalVisible: value });
+    this.setState({filterModalVisible: value});
   };
 
   setTaskModalVisible = (value) => {
-    this.setState({ addTaskModalVisible: value });
+    this.setState({addTaskModalVisible: value});
   };
 
   clearFilter = () => {
-    const { tasks } = this.state;
+    const {tasks} = this.state;
 
-    tasks.forEach((t) => t.visible = false)
+    tasks.forEach((t) => (t.visible = false));
 
     this.setState({
       tasks: tasks,
@@ -69,17 +68,20 @@ export default class Tasks extends React.Component {
   };
 
   renderCards(list) {
-    return list.map((t) => (
-      (this.state.noFilter || t.visible) &&
-      <TaskCard
-        id={t.id}
-        title={t.title}
-        assignedTo={t.assignedTo}
-        color={t.color}
-        status={t.status}
-        description={t.description}
-      />
-    ));
+    return list.map(
+      (t) =>
+        (this.state.noFilter || t.visible) && (
+          <TaskCard
+            key={'task-' + t.id}
+            id={t.id}
+            title={t.title}
+            assignedTo={t.assignedTo}
+            color={t.color}
+            status={t.status}
+            description={t.description}
+          />
+        ),
+    );
   }
 
   formatTasks(res) {
@@ -107,7 +109,7 @@ export default class Tasks extends React.Component {
         color: colors[count++],
         status: task.status,
         description: task.description,
-      })
+      });
     }
 
     return tasks;
@@ -119,7 +121,7 @@ export default class Tasks extends React.Component {
       .then(async (res) => {
         if (res.data.code === 200) {
           tasks = this.formatTasks(res.data.tasks);
-          this.setState({ tasks: tasks });
+          this.setState({tasks: tasks});
         } else {
           alert(res.data.msg);
         }
@@ -127,13 +129,13 @@ export default class Tasks extends React.Component {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   formatUsers(response) {
     const users = [];
     users.push({
       id: 0,
-      name: 'Select an User'
+      name: 'Select an User',
     });
     for (const user of response) {
       users.push({
@@ -150,7 +152,7 @@ export default class Tasks extends React.Component {
       .then(async (res) => {
         if (res.data.code === 200) {
           users = await this.formatUsers(res.data.users);
-          this.setState({ users: users });
+          this.setState({users: users});
         } else {
           alert('Error Getting Users. Try Again Later');
         }
@@ -161,12 +163,18 @@ export default class Tasks extends React.Component {
   }
 
   render() {
-    const { tasks, filterModalVisible, addTaskModalVisible, title, users } = this.state;
-    const { navigation } = this.props;
+    const {
+      tasks,
+      filterModalVisible,
+      addTaskModalVisible,
+      title,
+      users,
+    } = this.state;
+    const {navigation} = this.props;
 
     return (
       <>
-        <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
+        <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
 
         <AddTaskModal
           visible={addTaskModalVisible}
@@ -185,26 +193,25 @@ export default class Tasks extends React.Component {
 
         <ScrollView
           showsHorizontalScrollIndicator={false}
-          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
-          <View style={{ flexDirection: 'row' }}>
+          style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
+          <View style={{flexDirection: 'row'}}>
             <TouchableOpacity
               onPress={() => navigation.pop()}
-              style={{ alignSelf: 'center', marginRight: 10 }}>
+              style={{alignSelf: 'center', marginRight: 10}}>
               <Image
                 source={require('../../assests/back.png')}
                 style={styles.backButton}
               />
             </TouchableOpacity>
             <Text
-              style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>
+              style={[Styles.headingText, {marginTop: 10, marginBottom: 10}]}>
               {title}
             </Text>
           </View>
 
-          <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
+          <View style={[Styles.tasksWrapper, {marginBottom: 10}]}>
             {this.renderCards(tasks)}
           </View>
-
         </ScrollView>
         <TouchableOpacity
           style={[styles.addProjectButton, styles.floatingButton]}
@@ -214,7 +221,7 @@ export default class Tasks extends React.Component {
 
         <TouchableOpacity
           style={[styles.filterButton, styles.floatingButton]}
-          onPress={() => this.setState({ filterModalVisible: true })}>
+          onPress={() => this.setState({filterModalVisible: true})}>
           <Image
             source={require('../../assests/filter.png')}
             style={styles.filterImage}
