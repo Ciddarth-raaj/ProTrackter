@@ -34,7 +34,7 @@ export default class Header extends React.Component {
   }
 
   logout() {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     AsyncStorage.clear();
     navigation.navigate('Login');
   }
@@ -52,7 +52,7 @@ export default class Header extends React.Component {
           this.setState(userDetails);
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }
 
   formatStatus(status) {
@@ -61,8 +61,8 @@ export default class Header extends React.Component {
       formattedStatus.push({
         title: stat.label,
         onPress: () => {
-          this.setState({isStatusModalOpen: false});
-          this.updateStatus({id: stat.status_id, label: stat.label});
+          this.setState({ isStatusModalOpen: false });
+          this.updateStatus({ id: stat.status_id, label: stat.label });
         },
       });
     }
@@ -74,30 +74,30 @@ export default class Header extends React.Component {
       .then((res) => {
         if (res.data.code === 200) {
           const allStatus = this.formatStatus(res.data.status);
-          this.setState({allStatus: allStatus});
+          this.setState({ allStatus: allStatus });
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }
 
-  updateStatus({id, label}) {
-    API.patch('/user/status', {statusId: id}).then((res) => {
+  updateStatus({ id, label }) {
+    API.patch('/user/status', { statusId: id }).then((res) => {
       if (res.data.code === 200) {
-        this.setState({status: label});
+        this.setState({ status: label });
       }
     });
   }
 
   render() {
-    const {fName, status, date, isStatusModalOpen, allStatus} = this.state;
-    const {isBack, navigation} = this.props;
+    const { fName, status, date, isStatusModalOpen, allStatus } = this.state;
+    const { isBack, navigation } = this.props;
 
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         {isBack && (
           <TouchableOpacity
             onPress={() => navigation.pop()}
-            style={{alignSelf: 'center', marginRight: 10}}>
+            style={{ alignSelf: 'center', marginRight: 10 }}>
             <Image
               source={require('../assests/back.png')}
               style={styles.backButton}
@@ -108,11 +108,11 @@ export default class Header extends React.Component {
           source={require('../assests/placeholderProfile.jpg')}
           style={styles.image}
         />
-        <View style={{justifyContent: 'center', marginLeft: 20}}>
-          <Text style={[styles.name, {marginBottom: 5}]}>{`Hi, ${fName}`}</Text>
+        <View style={{ justifyContent: 'center', marginLeft: 20 }}>
+          <Text style={[styles.name, { marginBottom: 5 }]}>{`Hi, ${fName}`}</Text>
           <TouchableOpacity
             onPress={() => {
-              this.setState({isStatusModalOpen: true});
+              this.setState({ isStatusModalOpen: true });
             }}>
             <Text
               style={[
@@ -127,18 +127,16 @@ export default class Header extends React.Component {
           </TouchableOpacity>
           <Text style={styles.date}>{date}</Text>
         </View>
-        <View style={{justifyContent: 'flex-end', flex: 1}}>
-          <Button
-            title="Logout"
-            onPress={() => {
-              this.logout();
-            }}
-          />
-        </View>
+
+        <TouchableOpacity style={styles.logoutWrapper}
+          onPress={() => this.logout()}>
+          <Image source={require('../assests/logout.png')} style={styles.logoutImage} />
+        </TouchableOpacity>
+
         <BottomMenu
           visible={isStatusModalOpen}
           setVisible={(isVisible) => {
-            this.setState({isStatusModalOpen: isVisible});
+            this.setState({ isStatusModalOpen: isVisible });
           }}
           options={allStatus}
         />
@@ -170,4 +168,20 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
+  logoutWrapper: {
+    height: 50,
+    width: 50,
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    borderRadius: 25,
+    position: 'absolute',
+    right: 20,
+    alignSelf: 'center'
+  },
+  logoutImage: {
+    height: 40,
+    width: 40,
+    alignSelf: 'center',
+    marginBottom: 3
+  }
 });
