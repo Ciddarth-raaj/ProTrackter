@@ -34,7 +34,8 @@ export default class AddUserModal extends React.Component {
     API.get('/role')
       .then((res) => {
         if (res.data.code === 200) {
-          this.setState({roles: res.data.roles});
+          const roles = res.data.roles;
+          this.setState({roles: roles, selectedRoleId: roles[0].role_id});
         }
       })
       .catch((err) => {});
@@ -43,8 +44,14 @@ export default class AddUserModal extends React.Component {
   handleCreateUser() {
     const {firstName, lastName, email, selectedRoleId} = this.state;
 
-    if (firstName === '') {
+    if (firstName.trim() === '') {
       alert('Enter First name to Continue');
+    } else if (lastName.trim() === '') {
+      alert('Enter First name to Continue');
+    } else if (email.trim() === 0) {
+      alert('Enter Email to Continue');
+    } else if (selectedRoleId === 0) {
+      alert('Select Role');
     } else {
       this.createUser(firstName, lastName, email, selectedRoleId);
     }
@@ -77,6 +84,7 @@ export default class AddUserModal extends React.Component {
   render() {
     const {email, firstName, lastName, roles, selectedRoleId} = this.state;
     const {visible, setVisible} = this.props;
+
     return (
       <Modal animationType="slide" transparent={true} visible={visible}>
         <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>
