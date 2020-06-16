@@ -129,7 +129,7 @@ export default function AddTaskModal(props) {
                     date={date}
                     mode="date"
                     placeholder="Select Date (Optional)"
-                    format="DD-MM-YYYY"
+                    format="YYYY-MM-DD"
                     minDate={new Date()}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
