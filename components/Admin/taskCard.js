@@ -40,7 +40,7 @@ export default function Header(props) {
       style={{ width: '100%' }}
       onPress={() => type != 'modal' && setVisible(true)}
       activeOpacity={type == 'modal' ? 1 : 0.8}
-      onLongPress={() => setOptionsVisible(true)}>
+      onLongPress={() => type != 'modal' && setOptionsVisible(true)}>
       <BottomMenu
         visible={isOptionsVisible}
         setVisible={setOptionsVisible}

@@ -75,7 +75,7 @@ export default class TaskCard extends React.Component {
         style={{ width: '100%' }}
         onPress={() => type != 'modal' && this.setState({ isModalVisible: true })}
         activeOpacity={type == 'modal' ? 1 : 0.8}
-        onLongPress={() => this.setState({ isOptionsVisible: true })}>
+        onLongPress={() => type != 'modal' && this.setState({ isOptionsVisible: true })}>
         <BottomMenu
           visible={isOptionsVisible}
           setVisible={(isVisible) => {
