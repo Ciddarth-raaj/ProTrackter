@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 
 import TaskModal from './taskModal';
 import BottomMenu from '../../util/bottomMenu';
 import API from '../../api';
-import { TextInput } from 'react-native-gesture-handler';
 
 export default function Header(props) {
   const statusImage = {

@@ -66,7 +66,7 @@ export default class Projects extends React.Component {
         // console.log(res.data.projects);
         if (res.data.code === 200) {
           const projects = this.formatResponse(res.data.projects);
-          this.setState({projects: projects});
+          this.setState({ projects: projects });
         } else {
           alert(res.data.msg);
         }
@@ -77,7 +77,7 @@ export default class Projects extends React.Component {
   };
 
   setProjectModalVisible = (value) => {
-    this.setState({addProjectModalVisible: value});
+    this.setState({ addProjectModalVisible: value });
   };
 
   renderCards(list) {
@@ -98,12 +98,12 @@ export default class Projects extends React.Component {
   }
 
   render() {
-    const {projects, addProjectModalVisible} = this.state;
-    const {navigation} = this.props;
+    const { projects, addProjectModalVisible } = this.state;
+    const { navigation } = this.props;
 
     return (
       <>
-        <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
+        <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
 
         <AddProjectModal
           visible={addProjectModalVisible}
@@ -113,18 +113,18 @@ export default class Projects extends React.Component {
 
         <ScrollView
           showsHorizontalScrollIndicator={false}
-          style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
-          <View style={{flexDirection: 'row'}}>
+          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
+          <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity
               onPress={() => navigation.pop()}
-              style={{alignSelf: 'center', marginRight: 10}}>
+              style={{ alignSelf: 'center', marginRight: 10 }}>
               <Image
                 source={require('../../assests/back.png')}
                 style={styles.backButton}
               />
             </TouchableOpacity>
             <Text
-              style={[Styles.headingText, {marginTop: 10, marginBottom: 10}]}>
+              style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>
               Projects
             </Text>
           </View>
