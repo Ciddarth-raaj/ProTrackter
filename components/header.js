@@ -33,7 +33,7 @@ export default class Header extends React.Component {
       if (err) {
         return;
       }
-      this.setState({fName: value, date: new Date().toDateString()});
+      this.setState({ fName: value, date: new Date().toDateString() });
     });
 
     this.getUserDetails();
@@ -41,10 +41,17 @@ export default class Header extends React.Component {
   }
 
   logout() {
-    const {navigation} = this.props;
-    this.updateStatus({id: 1, label: 'Offline'});
+    const { navigation } = this.props;
+    this.updateStatus({ id: 1, label: 'Offline' });
     AsyncStorage.clear();
     navigation.navigate('Login');
+  }
+
+  async handleAccountPress() {
+    roleId = await AsyncStorage.getItem('role_id');
+    if (roleId === '3') {
+      this.props.navigation.navigate('Settings');
+    }
   }
 
   getUserDetails() {
@@ -60,7 +67,7 @@ export default class Header extends React.Component {
           this.setState(userDetails);
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }
 
   formatStatus(status) {
@@ -69,8 +76,8 @@ export default class Header extends React.Component {
       formattedStatus.push({
         title: stat.label,
         onPress: () => {
-          this.setState({isStatusModalOpen: false});
-          this.updateStatus({id: stat.status_id, label: stat.label});
+          this.setState({ isStatusModalOpen: false });
+          this.updateStatus({ id: stat.status_id, label: stat.label });
         },
       });
     }
@@ -82,45 +89,47 @@ export default class Header extends React.Component {
       .then((res) => {
         if (res.data.code === 200) {
           const allStatus = this.formatStatus(res.data.status);
-          this.setState({allStatus: allStatus});
+          this.setState({ allStatus: allStatus });
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }
 
-  updateStatus({id, label}) {
-    API.patch('/user/status', {statusId: id}).then((res) => {
+  updateStatus({ id, label }) {
+    API.patch('/user/status', { statusId: id }).then((res) => {
       if (res.data.code === 200) {
-        this.setState({status: label});
+        this.setState({ status: label });
       }
     });
   }
 
   render() {
-    const {fName, status, date, isStatusModalOpen, allStatus} = this.state;
-    const {isBack, navigation} = this.props;
+    const { fName, status, date, isStatusModalOpen, allStatus } = this.state;
+    const { isBack, navigation } = this.props;
 
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         {isBack && (
           <TouchableOpacity
             onPress={() => navigation.pop()}
-            style={{alignSelf: 'center', marginRight: 10}}>
+            style={{ alignSelf: 'center', marginRight: 10 }}>
             <Image
               source={require('../assests/back.png')}
               style={styles.backButton}
             />
           </TouchableOpacity>
         )}
-        <Image
-          source={require('../assests/placeholderProfile.jpg')}
-          style={styles.image}
-        />
-        <View style={{justifyContent: 'center', marginLeft: 20}}>
-          <Text style={[styles.name, {marginBottom: 5}]}>{`Hi, ${fName}`}</Text>
+        <TouchableOpacity activeOpacity={1} onPress={() => this.handleAccountPress()}>
+          <Image
+            source={require('../assests/placeholderProfile.jpg')}
+            style={styles.image}
+          />
+        </TouchableOpacity>
+        <View style={{ justifyContent: 'center', marginLeft: 20 }}>
+          <Text style={[styles.name, { marginBottom: 5 }]}>{`Hi, ${fName}`}</Text>
           <TouchableOpacity
             onPress={() => {
-              this.setState({isStatusModalOpen: true});
+              this.setState({ isStatusModalOpen: true });
             }}>
             <Text
               style={[
@@ -148,7 +157,7 @@ export default class Header extends React.Component {
         <BottomMenu
           visible={isStatusModalOpen}
           setVisible={(isVisible) => {
-            this.setState({isStatusModalOpen: isVisible});
+            this.setState({ isStatusModalOpen: isVisible });
           }}
           options={allStatus}
         />

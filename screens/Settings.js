@@ -10,11 +10,22 @@ import Header from '../components/header';
 export default class Settings extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            telId: '',
+        };
+    }
+
+    componentDidMount() {
+        this.getTelegramId();
+    }
+
+    getTelegramId() {
+        this.setState({ telId: '1234567890' })
     }
 
     render() {
         const { navigation } = this.props;
+        const { telId } = this.state;
         return (
             <>
                 <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
@@ -23,7 +34,7 @@ export default class Settings extends React.Component {
                     <Header navigation={navigation} isBack={true} />
                     <Text style={[Styles.headingText, { marginTop: 10 }]}>Settings</Text>
                     <View style={{ flexDirection: 'row', marginTop: 10, }}>
-                        <TextInput placeholder="Enter Telegram ID" style={[Styles.inputBox, { width: '80%' }]} placeholderTextColor={'white'} />
+                        <TextInput placeholder="Enter Telegram ID" style={[Styles.inputBox, { width: '80%' }]} placeholderTextColor={'white'} onChangeText={v => this.setState({ telId: v })} value={telId} />
 
                         <TouchableOpacity style={styles.button}>
                             <Text style={styles.buttonText}>Done</Text>
