@@ -4,6 +4,7 @@ import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import TaskModal from './taskModal';
 import BottomMenu from '../../util/bottomMenu';
 import API from '../../api';
+import { TextInput } from 'react-native-gesture-handler';
 
 export default function Header(props) {
   const statusImage = {
@@ -16,6 +17,8 @@ export default function Header(props) {
   const [visible, setVisible] = React.useState(false);
   const [isOptionsVisible, setOptionsVisible] = React.useState(false);
   const [status, setStatus] = React.useState(props.status);
+  const [editable, setEditable] = React.useState(false);
+  const [editableTitle, setEditableTitle] = React.useState(props.editable);
 
   changeState = (val) => {
     if (val == 'CLOSED') url = '/task/close';
@@ -41,13 +44,15 @@ export default function Header(props) {
       onPress={() => type != 'modal' && setVisible(true)}
       activeOpacity={type == 'modal' ? 1 : 0.8}
       onLongPress={() => type != 'modal' && setOptionsVisible(true)}>
+
       <BottomMenu
         visible={isOptionsVisible}
         setVisible={setOptionsVisible}
         options={
-          status === 'INPROGRESS'
-            ? [{ title: 'Close', onPress: () => changeState('CLOSED') }]
-            : [{ title: 'Reopen', onPress: () => changeState('INPROGRESS') }]
+          [{ title: 'Edit', onPress: () => { setOptionsVisible(false); setEditable(true); setVisible(true); } },
+          (status === 'INPROGRESS'
+            ? { title: 'Close', onPress: () => changeState('CLOSED') }
+            : { title: 'Reopen', onPress: () => changeState('INPROGRESS') })]
         }
       />
 
@@ -60,6 +65,7 @@ export default function Header(props) {
         description={description}
         status={status}
         id={id}
+        editable={editable}
       />
 
       <View
@@ -75,15 +81,30 @@ export default function Header(props) {
           />
         )}
         <View style={{ paddingRight: 80 }}>
-          <Text
-            numberOfLines={type == 'modal' ? 0 : 1}
-            style={[
-              styles.title,
-              styles.containerText,
-              type === 'usermodal' && { color: 'black' },
-            ]}>
-            {title}
-          </Text>
+
+          {
+            editableTitle
+              ? <TextInput style={[
+                styles.title,
+                styles.containerText,
+                type === 'usermodal' && { color: 'black' },
+              ]}
+                selectionColor={'white'}
+                value={title}
+                onChangeText={props.onTitleChange}
+              />
+
+              : <Text
+                numberOfLines={type == 'modal' ? 0 : 1}
+                style={[
+                  styles.title,
+                  styles.containerText,
+                  type === 'usermodal' && { color: 'black' },
+                ]}>
+                {title}
+              </Text>
+          }
+
           <Text
             style={[
               styles.assignee,

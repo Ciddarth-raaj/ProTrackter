@@ -20,6 +20,8 @@ export default class TaskModal extends React.Component {
     super(props);
     this.state = {
       taskHistory: [],
+      description: props.description,
+      title: props.title
     };
   }
 
@@ -42,41 +44,56 @@ export default class TaskModal extends React.Component {
   }
 
   render() {
-    const {taskHistory} = this.state;
+    const { taskHistory } = this.state;
 
-    const {visible, setVisible, color} = this.props;
-    const {title, product, assignedTo, description, status} = this.props;
+    const { visible, setVisible, color } = this.props;
+    const { title, product, assignedTo, description, status, editable } = this.props;
 
     return (
       <Modal animationType="slide" transparent={true} visible={visible}>
-        <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
           <TouchableOpacity
-            style={{width: '100%', height: '10%', position: 'absolute', top: 0}}
+            style={{ width: '100%', height: '10%', position: 'absolute', top: 0 }}
             onPress={() => setVisible(false)}
           />
-          <View style={[styles.container, {backgroundColor: color}]}>
+          <View style={[styles.container, { backgroundColor: color }]}>
             <TouchableOpacity
               style={styles.crossButton}
               onPress={() => setVisible(false)}>
               <Image
                 source={require('../../assests/cross.png')}
-                style={{width: 15, height: 15}}
+                style={{ width: 15, height: 15 }}
               />
             </TouchableOpacity>
 
-            <ScrollView style={{marginTop: 40, paddingHorizontal: 15}}>
+            <ScrollView style={{ marginTop: 40, paddingHorizontal: 15 }}>
               <TaskCard
-                title={title}
+                title={this.state.title}
                 product={product}
                 assignedTo={assignedTo}
                 color={color}
                 type={'modal'}
                 status={status}
+                editable={editable}
+                onTitleChange={v => this.setState({ title: v })}
               />
-              <Text style={[styles.text]}>{description}</Text>
+
+              {
+                editable
+                  ? <TextInput style={[styles.text]} multiline value={this.state.description} onChangeText={v => this.setState({ description: v })} selectionColor={'white'} />
+                  : <Text style={[styles.text]}>{description}</Text>
+              }
+
+              {
+                editable &&
+                <TouchableOpacity style={[styles.button]}>
+                  <Text style={[styles.buttonText, { color: color }]}>Done</Text>
+                </TouchableOpacity>
+              }
 
               <View>
                 <Text style={[styles.heading, styles.text]}>Task History</Text>
+
                 {taskHistory.map((t) => (
                   <View>
                     <Text style={[styles.text, styles.tasksHistoryHeading]}>
@@ -87,6 +104,7 @@ export default class TaskModal extends React.Component {
                     </Text>
                   </View>
                 ))}
+
               </View>
             </ScrollView>
           </View>
@@ -154,4 +172,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
+  button: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    justifyContent: 'center',
+    width: 100,
+    padding: 10,
+    marginTop: 10,
+    alignSelf: 'center'
+  },
+  buttonText: {
+    textAlign: 'center',
+    fontWeight: '700'
+  }
 });
