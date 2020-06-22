@@ -3,7 +3,7 @@ import { SafeAreaView, ScrollView, Text, View, StyleSheet, TextInput, TouchableO
 
 import Styles from '../constants/styles';
 import Colors from '../constants/colors';
-
+import API from '../api';
 import Header from '../components/header';
 
 
@@ -19,8 +19,28 @@ export default class Settings extends React.Component {
         this.getTelegramId();
     }
 
+    putTelegramId() {
+        API.patch('/user/telegram', { telegramId: this.state.telId })
+            .then((res) => {
+                if (res.data.code === 200) {
+                    alert('Successfully Added!');
+                }
+            })
+            .catch((err) => {
+                alert(err);
+            });
+    }
+
     getTelegramId() {
-        this.setState({ telId: '1234567890' })
+        API.get('/user/telegram')
+            .then((res) => {
+                if (res.data.code === 200) {
+                    this.setState({ telId: res.data.telegramId });
+                }
+            })
+            .catch((err) => {
+                alert(err);
+            });
     }
 
     render() {
@@ -36,7 +56,7 @@ export default class Settings extends React.Component {
                     <View style={{ flexDirection: 'row', marginTop: 10, }}>
                         <TextInput placeholder="Enter Telegram ID" style={[Styles.inputBox, { width: '80%' }]} placeholderTextColor={'white'} onChangeText={v => this.setState({ telId: v })} value={telId} />
 
-                        <TouchableOpacity style={styles.button}>
+                        <TouchableOpacity style={styles.button} onPress={() => this.putTelegramId()}>
                             <Text style={styles.buttonText}>Done</Text>
                         </TouchableOpacity>
                     </View>
