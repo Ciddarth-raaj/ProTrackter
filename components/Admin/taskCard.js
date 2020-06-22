@@ -65,6 +65,7 @@ export default function Header(props) {
         status={status}
         id={id}
         editable={editable}
+        setEditable={setEditable}
       />
 
       <View

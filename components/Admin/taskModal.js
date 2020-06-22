@@ -21,7 +21,8 @@ export default class TaskModal extends React.Component {
     this.state = {
       taskHistory: [],
       description: props.description,
-      title: props.title
+      title: props.title,
+      id: props.id
     };
   }
 
@@ -41,6 +42,23 @@ export default class TaskModal extends React.Component {
     if (newProps.visible) {
       this.getTaskHistory();
     }
+  }
+
+  updateTask = () => {
+    const { id, title, description } = this.state;
+    // alert(`${id} - ${title} - ${description}`);
+    API.put('/task', { taskId: id, title: title, description: description })
+      .then((res) => {
+        if (res.data.code === 200) {
+          alert('Successfully Updated!');
+          this.props.setEditable(false);
+        } else {
+          alert(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -81,12 +99,13 @@ export default class TaskModal extends React.Component {
               {
                 editable
                   ? <TextInput style={[styles.text]} multiline value={this.state.description} onChangeText={v => this.setState({ description: v })} selectionColor={'white'} />
-                  : <Text style={[styles.text]}>{description}</Text>
+                  : <Text style={[styles.text]}>{this.state.description}</Text>
               }
 
               {
                 editable &&
-                <TouchableOpacity style={[styles.button]}>
+                <TouchableOpacity style={[styles.button]}
+                  onPress={() => this.updateTask()}>
                   <Text style={[styles.buttonText, { color: color }]}>Done</Text>
                 </TouchableOpacity>
               }

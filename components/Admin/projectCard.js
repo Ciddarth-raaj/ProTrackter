@@ -16,7 +16,6 @@ export default function Header(props) {
     updateProject = () => {
         API.put('/project', { projectId: id, label: title, description: description })
             .then((res) => {
-                console.log(res.data);
                 if (res.data.code === 200) {
                     alert('Successfully Updated!');
                     setEditable(false);
