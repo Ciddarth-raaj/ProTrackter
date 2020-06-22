@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Clipboard,
 } from 'react-native';
 import VersionNumber from 'react-native-version-number';
 
@@ -27,11 +28,17 @@ export default class Settings extends React.Component {
     this.getTelegramId();
   }
 
-  putTelegramId() {
-    API.patch('/user/telegram', {telegramId: this.state.telId})
+  copyTelegramId() {
+    const {telId} = this.state;
+    Clipboard.setString('/setup ' + telId);
+    alert('Copied to clipboard');
+  }
+
+  generateTelegramId() {
+    API.post('/user/telegram')
       .then((res) => {
         if (res.data.code === 200) {
-          alert('Successfully Added!');
+          this.setState({telId: res.data.uuid});
         }
       })
       .catch((err) => {
@@ -44,6 +51,8 @@ export default class Settings extends React.Component {
       .then((res) => {
         if (res.data.code === 200) {
           this.setState({telId: res.data.telegramId});
+        } else {
+          this.setState({telId: 'Token not generated'});
         }
       })
       .catch((err) => {
@@ -60,20 +69,27 @@ export default class Settings extends React.Component {
         <ScrollView
           style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
           <Header navigation={navigation} isBack={true} />
-          <Text style={[Styles.headingText, {marginTop: 10}]}>Settings</Text>
+          <Text style={[Styles.headingText, {marginTop: 10, marginBottom: 50}]}>
+            Settings
+          </Text>
+          <Text style={[Styles.headingText, {fontSize: 20}]}>Telegram</Text>
           <View style={{flexDirection: 'row', marginTop: 10}}>
-            <TextInput
-              placeholder="Enter Telegram ID"
-              style={[Styles.inputBox, {width: '80%'}]}
-              placeholderTextColor={'white'}
-              onChangeText={(v) => this.setState({telId: v})}
-              value={telId}
-            />
-
+            <Text
+              style={[
+                Styles.inputBox,
+                {width: '50%', fontSize: 25, padding: 10},
+              ]}>
+              {telId === null ? 'Token not generated' : '*************'}
+            </Text>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.putTelegramId()}>
-              <Text style={styles.buttonText}>Done</Text>
+              onPress={() => this.generateTelegramId()}>
+              <Text style={styles.buttonText}>Generate</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.copyTelegramId()}>
+              <Text style={styles.buttonText}>Copy</Text>
             </TouchableOpacity>
           </View>
           <View

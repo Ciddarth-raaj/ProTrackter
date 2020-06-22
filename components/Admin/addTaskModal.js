@@ -16,6 +16,8 @@ import DatePicker from 'react-native-datepicker';
 import Colors from '../../constants/colors';
 import API from '../../api';
 
+const DATE_FORMAT = 'DD-MM-YYYY hh:mm:ss';
+
 export default function AddTaskModal(props) {
   const {visible, setVisible, projectId, users, getTasks} = props;
   const [title, setTitle] = React.useState('');
@@ -40,7 +42,7 @@ export default function AddTaskModal(props) {
     };
 
     if (deadline !== null) {
-      body.deadlineAt = moment(deadline, 'DD-MM-YYYY').toDate();
+      body.deadlineAt = moment(deadline, DATE_FORMAT).toDate();
     }
 
     API.post('/task', body)
@@ -122,9 +124,9 @@ export default function AddTaskModal(props) {
                   <DatePicker
                     style={{width: 200}}
                     date={date}
-                    mode="date"
+                    mode="datetime"
                     placeholder="Select Date (Optional)"
-                    format="DD-MM-YYYY"
+                    format={DATE_FORMAT}
                     minDate={new Date()}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
