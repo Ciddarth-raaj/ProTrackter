@@ -12,7 +12,7 @@ import VersionNumber from 'react-native-version-number';
 
 import Styles from '../constants/styles';
 import Colors from '../constants/colors';
-
+import API from '../api';
 import Header from '../components/header';
 
 export default class Settings extends React.Component {
@@ -27,8 +27,28 @@ export default class Settings extends React.Component {
     this.getTelegramId();
   }
 
+  putTelegramId() {
+    API.patch('/user/telegram', {telegramId: this.state.telId})
+      .then((res) => {
+        if (res.data.code === 200) {
+          alert('Successfully Added!');
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
   getTelegramId() {
-    this.setState({telId: '1234567890'});
+    API.get('/user/telegram')
+      .then((res) => {
+        if (res.data.code === 200) {
+          this.setState({telId: res.data.telegramId});
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
   }
 
   render() {
@@ -50,11 +70,24 @@ export default class Settings extends React.Component {
               value={telId}
             />
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.putTelegramId()}>
               <Text style={styles.buttonText}>Done</Text>
             </TouchableOpacity>
           </View>
-          <Text>app v{VersionNumber.appVersion}</Text>
+          <View
+            style={{
+              flex: 1,
+              paddingTop: 15,
+              alignItems: 'center',
+              borderTopColor: 'black',
+              borderTopWidth: 1,
+            }}>
+            <Text style={{fontWeight: 'bold'}}>
+              app v{VersionNumber.appVersion}
+            </Text>
+          </View>
         </ScrollView>
         <SafeAreaView style={{backgroundColor: Colors.background}} />
       </>
