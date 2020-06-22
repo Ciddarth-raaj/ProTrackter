@@ -9,8 +9,9 @@ import {
   AsyncStorage,
 } from 'react-native';
 
-import Colors from '../../constants/colors';
 import API from '../../api';
+import Styles from '../../constants/styles';
+import Colors from '../../constants/colors';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ export default class Login extends React.Component {
   }
 
   handleLogin() {
-    const {email, password} = this.state;
+    const { email, password } = this.state;
 
     if (email === '') {
       alert('Enter Email ID to Continue');
@@ -35,9 +36,9 @@ export default class Login extends React.Component {
   }
 
   checkLogin(email, password) {
-    this.setState({btnText: 'LOGGING IN...'});
+    this.setState({ btnText: 'LOGGING IN...' });
 
-    API.post('/user/login', {email: email, password: password})
+    API.post('/user/login', { email: email, password: password })
       .then(async (res) => {
         if (res.data.code === 200) {
           API.updateToken(res.data.data.token);
@@ -65,30 +66,30 @@ export default class Login extends React.Component {
         console.log(err);
       })
       .finally(() => {
-        this.setState({btnText: 'LOGIN'});
+        this.setState({ btnText: 'LOGIN' });
       });
   }
 
   render() {
-    const {email, password, btnText} = this.state;
+    const { email, password, btnText } = this.state;
     return (
       <>
-        <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
+        <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
         <View
           style={{
             backgroundColor: Colors.background,
             flex: 1,
             justifyContent: 'center',
           }}>
-          <View style={{width: '80%', alignSelf: 'center'}}>
+          <View style={{ width: '80%', alignSelf: 'center' }}>
             <Text style={styles.heading}>Login</Text>
 
             <TextInput
               placeholder={'Email'}
-              style={styles.inputBox}
+              style={Styles.inputBox}
               placeholderTextColor={'white'}
               autoCompleteType={'email'}
-              onChangeText={(t) => this.setState({email: t})}
+              onChangeText={(t) => this.setState({ email: t })}
               value={email}
               autoCapitalize="none"
               selectionColor={'white'}
@@ -96,11 +97,11 @@ export default class Login extends React.Component {
 
             <TextInput
               placeholder={'Password'}
-              style={styles.inputBox}
+              style={Styles.inputBox}
               placeholderTextColor={'white'}
               secureTextEntry={true}
               autoCompleteType={'password'}
-              onChangeText={(t) => this.setState({password: t})}
+              onChangeText={(t) => this.setState({ password: t })}
               value={password}
               autoCapitalize="none"
               selectionColor={'white'}
@@ -113,23 +114,13 @@ export default class Login extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        <SafeAreaView style={{backgroundColor: Colors.background}} />
+        <SafeAreaView style={{ backgroundColor: Colors.background }} />
       </>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  inputBox: {
-    width: '100%',
-    borderRadius: 10,
-    backgroundColor: Colors.blue,
-    marginBottom: 10,
-    color: 'white',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    height: 50,
-  },
   heading: {
     fontSize: 25,
     fontWeight: 'bold',
