@@ -41,7 +41,7 @@ export default function AddTaskModal(props) {
       userId: userId,
     };
 
-    if (deadline !== null) {
+    if (deadline) {
       body.deadlineAt = moment(deadline, DATE_FORMAT).toDate();
     }
 
@@ -52,7 +52,7 @@ export default function AddTaskModal(props) {
           setTitle('');
           setDescription('');
           setUserId(0);
-          setDate();
+          setDate(null);
           alert('Successfully Created');
           getTasks();
           // setVisible(false);

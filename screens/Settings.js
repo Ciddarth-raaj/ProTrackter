@@ -52,7 +52,7 @@ export default class Settings extends React.Component {
         if (res.data.code === 200) {
           this.setState({telId: res.data.telegramId});
         } else {
-          this.setState({telId: 'Token not generated'});
+          this.setState({telId: null});
         }
       })
       .catch((err) => {
@@ -73,13 +73,21 @@ export default class Settings extends React.Component {
             Settings
           </Text>
           <Text style={[Styles.headingText, {fontSize: 20}]}>Telegram</Text>
-          <View style={{flexDirection: 'row', marginTop: 10}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 10,
+            }}>
             <Text
               style={[
                 Styles.inputBox,
-                {width: '50%', fontSize: 25, padding: 10},
+                {
+                  width: '50%',
+                  fontSize: 20,
+                  padding: 10,
+                },
               ]}>
-              {telId === null ? 'Token not generated' : '*************'}
+              {telId === null ? 'Token not found' : '********'}
             </Text>
             <TouchableOpacity
               style={styles.button}
