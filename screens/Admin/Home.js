@@ -42,7 +42,7 @@ export default class Home extends React.Component {
           color: Colors.red,
           lightColor: Colors.redLight,
           notificationCount: 0,
-          openPage: () => this.props.navigation.navigate('AdminHome'),
+          openPage: () => this.props.navigation.navigate('Settings'),
         },
       ],
     };

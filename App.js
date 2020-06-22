@@ -17,6 +17,8 @@ import AdminProjects from './screens/Admin/Projects';
 import AdminTasks from './screens/Admin/Tasks';
 import AdminUsers from './screens/Admin/Users';
 
+import Settings from './screens/Settings';
+
 const Stack = createStackNavigator();
 
 function MyStack() {
@@ -74,6 +76,13 @@ function MyStack() {
           component={AdminUsers}
           options={{ headerShown: false }}
         />
+
+        <Stack.Screen
+          name="Settings"
+          component={Settings}
+          options={{ headerShown: false }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
