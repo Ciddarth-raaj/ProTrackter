@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-nativ
 
 import colors from '../../constants/colors';
 import BottomMenu from '../../util/bottomMenu';
+import API from '../../api';
 
 export default function Header(props) {
 
@@ -11,6 +12,22 @@ export default function Header(props) {
     const [description, setDescription] = React.useState(props.description);
     const [editable, setEditable] = React.useState(false);
     const [isOptionsVisible, setOptionsVisible] = React.useState(false);
+
+    updateProject = () => {
+        API.put('/project', { projectId: id, label: title, description: description })
+            .then((res) => {
+                console.log(res.data);
+                if (res.data.code === 200) {
+                    alert('Successfully Updated!');
+                    setEditable(false);
+                } else {
+                    alert(res.data.msg);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     return (
         <TouchableOpacity
@@ -35,7 +52,8 @@ export default function Header(props) {
                             <TextInput style={[styles.containerText, styles.title]} value={title} selectionColor={'white'} onChangeText={v => setTitle(v)} />
                             <TextInput style={[styles.containerText, styles.description]} value={description} selectionColor={'white'} onChangeText={v => setDescription(v)} multiline />
                             <TouchableOpacity style={[styles.button]}
-                                onPress={() => setEditable(false)}>
+                                onPress={() => setEditable(false)}
+                                onPress={() => updateProject()}>
                                 <Text style={[styles.buttonText, { color: color }]}>Done</Text>
                             </TouchableOpacity>
                         </>
