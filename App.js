@@ -19,6 +19,9 @@ import AdminUsers from './screens/Admin/Users';
 
 import Settings from './screens/Settings';
 
+import Otp from './screens/ForgotPassword/Otp';
+import Phone from './screens/ForgotPassword/Phone';
+
 const Stack = createStackNavigator();
 
 function MyStack() {
@@ -81,6 +84,18 @@ function MyStack() {
           name="Settings"
           component={Settings}
           options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Otp"
+          component={Otp}
+          options={{ headerTitle: 'Forgot Password' }}
+        />
+
+        <Stack.Screen
+          name="Phone"
+          component={Phone}
+          options={{ headerTitle: 'Forgot Password' }}
         />
 
       </Stack.Navigator>

@@ -112,6 +112,11 @@ export default class Login extends React.Component {
               onPress={() => this.handleLogin()}>
               <Text style={styles.loginText}>{btnText}</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity style={{ marginTop: 15 }}
+              onPress={() => this.props.navigation.navigate('Phone')}>
+              <Text style={styles.forgotText}>{'Did You Forget your Password?'} <Text style={{ color: Colors.blue, fontWeight: '700' }}>{' Click Here!'}</Text> </Text>
+            </TouchableOpacity>
           </View>
         </View>
         <SafeAreaView style={{ backgroundColor: Colors.background }} />
@@ -140,4 +145,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
   },
+  forgotText: {
+    textAlign: 'center'
+  }
 });
