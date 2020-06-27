@@ -22,7 +22,8 @@ export default class TaskModal extends React.Component {
       taskHistory: [],
       description: props.description,
       title: props.title,
-      id: props.id
+      id: props.id,
+      selectedUserId: undefined
     };
   }
 
@@ -30,7 +31,7 @@ export default class TaskModal extends React.Component {
     API.get('/taskprogress?taskId=' + this.props.id)
       .then((res) => {
         if (res.data.code === 200) {
-          setTaskHistory(res.data.tasks);
+          this.setState({ taskHistory: res.data.tasks })
         }
       })
       .catch((err) => {
@@ -45,9 +46,9 @@ export default class TaskModal extends React.Component {
   }
 
   updateTask = () => {
-    const { id, title, description } = this.state;
+    const { id, title, description, selectedUserId } = this.state;
     // alert(`${id} - ${title} - ${description}`);
-    API.put('/task', { taskId: id, title: title, description: description })
+    API.put('/task', { taskId: id, title: title, description: description, assignedTo: selectedUserId })
       .then((res) => {
         if (res.data.code === 200) {
           alert('Successfully Updated!');
@@ -62,7 +63,7 @@ export default class TaskModal extends React.Component {
   }
 
   render() {
-    const { taskHistory } = this.state;
+    const { taskHistory, selectedUserId } = this.state;
 
     const { visible, setVisible, color } = this.props;
     const { title, product, assignedTo, description, status, editable } = this.props;
@@ -72,12 +73,12 @@ export default class TaskModal extends React.Component {
         <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
           <TouchableOpacity
             style={{ width: '100%', height: '10%', position: 'absolute', top: 0 }}
-            onPress={() => setVisible(false)}
+            onPress={() => { this.props.setEditable(false); setVisible(false) }}
           />
           <View style={[styles.container, { backgroundColor: color }]}>
             <TouchableOpacity
               style={styles.crossButton}
-              onPress={() => setVisible(false)}>
+              onPress={() => { this.props.setEditable(false); setVisible(false) }}>
               <Image
                 source={require('../../assests/cross.png')}
                 style={{ width: 15, height: 15 }}
@@ -94,6 +95,10 @@ export default class TaskModal extends React.Component {
                 status={status}
                 editable={editable}
                 onTitleChange={v => this.setState({ title: v })}
+                selectedUserId={selectedUserId}
+                setUserId={userId => { this.setState({ selectedUserId: userId }) }}
+                users={this.props.users}
+                assignedToId={this.props.assignedToId}
               />
 
               {

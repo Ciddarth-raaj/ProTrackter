@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableOpacity, TextInput, Picker, } from 'react-native';
 
 import TaskModal from './taskModal';
 import BottomMenu from '../../util/bottomMenu';
 import API from '../../api';
+import Styles from '../../constants/styles';
 
 export default function Header(props) {
   const statusImage = {
@@ -12,7 +13,7 @@ export default function Header(props) {
     CLOSED: require('../../assests/cross_red.png'),
     OVERDUE: require('../../assests/hourglass_red.png')
   };
-  const { id, title, assignedTo, color, type, description } = props;
+  const { id, title, assignedTo, color, type, description, setUserId, selectedUserId, users, assignedToId } = props;
   const [visible, setVisible] = React.useState(false);
   const [isOptionsVisible, setOptionsVisible] = React.useState(false);
   const [status, setStatus] = React.useState(props.status);
@@ -66,6 +67,8 @@ export default function Header(props) {
         id={id}
         editable={editable}
         setEditable={setEditable}
+        users={users}
+        assignedToId={assignedToId}
       />
 
       <View
@@ -105,15 +108,29 @@ export default function Header(props) {
               </Text>
           }
 
-          <Text
-            style={[
-              styles.assignee,
-              styles.containerText,
-              { marginBottom: 0 },
-              type === 'usermodal' && { color: 'black' },
-            ]}>
-            {assignedTo}
-          </Text>
+          {
+            editableTitle
+              ? <Picker
+                selectedValue={selectedUserId ?? assignedToId}
+                itemStyle={[Styles.inputBox, { width: 280, backgroundColor: color }]}
+                onValueChange={setUserId}
+              // onValueChange={v => console.log(v)}
+              >
+                {users.map((u) => (
+                  <Picker.Item label={u.name} value={u.id} />
+                ))}
+              </Picker>
+              : <Text
+                style={[
+                  styles.assignee,
+                  styles.containerText,
+                  { marginBottom: 0 },
+                  type === 'usermodal' && { color: 'black' },
+                ]}>
+                {assignedTo}
+              </Text>
+          }
+
         </View>
         <View style={[styles.imageWrapper]}>
           <Image source={statusImage[status]} style={styles.image} />
