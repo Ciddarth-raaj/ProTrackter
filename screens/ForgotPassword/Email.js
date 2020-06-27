@@ -3,7 +3,7 @@ import { SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, Text
 
 import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
-
+import API from '../../api';
 
 export default class Phone extends React.Component {
     constructor(props) {
@@ -13,8 +13,27 @@ export default class Phone extends React.Component {
         };
     }
 
-    handlePress = () => {
-        this.props.navigation.navigate('Otp');
+    handlePress() {
+        const { email } = this.state;
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            this.sendOtp(email);
+        } else {
+            alert('Enter a Valid Email ID!');
+        }
+    }
+
+    sendOtp(email) {
+        API.post('/user/reset_password', { email: email })
+            .then(async (res) => {
+                if (res.data.code === 200) {
+                    this.props.navigation.navigate('Otp');
+                } else {
+                    alert(res.data.msg);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     render() {
@@ -36,9 +55,10 @@ export default class Phone extends React.Component {
                             style={Styles.inputBox}
                             placeholderTextColor={'white'}
                             autoCompleteType={'email'}
-                            onChangeText={(t) => this.setState({ phone: t })}
+                            onChangeText={(t) => this.setState({ email: t })}
                             value={email}
                             selectionColor={'white'}
+                            autoCapitalize={false}
                         />
 
                         <TouchableOpacity

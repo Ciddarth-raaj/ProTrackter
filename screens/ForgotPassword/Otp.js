@@ -3,7 +3,7 @@ import { SafeAreaView, ScrollView, StyleSheet, TextInput, TouchableOpacity, Text
 
 import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
-
+import API from '../../api';
 
 export default class Otp extends React.Component {
     constructor(props) {
@@ -14,8 +14,30 @@ export default class Otp extends React.Component {
         };
     }
 
-    handlePress = () => {
+    handlePress() {
+        const { otp, password } = this.state;
+        if (otp.length < 6) {
+            alert('Invalid OTP');
+        } else if (password.length < 6) {
+            alert('Password must contain atleast 6 characters!');
+        } else {
+            this.changePass(otp, password);
+        }
+    }
 
+    changePass(otp, password) {
+        API.put('/user/reset_password', { otp: otp, password: password })
+            .then(async (res) => {
+                if (res.data.code === 200) {
+                    alert('Password Successfully Changed!');
+                    this.props.navigation.navigate('Login');
+                } else {
+                    alert(res.data.msg);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     render() {
@@ -40,7 +62,7 @@ export default class Otp extends React.Component {
                             onChangeText={(t) => this.setState({ otp: t })}
                             value={otp}
                             selectionColor={'white'}
-                            maxLength={4}
+                            maxLength={6}
                             keyboardType='numeric'
                         />
 
