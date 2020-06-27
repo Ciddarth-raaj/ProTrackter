@@ -16,6 +16,11 @@ export default function FilterModal(props) {
             title: 'Completed',
             key: 'COMPLETED',
             selected: false,
+        },
+        {
+            title: 'Closed',
+            key: 'CLOSED',
+            selected: false,
         }
     ]);
 
