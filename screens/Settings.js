@@ -164,7 +164,7 @@ export default class Settings extends React.Component {
           </View>
 
           <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
-            ProTracktor v{VersionNumber.appVersion}
+            WorkTRK v{VersionNumber.appVersion}
           </Text>
 
         </ScrollView>
