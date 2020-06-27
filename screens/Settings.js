@@ -21,6 +21,8 @@ export default class Settings extends React.Component {
     super(props);
     this.state = {
       telId: '',
+      oldPass: '',
+      newPass: ''
     };
   }
 
@@ -60,50 +62,90 @@ export default class Settings extends React.Component {
       });
   }
 
+  handlePassChange() {
+    const { oldPass, newPass } = this.state;
+
+    alert(oldPass + ' ' + newPass);
+  }
+
   render() {
     const { navigation } = this.props;
-    const { telId } = this.state;
+    const { telId, oldPass, newPass } = this.state;
     return (
       <>
         <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
         <ScrollView
           style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
           <Header navigation={navigation} isBack={true} />
-          <Text style={[Styles.headingText, { marginTop: 10, marginBottom: 50 }]}>
+          <Text style={[Styles.headingText, { marginTop: 10, marginBottom: 20 }]}>
             Settings
           </Text>
-          <Text style={[Styles.headingText, { fontSize: 20 }]}>Telegram</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 10,
-            }}>
 
-            <TextInput value={telId === null ? 'Token not found' : '*******************'} style={[Styles.inputBox, { width: '50%' }]} secureTextEntry={true} editable={false} />
+          <View>
+            <Text style={[Styles.headingText, { fontSize: 20 }]}>Telegram</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 10,
+              }}>
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.generateTelegramId()}>
-              <Text style={styles.buttonText}>Generate</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.copyTelegramId()}>
-              <Text style={styles.buttonText}>Copy</Text>
-            </TouchableOpacity>
+              <TextInput value={telId === null ? 'Token not found' : '*******************'} style={[Styles.inputBox, { width: '50%' }]} secureTextEntry={true} editable={false} />
+
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this.generateTelegramId()}>
+                <Text style={styles.buttonText}>Generate</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this.copyTelegramId()}>
+                <Text style={styles.buttonText}>Copy</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View
+              style={{
+                flex: 1,
+                paddingTop: 15,
+                alignItems: 'center',
+                borderTopColor: Colors.grey,
+                borderTopWidth: 1,
+              }}>
+            </View>
           </View>
-          <View
-            style={{
-              flex: 1,
-              paddingTop: 15,
-              alignItems: 'center',
-              borderTopColor: 'black',
-              borderTopWidth: 1,
-            }}>
-            <Text style={{ fontWeight: 'bold' }}>
-              app v{VersionNumber.appVersion}
-            </Text>
+
+
+          <View>
+            <Text style={[Styles.headingText, { fontSize: 20 }]}>Change Password</Text>
+
+            <View style={{ marginTop: 10 }}>
+
+              <TextInput value={oldPass} placeholder={'Enter Old Password'} style={[Styles.inputBox]} placeholderTextColor={'white'} secureTextEntry={true} onChangeText={v => this.setState({ oldPass: v })} />
+              <TextInput value={newPass} placeholder={'Enter New Password'} style={[Styles.inputBox]} placeholderTextColor={'white'} secureTextEntry={true} onChangeText={v => this.setState({ newPass: v })} />
+
+              <TouchableOpacity
+                style={[Styles.button, { marginBottom: 10 }]}
+                onPress={() => this.handlePassChange()}>
+                <Text style={[Styles.buttonText]}>Done</Text>
+              </TouchableOpacity>
+
+            </View>
+
+            <View
+              style={{
+                flex: 1,
+                paddingTop: 15,
+                alignItems: 'center',
+                borderTopColor: Colors.grey,
+                borderTopWidth: 1,
+              }}>
+            </View>
           </View>
+
+          <Text style={{ fontWeight: 'bold' }}>
+            ProTracktor v{VersionNumber.appVersion}
+          </Text>
+
         </ScrollView>
         <SafeAreaView style={{ backgroundColor: Colors.background }} />
       </>

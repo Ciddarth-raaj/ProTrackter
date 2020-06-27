@@ -27,4 +27,17 @@ export default styles = StyleSheet.create({
         paddingVertical: 10,
         height: 50,
     },
-})
+    button: {
+        backgroundColor: Colors.orange,
+        borderRadius: 10,
+        padding: 15,
+        width: 150,
+        justifyContent: 'center',
+        alignSelf: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: '700',
+        textAlign: 'center',
+    }
+});
