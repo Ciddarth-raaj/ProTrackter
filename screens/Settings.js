@@ -65,7 +65,28 @@ export default class Settings extends React.Component {
   handlePassChange() {
     const { oldPass, newPass } = this.state;
 
-    alert(oldPass + ' ' + newPass);
+    if (oldPass.length === 0) {
+      alert('Fill All Fields to Continue!');
+    }
+    else if (newPass.length < 6) {
+      alert('Password must contain atleast 6 characters!');
+    } else {
+      this.changePass(oldPass, newPass);
+    }
+  }
+
+  changePass(oldPass, newPass) {
+    API.put('/user/password', { oldPassword: oldPass, newPassword: newPass })
+      .then((res) => {
+        if (res.data.code === 200) {
+          alert('Password Successfully Changed!');
+        } else {
+          alert(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
   }
 
   render() {
