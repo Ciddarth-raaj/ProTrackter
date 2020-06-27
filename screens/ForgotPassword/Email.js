@@ -9,7 +9,7 @@ export default class Phone extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            phone: ''
+            email: ''
         };
     }
 
@@ -18,7 +18,7 @@ export default class Phone extends React.Component {
     }
 
     render() {
-        const { phone } = this.state;
+        const { email } = this.state;
         return (
             <>
                 <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
@@ -32,15 +32,13 @@ export default class Phone extends React.Component {
                     <View style={{ width: '80%', alignSelf: 'center' }}>
 
                         <TextInput
-                            placeholder={'Enter Phone Number'}
+                            placeholder={'Enter Email Id'}
                             style={Styles.inputBox}
                             placeholderTextColor={'white'}
-                            autoCompleteType={'tel'}
+                            autoCompleteType={'email'}
                             onChangeText={(t) => this.setState({ phone: t })}
-                            value={phone}
+                            value={email}
                             selectionColor={'white'}
-                            maxLength={10}
-                            keyboardType='numeric'
                         />
 
                         <TouchableOpacity

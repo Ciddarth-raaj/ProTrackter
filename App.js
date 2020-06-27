@@ -20,7 +20,7 @@ import AdminUsers from './screens/Admin/Users';
 import Settings from './screens/Settings';
 
 import Otp from './screens/ForgotPassword/Otp';
-import Phone from './screens/ForgotPassword/Phone';
+import Email from './screens/ForgotPassword/Email';
 
 const Stack = createStackNavigator();
 
@@ -93,8 +93,8 @@ function MyStack() {
         />
 
         <Stack.Screen
-          name="Phone"
-          component={Phone}
+          name="Email"
+          component={Email}
           options={{ headerTitle: 'Forgot Password' }}
         />
 

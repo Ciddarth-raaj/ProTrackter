@@ -19,7 +19,7 @@ export default class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
-      btnText: 'LOGIN',
+      btnText: 'Go',
     };
   }
 
@@ -114,7 +114,7 @@ export default class Login extends React.Component {
             </TouchableOpacity>
 
             <TouchableOpacity style={{ marginTop: 15 }}
-              onPress={() => this.props.navigation.navigate('Phone')}>
+              onPress={() => this.props.navigation.navigate('Email')}>
               <Text style={styles.forgotText}>{'Did You Forget your Password?'} <Text style={{ color: Colors.blue, fontWeight: '700' }}>{' Click Here!'}</Text> </Text>
             </TouchableOpacity>
           </View>
