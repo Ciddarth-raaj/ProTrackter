@@ -29,7 +29,7 @@ export default class Settings extends React.Component {
   }
 
   copyTelegramId() {
-    const {telId} = this.state;
+    const { telId } = this.state;
     Clipboard.setString('/setup ' + telId);
     alert('Copied to clipboard');
   }
@@ -38,7 +38,7 @@ export default class Settings extends React.Component {
     API.post('/user/telegram')
       .then((res) => {
         if (res.data.code === 200) {
-          this.setState({telId: res.data.uuid});
+          this.setState({ telId: res.data.uuid });
         }
       })
       .catch((err) => {
@@ -50,9 +50,9 @@ export default class Settings extends React.Component {
     API.get('/user/telegram')
       .then((res) => {
         if (res.data.code === 200) {
-          this.setState({telId: res.data.telegramId});
+          this.setState({ telId: res.data.telegramId });
         } else {
-          this.setState({telId: null});
+          this.setState({ telId: null });
         }
       })
       .catch((err) => {
@@ -61,34 +61,26 @@ export default class Settings extends React.Component {
   }
 
   render() {
-    const {navigation} = this.props;
-    const {telId} = this.state;
+    const { navigation } = this.props;
+    const { telId } = this.state;
     return (
       <>
-        <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
+        <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
         <ScrollView
-          style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
+          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
           <Header navigation={navigation} isBack={true} />
-          <Text style={[Styles.headingText, {marginTop: 10, marginBottom: 50}]}>
+          <Text style={[Styles.headingText, { marginTop: 10, marginBottom: 50 }]}>
             Settings
           </Text>
-          <Text style={[Styles.headingText, {fontSize: 20}]}>Telegram</Text>
+          <Text style={[Styles.headingText, { fontSize: 20 }]}>Telegram</Text>
           <View
             style={{
               flexDirection: 'row',
               marginTop: 10,
             }}>
-            <Text
-              style={[
-                Styles.inputBox,
-                {
-                  width: '50%',
-                  fontSize: 20,
-                  padding: 10,
-                },
-              ]}>
-              {telId === null ? 'Token not found' : '********'}
-            </Text>
+
+            <TextInput value={telId === null ? 'Token not found' : '*******************'} style={[Styles.inputBox, { width: '50%' }]} secureTextEntry={true} editable={false} />
+
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.generateTelegramId()}>
@@ -108,12 +100,12 @@ export default class Settings extends React.Component {
               borderTopColor: 'black',
               borderTopWidth: 1,
             }}>
-            <Text style={{fontWeight: 'bold'}}>
+            <Text style={{ fontWeight: 'bold' }}>
               app v{VersionNumber.appVersion}
             </Text>
           </View>
         </ScrollView>
-        <SafeAreaView style={{backgroundColor: Colors.background}} />
+        <SafeAreaView style={{ backgroundColor: Colors.background }} />
       </>
     );
   }
