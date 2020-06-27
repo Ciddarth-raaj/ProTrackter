@@ -19,7 +19,7 @@ import API from '../../api';
 const DATE_FORMAT = 'DD-MM-YYYY hh:mm:ss';
 
 export default function AddTaskModal(props) {
-  const {visible, setVisible, projectId, users, getTasks} = props;
+  const { visible, setVisible, projectId, users, getTasks } = props;
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [userId, setUserId] = React.useState(0);
@@ -67,9 +67,9 @@ export default function AddTaskModal(props) {
 
   return (
     <Modal animationType="slide" transparent={true} visible={visible}>
-      <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>
+      <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
         <TouchableOpacity
-          style={{width: '100%', height: '10%', position: 'absolute', top: 0}}
+          style={{ width: '100%', height: '10%', position: 'absolute', top: 0 }}
           onPress={() => setVisible(false)}
         />
 
@@ -79,7 +79,7 @@ export default function AddTaskModal(props) {
             onPress={() => setVisible(false)}>
             <Image
               source={require('../../assests/cross_black.png')}
-              style={{width: 15, height: 15}}
+              style={{ width: 15, height: 15 }}
             />
           </TouchableOpacity>
 
@@ -103,7 +103,7 @@ export default function AddTaskModal(props) {
 
               <TextInput
                 placeholder={'Description'}
-                style={[styles.inputBox, {height: 260, paddingTop: 20}]}
+                style={[styles.inputBox, { height: 260, paddingTop: 20 }]}
                 placeholderTextColor={'white'}
                 multiline={true}
                 value={description}
@@ -119,13 +119,13 @@ export default function AddTaskModal(props) {
                 ))}
               </Picker>
 
-              <View style={{alignItems: 'center', marginBottom: 15}}>
-                <View style={{flexDirection: 'row'}}>
+              <View style={{ alignItems: 'center', marginBottom: 15 }}>
+                <View style={{ flexDirection: 'row' }}>
                   <DatePicker
-                    style={{width: 200}}
+                    style={{ width: 200 }}
                     date={date}
                     mode="datetime"
-                    placeholder="Select Date (Optional)"
+                    placeholder="Select Date & Time"
                     format={DATE_FORMAT}
                     minDate={new Date()}
                     confirmBtnText="Confirm"
@@ -145,9 +145,9 @@ export default function AddTaskModal(props) {
                   />
 
                   <TouchableOpacity
-                    style={{alignSelf: 'center', marginLeft: 10}}
+                    style={{ alignSelf: 'center', marginLeft: 10 }}
                     onPress={() => setDate('')}>
-                    <Text style={{color: Colors.grey}}>Clear</Text>
+                    <Text style={{ color: Colors.grey }}>Clear</Text>
                   </TouchableOpacity>
                 </View>
               </View>
