@@ -142,7 +142,7 @@ export default class Settings extends React.Component {
             </View>
           </View>
 
-          <Text style={{ fontWeight: 'bold' }}>
+          <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>
             ProTracktor v{VersionNumber.appVersion}
           </Text>
 
