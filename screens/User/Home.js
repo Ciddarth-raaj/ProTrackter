@@ -1,10 +1,11 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, Text, View, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Header from '../../components/header';
 import Styles from '../../constants/styles';
 import HomeCard from '../../components/homeCard';
 import TaskCard from '../../components/taskCard';
+import AddTaskModal from '../../components/addTaskModal';
 
 import API from '../../api';
 import util from '../../util/helper';
@@ -48,6 +49,8 @@ export default class Home extends React.Component {
           tag: 'overdue',
         },
       },
+      projects: [],
+      taskModal: false,
       tasks: [],
     };
   }
@@ -58,6 +61,7 @@ export default class Home extends React.Component {
     });
 
     this.getTasks();
+    this.getProjects();
   }
 
   componentWillUnmount() {
@@ -78,6 +82,39 @@ export default class Home extends React.Component {
       .catch((err) => { });
   }
 
+  formatUsers(response) {
+    const users = [];
+    users.push({
+      id: 0,
+      name: 'Select an User',
+    });
+    for (const user of response) {
+      users.push({
+        id: user.user_id,
+        name: user.first_name + ' ' + user.last_name,
+      });
+    }
+
+    return users;
+  }
+
+  formatProjects(response) {
+    const projects = [];
+    projects.push({
+      id: 0,
+      name: 'Select a Project'
+    });
+
+    for (const project of response) {
+      projects.push({
+        id: project.project_id,
+        name: project.label,
+      });
+    }
+
+    return projects;
+  }
+
   getTasks() {
     API.get('/task/filter')
       .then((res) => {
@@ -93,17 +130,48 @@ export default class Home extends React.Component {
       });
   }
 
+  setTaskModal = (val) => {
+    this.setState({ taskModal: val });
+  }
+
+  getProjects = () => {
+    API.get('/project')
+      .then((res) => {
+        // console.log(res.data.projects);
+        if (res.data.code === 200) {
+          const projects = this.formatProjects(res.data.projects);
+          this.setState({ projects: projects });
+        } else {
+          alert(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   render() {
-    const { tasks, items } = this.state;
+    const { tasks, items, projects, taskModal } = this.state;
     const { navigation } = this.props;
     return (
       <>
         <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
+
+        <AddTaskModal
+          visible={taskModal}
+          setVisible={this.setTaskModal}
+          projects={projects}
+          getTasks={this.getTasks}
+        />
+
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
+
           <Header navigation={navigation} />
+
           <Text style={[Styles.headingText, { marginTop: 10 }]}>Today</Text>
+
           <View style={styles.cardWrapper}>
             {Object.keys(items).map((i) => (
               <HomeCard
@@ -135,7 +203,14 @@ export default class Home extends React.Component {
               />
             ))}
           </View>
+
         </ScrollView>
+
+        <TouchableOpacity
+          style={[styles.addTaskButton, styles.floatingButton]}
+          onPress={() => this.setTaskModal(true)}>
+          <Text style={styles.addTaskText}>+</Text>
+        </TouchableOpacity>
       </>
     );
   }
@@ -147,5 +222,33 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     marginBottom: 10,
+  },
+  floatingButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+    elevation: 9,
+  },
+  addTaskButton: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    right: 10,
+    bottom: 30,
+  },
+  addTaskText: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 40,
+    paddingBottom: 3,
+    color: Colors.addGreen,
   },
 });
