@@ -17,8 +17,7 @@ import DatePicker from '@react-native-community/datetimepicker';
 import Colors from '../constants/colors';
 import API from '../api';
 
-const TIME_FORMAT = 'hh:mm:ss';
-const DATE_FORMAT = 'DD-MM-YYYY';
+const DATE_FORMAT = 'DD-MM-YYYY hh:mm:ss';
 
 export default function AddTaskModal(props) {
   const { visible, setVisible, projects, getTasks } = props;
@@ -146,7 +145,6 @@ export default function AddTaskModal(props) {
                     mode="date"
                     display="spinner"
                     placeholder="Select Date"
-                    format={DATE_FORMAT}
                     minDate={new Date()}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
@@ -164,7 +162,6 @@ export default function AddTaskModal(props) {
                     mode="time"
                     display="spinner"
                     placeholder="Select Time"
-                    format={TIME_FORMAT}
                     minDate={new Date()}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
