@@ -35,14 +35,14 @@ export default class AddUserModal extends React.Component {
       .then((res) => {
         if (res.data.code === 200) {
           const roles = res.data.roles;
-          this.setState({roles: roles, selectedRoleId: roles[0].role_id});
+          this.setState({ roles: roles, selectedRoleId: roles[0].role_id });
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }
 
   handleCreateUser() {
-    const {firstName, lastName, email, selectedRoleId} = this.state;
+    const { firstName, lastName, email, selectedRoleId } = this.state;
 
     if (firstName.trim() === '') {
       alert('Enter First name to Continue');
@@ -58,7 +58,7 @@ export default class AddUserModal extends React.Component {
   }
 
   createUser(firstName, lastName, email, roleId) {
-    const {onCreate} = this.props;
+    const { onCreate } = this.props;
 
     API.post('/user', {
       firstName: firstName,
@@ -69,7 +69,7 @@ export default class AddUserModal extends React.Component {
       .then(async (res) => {
         console.log(res.data);
         if (res.data.code === 200) {
-          this.setState({firstName: '', lastName: '', email: ''});
+          this.setState({ firstName: '', lastName: '', email: '' });
           onCreate();
           alert('Successfully Created');
         } else {
@@ -82,14 +82,14 @@ export default class AddUserModal extends React.Component {
   }
 
   render() {
-    const {email, firstName, lastName, roles, selectedRoleId} = this.state;
-    const {visible, setVisible} = this.props;
+    const { email, firstName, lastName, roles, selectedRoleId } = this.state;
+    const { visible, setVisible } = this.props;
 
     return (
       <Modal animationType="slide" transparent={true} visible={visible}>
-        <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
           <TouchableOpacity
-            style={{width: '100%', height: '10%', position: 'absolute', top: 0}}
+            style={{ width: '100%', height: '10%', position: 'absolute', top: 0 }}
             onPress={() => setVisible(false)}
           />
 
@@ -99,7 +99,7 @@ export default class AddUserModal extends React.Component {
               onPress={() => setVisible(false)}>
               <Image
                 source={require('../../assests/cross_black.png')}
-                style={{width: 15, height: 15}}
+                style={{ width: 15, height: 15 }}
               />
             </TouchableOpacity>
 
@@ -119,8 +119,9 @@ export default class AddUserModal extends React.Component {
                   keyboardType="email-address"
                   placeholderTextColor={'white'}
                   value={email}
+                  autoCapitalize={false}
                   onChangeText={(text) => {
-                    this.setState({email: text});
+                    this.setState({ email: text });
                   }}
                 />
                 <TextInput
@@ -129,7 +130,7 @@ export default class AddUserModal extends React.Component {
                   placeholderTextColor={'white'}
                   value={firstName}
                   onChangeText={(text) => {
-                    this.setState({firstName: text});
+                    this.setState({ firstName: text });
                   }}
                 />
                 <TextInput
@@ -138,15 +139,15 @@ export default class AddUserModal extends React.Component {
                   placeholderTextColor={'white'}
                   value={lastName}
                   onChangeText={(text) => {
-                    this.setState({lastName: text});
+                    this.setState({ lastName: text });
                   }}
                 />
                 <Picker
                   selectedValue={selectedRoleId}
-                  style={{marginBottom: 15}}
+                  style={{ marginBottom: 15 }}
                   itemStyle={styles.inputBox}
                   onValueChange={(value) =>
-                    this.setState({selectedRoleId: value})
+                    this.setState({ selectedRoleId: value })
                   }>
                   {roles.map((r) => (
                     <Picker.Item label={r.label} value={r.role_id} />
