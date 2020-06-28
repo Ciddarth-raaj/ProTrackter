@@ -9,27 +9,34 @@ import {
   TextInput,
   ScrollView,
   Picker,
+  Platform
 } from 'react-native';
 import moment from 'moment';
-import DatePicker from 'react-native-datepicker';
+import DatePicker from '@react-native-community/datetimepicker';
 
 import Colors from '../constants/colors';
 import API from '../api';
 
-const DATE_FORMAT = 'DD-MM-YYYY hh:mm:ss';
+const TIME_FORMAT = 'hh:mm:ss';
+const DATE_FORMAT = 'DD-MM-YYYY';
 
 export default function AddTaskModal(props) {
   const { visible, setVisible, projects, getTasks } = props;
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [projectId, setProjectId] = React.useState(0);
-  const [date, setDate] = React.useState(null);
+  const [date, setDate] = React.useState(new Date());
+  const [time, setTime] = React.useState(new Date());
+
+  const [dateVisibility, setDateVisibility] = React.useState(false);
+  const [timeVisibility, setTimeVisibility] = React.useState(false);
 
   handleCreateProject = () => {
     if (title === '' || description === '' || projectId === 0) {
       alert('Enter All Fields to Continue');
     } else {
-      createTask(title, description, projectId, date);
+      let dateObj = new Date(moment(date).format('YYYY-MM-DD') + 'T' + moment(time).format('hh:mm:ss'));
+      createTask(title, description, projectId, dateObj);
     }
   };
 
@@ -52,7 +59,8 @@ export default function AddTaskModal(props) {
           setTitle('');
           setDescription('');
           setProjectId(0);
-          setDate(null);
+          setDate(new Date());
+          setTime(new Date());
           alert('Successfully Created');
           getTasks();
           // setVisible(false);
@@ -120,36 +128,58 @@ export default function AddTaskModal(props) {
               </Picker>
 
               <View style={{ alignItems: 'center', marginBottom: 15 }}>
-                <View style={{ flexDirection: 'row' }}>
-                  <DatePicker
+
+                <TouchableOpacity onPress={() => setDateVisibility(true)} style={[styles.button, { backgroundColor: Colors.blue, width: 200, marginBottom: 10 }]}>
+                  <Text style={[styles.buttonText]}>{'Select Date'}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => setTimeVisibility(true)} style={[styles.button, { backgroundColor: Colors.blue, width: 200 }]}>
+                  <Text style={[styles.buttonText]}>{'Select Time'}</Text>
+                </TouchableOpacity>
+
+                <Text style={{ marginTop: 10, fontWeight: 'bold' }}>{'Selected Time : '}<Text style={{ fontWeight: 'normal' }}>{moment(date).format('DD-MM-YYYY') + ' - ' + moment(time).format('hh:mm')}</Text></Text>
+
+                {
+                  dateVisibility && (<DatePicker
                     style={{ width: 200 }}
-                    date={date}
-                    mode="datetime"
-                    placeholder="Select Date & Time"
+                    value={date}
+                    mode="date"
+                    display="spinner"
+                    placeholder="Select Date"
                     format={DATE_FORMAT}
                     minDate={new Date()}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
-                    showIcon={false}
-                    customStyles={{
-                      dateInput: {
-                        marginTop: 0,
-                        borderColor: Colors.blue,
-                        borderWidth: 2,
-                        borderRadius: 10,
-                      },
-                    }}
-                    onDateChange={(date) => {
+                    onChange={(e, date) => {
+                      setDateVisibility(false);
                       setDate(date);
                     }}
-                  />
+                  />)
+                }
 
-                  <TouchableOpacity
-                    style={{ alignSelf: 'center', marginLeft: 10 }}
-                    onPress={() => setDate('')}>
-                    <Text style={{ color: Colors.grey }}>Clear</Text>
-                  </TouchableOpacity>
-                </View>
+                {
+                  timeVisibility && <DatePicker
+                    style={{ width: 200 }}
+                    value={time}
+                    mode="time"
+                    display="spinner"
+                    placeholder="Select Time"
+                    format={TIME_FORMAT}
+                    minDate={new Date()}
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    onChange={(e, time) => {
+                      setTimeVisibility(false);
+                      setTime(time);
+                    }}
+                  />
+                }
+
+                {/* <TouchableOpacity
+                  style={{ alignSelf: 'center', marginLeft: 10 }}
+                  onPress={() => setDate('')}>
+                  <Text style={{ color: Colors.grey }}>Clear</Text>
+                </TouchableOpacity> */}
               </View>
 
               <TouchableOpacity
