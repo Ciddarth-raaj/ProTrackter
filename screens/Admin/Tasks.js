@@ -7,6 +7,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  FlatList,
+  RefreshControl
 } from 'react-native';
 
 import Colors from '../../constants/colors';
@@ -26,6 +28,7 @@ export default class Tasks extends React.Component {
       title: 'Tasks',
       users: [],
       tasks: [],
+      refreshing: false
     };
   }
 
@@ -67,25 +70,6 @@ export default class Tasks extends React.Component {
     });
   };
 
-  renderCards(list) {
-    return list.map(
-      (t) =>
-        (this.state.noFilter || t.visible) && (
-          <TaskCard
-            key={'task-' + t.id}
-            id={t.id}
-            title={t.title}
-            assignedTo={t.assignedTo}
-            color={t.color}
-            status={t.status}
-            description={t.description}
-            users={this.state.users}
-            assignedToId={t.assignedToId}
-          />
-        ),
-    );
-  }
-
   formatTasks(res) {
     const colors = [
       Colors.blue,
@@ -124,7 +108,7 @@ export default class Tasks extends React.Component {
       .then(async (res) => {
         if (res.data.code === 200) {
           tasks = this.formatTasks(res.data.tasks);
-          this.setState({ tasks: tasks });
+          this.setState({ tasks: tasks, refreshing: false });
         } else {
           alert(res.data.msg);
         }
@@ -165,12 +149,52 @@ export default class Tasks extends React.Component {
       });
   }
 
+  listHeader() {
+    const { title } = this.state;
+    const { navigation } = this.props;
+
+    return (<View style={{ flexDirection: 'row' }}>
+      <TouchableOpacity
+        onPress={() => navigation.pop()}
+        style={{ alignSelf: 'center', marginRight: 10 }}>
+        <Image
+          source={require('../../assests/back.png')}
+          style={styles.backButton}
+        />
+      </TouchableOpacity>
+      <Text
+        style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>
+        {title}
+      </Text>
+    </View>);
+  }
+
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.getTasks(this.props.route.id);
+  }
+
+  renderCards(t) {
+    return (this.state.noFilter || t.visible) && (
+      <TaskCard
+        key={'task-' + t.id}
+        id={t.id}
+        title={t.title}
+        assignedTo={t.assignedTo}
+        color={t.color}
+        status={t.status}
+        description={t.description}
+        users={this.state.users}
+        assignedToId={t.assignedToId}
+      />
+    );
+  }
+
   render() {
     const {
       tasks,
       filterModalVisible,
       addTaskModalVisible,
-      title,
       users,
     } = this.state;
     const { navigation } = this.props;
@@ -194,28 +218,25 @@ export default class Tasks extends React.Component {
           clearFilter={this.clearFilter}
         />
 
-        <ScrollView
+        <View style={{ backgroundColor: 'white', flex: 1 }}>
+          <FlatList
+            data={tasks}
+            renderItem={({ item }) => this.renderCards(item)}
+            keyExtractor={item => item.id}
+            refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />}
+            contentContainerStyle={{ backgroundColor: Colors.background, padding: 10 }}
+            ListHeaderComponent={this.listHeader()} />
+        </View>
+
+        {/* <ScrollView
           showsHorizontalScrollIndicator={false}
           style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
-          <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity
-              onPress={() => navigation.pop()}
-              style={{ alignSelf: 'center', marginRight: 10 }}>
-              <Image
-                source={require('../../assests/back.png')}
-                style={styles.backButton}
-              />
-            </TouchableOpacity>
-            <Text
-              style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>
-              {title}
-            </Text>
-          </View>
 
           <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
             {this.renderCards(tasks)}
           </View>
-        </ScrollView>
+        </ScrollView> */}
+
         <TouchableOpacity
           style={[styles.addProjectButton, styles.floatingButton]}
           onPress={() => this.setTaskModalVisible(true)}>
