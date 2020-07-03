@@ -7,6 +7,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  FlatList,
+  RefreshControl
 } from 'react-native';
 
 import Colors from '../../constants/colors';
@@ -24,6 +26,7 @@ export default class Projects extends React.Component {
       noFilter: true,
       addProjectModalVisible: false,
       projects: [],
+      refreshing: false
     };
   }
 
@@ -66,7 +69,7 @@ export default class Projects extends React.Component {
         // console.log(res.data.projects);
         if (res.data.code === 200) {
           const projects = this.formatResponse(res.data.projects);
-          this.setState({ projects: projects });
+          this.setState({ projects: projects, refreshing: false });
         } else {
           alert(res.data.msg);
         }
@@ -80,8 +83,8 @@ export default class Projects extends React.Component {
     this.setState({ addProjectModalVisible: value });
   };
 
-  renderCards(list) {
-    return list.map((l) => (
+  renderCards(l) {
+    return (
       <>
         {(this.state.noFilter || l.visible) && (
           <ProjectCard
@@ -94,11 +97,33 @@ export default class Projects extends React.Component {
           />
         )}
       </>
-    ));
+    );
+  }
+
+  listHeader() {
+    return (<View style={{ flexDirection: 'row' }}>
+      <TouchableOpacity
+        onPress={() => navigation.pop()}
+        style={{ alignSelf: 'center', marginRight: 10 }}>
+        <Image
+          source={require('../../assests/back.png')}
+          style={styles.backButton}
+        />
+      </TouchableOpacity>
+      <Text
+        style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>
+        Projects
+  </Text>
+    </View>)
+  }
+
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.getProjects();
   }
 
   render() {
-    const { projects, addProjectModalVisible } = this.state;
+    const { projects, addProjectModalVisible, refreshing } = this.state;
     const { navigation } = this.props;
 
     return (
@@ -111,26 +136,16 @@ export default class Projects extends React.Component {
           getProjects={this.getProjects}
         />
 
-        <ScrollView
-          showsHorizontalScrollIndicator={false}
-          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
-          <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity
-              onPress={() => navigation.pop()}
-              style={{ alignSelf: 'center', marginRight: 10 }}>
-              <Image
-                source={require('../../assests/back.png')}
-                style={styles.backButton}
-              />
-            </TouchableOpacity>
-            <Text
-              style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>
-              Projects
-            </Text>
-          </View>
+        <View style={{ backgroundColor: 'white', flex: 1 }}>
+          <FlatList
+            data={projects}
+            renderItem={({ item }) => this.renderCards(item)}
+            keyExtractor={item => item.id}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
+            contentContainerStyle={{ backgroundColor: Colors.background, padding: 10 }}
+            ListHeaderComponent={this.listHeader()} />
+        </View>
 
-          {this.renderCards(projects)}
-        </ScrollView>
         <TouchableOpacity
           style={[styles.addProjectButton, styles.floatingButton]}
           onPress={() => this.setProjectModalVisible(true)}>
