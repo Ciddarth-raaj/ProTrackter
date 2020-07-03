@@ -19,6 +19,7 @@ export default class TaskCard extends React.Component {
       isOptionsVisible: false,
       isModalVisible: false,
       taskState: this.props.state,
+      status: this.props.status
     };
   }
 
@@ -38,57 +39,57 @@ export default class TaskCard extends React.Component {
       });
   }
 
-  render() {
-    const { taskState, isOptionsVisible, isModalVisible } = this.state;
+  changeState = (val) => {
+    if (val == 'CLOSED') url = '/task/close';
+    else url = '/task/open';
 
+    API.patch(url, { taskId: id })
+      .then(async (res) => {
+        console.log(res.data);
+        if (res.data.code === 200) {
+          this.setState({ status: val, isOptionsVisible: false });
+        } else {
+          alert(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  render() {
+    const { taskState, isOptionsVisible, isModalVisible, status } = this.state;
     const {
       id,
       title,
       product,
       assignee,
       color,
-      status,
       type,
       description,
     } = this.props;
 
     const options = [(status === 'INPROGRESS'
-      ? { title: 'Close', onPress: () => changeState('CLOSED') }
-      : { title: 'Reopen', onPress: () => changeState('INPROGRESS') })];
+      ? { title: 'Close', onPress: () => this.changeState('CLOSED') }
+      : { title: 'Reopen', onPress: () => this.changeState('INPROGRESS') })];
 
-    if (taskState === 'STOP') {
-      options.push({
-        title: 'Start',
-        onPress: () => {
-          this.setTaskState('START');
-        },
-      });
-    } else {
-      options.push({
-        title: 'Stop',
-        onPress: () => {
-          this.setTaskState('STOP');
-        },
-      });
-    }
-
-    changeState = (val) => {
-      if (val == 'CLOSED') url = '/task/close';
-      else url = '/task/open';
-
-      API.patch(url, { taskId: id })
-        .then(async (res) => {
-          console.log(res.data);
-          if (res.data.code === 200) {
-            setStatus(val);
-          } else {
-            alert(res.data.msg);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
+    if (status === 'INPROGRESS') {
+      if (taskState === 'STOP') {
+        options.push({
+          title: 'Start',
+          onPress: () => {
+            this.setTaskState('START');
+          },
         });
-    };
+      } else {
+        options.push({
+          title: 'Stop',
+          onPress: () => {
+            this.setTaskState('STOP');
+          },
+        });
+      }
+    }
 
     return (
       <TouchableOpacity
