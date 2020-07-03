@@ -46,6 +46,7 @@ export default class Tasks extends React.Component {
     API.get(`/task/filter?${tag}=true`)
       .then((res) => {
         if (res.data.code === 200) {
+          console.log(res.data.tasks);
           const tasks = util.formatResponse(res.data.tasks);
           this.setState({ tasks: tasks, refreshing: false });
         } else {

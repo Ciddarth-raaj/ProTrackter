@@ -52,7 +52,9 @@ export default class TaskCard extends React.Component {
       description,
     } = this.props;
 
-    const options = [];
+    const options = [(status === 'INPROGRESS'
+      ? { title: 'Close', onPress: () => changeState('CLOSED') }
+      : { title: 'Reopen', onPress: () => changeState('INPROGRESS') })];
 
     if (taskState === 'STOP') {
       options.push({
@@ -70,12 +72,31 @@ export default class TaskCard extends React.Component {
       });
     }
 
+    changeState = (val) => {
+      if (val == 'CLOSED') url = '/task/close';
+      else url = '/task/open';
+
+      API.patch(url, { taskId: id })
+        .then(async (res) => {
+          console.log(res.data);
+          if (res.data.code === 200) {
+            setStatus(val);
+          } else {
+            alert(res.data.msg);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
     return (
       <TouchableOpacity
         style={{ width: '100%' }}
         onPress={() => type != 'modal' && this.setState({ isModalVisible: true })}
         activeOpacity={type == 'modal' ? 1 : 0.8}
         onLongPress={() => type != 'modal' && this.setState({ isOptionsVisible: true })}>
+
         <BottomMenu
           visible={isOptionsVisible}
           setVisible={(isVisible) => {
