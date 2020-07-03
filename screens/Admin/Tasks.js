@@ -228,15 +228,6 @@ export default class Tasks extends React.Component {
             ListHeaderComponent={this.listHeader()} />
         </View>
 
-        {/* <ScrollView
-          showsHorizontalScrollIndicator={false}
-          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
-
-          <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
-            {this.renderCards(tasks)}
-          </View>
-        </ScrollView> */}
-
         <TouchableOpacity
           style={[styles.addProjectButton, styles.floatingButton]}
           onPress={() => this.setTaskModalVisible(true)}>

@@ -101,6 +101,8 @@ export default class Projects extends React.Component {
   }
 
   listHeader() {
+    const { navigation } = this.props;
+
     return (<View style={{ flexDirection: 'row' }}>
       <TouchableOpacity
         onPress={() => navigation.pop()}

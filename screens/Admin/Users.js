@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Image,
   Text,
+  FlatList,
+  RefreshControl
 } from 'react-native';
 
 import Colors from '../../constants/colors';
@@ -22,6 +24,7 @@ export default class Users extends React.Component {
     this.state = {
       users: [],
       isUserModalOpen: false,
+      refreshing: false
     };
   }
 
@@ -62,63 +65,86 @@ export default class Users extends React.Component {
       .then((res) => {
         if (res.data.code === 200) {
           const allUsers = this.formatUsers(res.data.users);
-          this.setState({users: allUsers});
+          this.setState({ users: allUsers, refreshing: false });
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
+  }
+
+  renderCards(u) {
+    return (
+      <UserCard
+        key={'user-' + u.id}
+        id={u.id}
+        name={u.name}
+        color={u.color}
+        status={u.status}
+        role={u.role}
+        activeTasksCount={u.activeTasksCount}
+      />
+    )
+  }
+
+  listHeader() {
+    const { navigation } = this.props;
+
+    return (<View style={{ flexDirection: 'row' }}>
+      <TouchableOpacity
+        onPress={() => navigation.pop()}
+        style={{ alignSelf: 'center', marginRight: 10 }}>
+        <Image
+          source={require('../../assests/back.png')}
+          style={styles.backButton}
+        />
+      </TouchableOpacity>
+
+      <Text
+        style={[Styles.headingText, { marginTop: 10, marginBottom: 10 }]}>
+        Users
+    </Text>
+    </View>);
+  }
+
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.getAllUsers();
   }
 
   render() {
-    const {users, isUserModalOpen} = this.state;
-    const {navigation} = this.props;
+    const { users, isUserModalOpen } = this.state;
+    const { navigation } = this.props;
     return (
       <>
-        <SafeAreaView style={{backgroundColor: Colors.notificationBar}} />
+        <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
+
         <AddUserModal
           visible={isUserModalOpen}
           setVisible={(visible) => {
-            this.setState({isUserModalOpen: visible});
+            this.setState({ isUserModalOpen: visible });
           }}
           onCreate={() => {
             this.getAllUsers();
           }}
         />
-        <ScrollView
+
+        <View style={{ backgroundColor: 'white', flex: 1 }}>
+          <FlatList
+            data={users}
+            renderItem={({ item }) => this.renderCards(item)}
+            keyExtractor={item => item.id}
+            refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />}
+            contentContainerStyle={{ backgroundColor: Colors.background, padding: 10 }}
+            ListHeaderComponent={this.listHeader()} />
+        </View>
+
+        {/* <ScrollView
           showsHorizontalScrollIndicator={false}
-          style={{flex: 1, backgroundColor: Colors.background, padding: 10}}>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity
-              onPress={() => navigation.pop()}
-              style={{alignSelf: 'center', marginRight: 10}}>
-              <Image
-                source={require('../../assests/back.png')}
-                style={styles.backButton}
-              />
-            </TouchableOpacity>
+          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
+        </ScrollView> */}
 
-            <Text
-              style={[Styles.headingText, {marginTop: 10, marginBottom: 10}]}>
-              Users
-            </Text>
-          </View>
-
-          <View>
-            {users.map((u) => (
-              <UserCard
-                key={'user-' + u.id}
-                id={u.id}
-                name={u.name}
-                color={u.color}
-                status={u.status}
-                role={u.role}
-                activeTasksCount={u.activeTasksCount}
-              />
-            ))}
-          </View>
-        </ScrollView>
         <TouchableOpacity
           style={[styles.addButton, styles.floatingButton]}
-          onPress={() => this.setState({isUserModalOpen: true})}>
+          onPress={() => this.setState({ isUserModalOpen: true })}>
           <Text style={styles.addText}>+</Text>
         </TouchableOpacity>
       </>
