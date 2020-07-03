@@ -43,7 +43,7 @@ export default class TaskCard extends React.Component {
     if (val == 'CLOSED') url = '/task/close';
     else url = '/task/open';
 
-    API.patch(url, { taskId: id })
+    API.patch(url, { taskId: this.props.id })
       .then(async (res) => {
         console.log(res.data);
         if (res.data.code === 200) {
