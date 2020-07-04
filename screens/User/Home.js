@@ -116,7 +116,7 @@ export default class Home extends React.Component {
   }
 
   getTasks() {
-    API.get('/task/filter')
+    API.get('/task/filter?overdue=true&new=true&inprogress=true')
       .then((res) => {
         if (res.data.code === 200) {
           const tasks = util.formatResponse(res.data.tasks);
