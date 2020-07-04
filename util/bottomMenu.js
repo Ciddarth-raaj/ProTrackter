@@ -9,7 +9,8 @@ export default function BottomMenu(props) {
         <Modal
             animationType="slide"
             transparent={true}
-            visible={visible}>
+            visible={visible}
+            onRequestClose={() => { setVisible(false); }}>
             <TouchableOpacity style={{ backgroundColor: 'rgba(0,0,0,0.5)', width: '100%', height: '100%' }} activeOpacity={1}
                 onPress={() => setVisible(false)}>
                 <View style={styles.container}>

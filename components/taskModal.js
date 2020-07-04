@@ -25,19 +25,19 @@ export default class TaskModal extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(newProps) {
-    const {visible} = newProps;
+    const { visible } = newProps;
     if (visible) {
       this.getTaskHistory();
     }
   }
 
   getTaskHistory() {
-    const {taskId} = this.props;
+    const { taskId } = this.props;
 
     API.get('/taskprogress?taskId=' + taskId)
       .then((res) => {
         if (res.data.code === 200) {
-          this.setState({progressHistory: res.data.tasks});
+          this.setState({ progressHistory: res.data.tasks });
         }
       })
       .catch((err) => {
@@ -46,19 +46,19 @@ export default class TaskModal extends React.Component {
   }
 
   createTaskProgress() {
-    const {taskId} = this.props;
-    const {progress} = this.state;
+    const { taskId } = this.props;
+    const { progress } = this.state;
 
-    API.post('/taskprogress', {taskId: taskId, progress: progress})
+    API.post('/taskprogress', { taskId: taskId, progress: progress })
       .then((res) => {
         console.log(res.data);
         if (res.data.code === 200) {
-          const {progressHistory: newHistory} = this.state;
+          const { progressHistory: newHistory } = this.state;
           newHistory.unshift({
             created_at: 'a few seconds ago',
             progress: progress,
           });
-          this.setState({progressHistory: newHistory, progress: ''});
+          this.setState({ progressHistory: newHistory, progress: '' });
         }
       })
       .catch((err) => {
@@ -67,29 +67,29 @@ export default class TaskModal extends React.Component {
   }
 
   render() {
-    const {progressHistory} = this.state;
+    const { progressHistory } = this.state;
 
-    const {visible, setVisible, color} = this.props;
-    const {title, product, assignee, description, status} = this.props;
+    const { visible, setVisible, color } = this.props;
+    const { title, product, assignee, description, status } = this.props;
 
     return (
-      <Modal animationType="slide" transparent={true} visible={visible}>
-        <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>
+      <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={() => { setVisible(false); }}>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
           <TouchableOpacity
-            style={{width: '100%', height: '10%', position: 'absolute', top: 0}}
+            style={{ width: '100%', height: '10%', position: 'absolute', top: 0 }}
             onPress={() => setVisible(false)}
           />
-          <View style={[styles.container, {backgroundColor: color}]}>
+          <View style={[styles.container, { backgroundColor: color }]}>
             <TouchableOpacity
               style={styles.crossButton}
               onPress={() => setVisible(false)}>
               <Image
                 source={require('../assests/cross.png')}
-                style={{width: 15, height: 15}}
+                style={{ width: 15, height: 15 }}
               />
             </TouchableOpacity>
 
-            <ScrollView style={{marginTop: 40, paddingHorizontal: 15}}>
+            <ScrollView style={{ marginTop: 40, paddingHorizontal: 15 }}>
               <TaskCard
                 title={title}
                 product={product}
@@ -107,7 +107,7 @@ export default class TaskModal extends React.Component {
                 placeholder="What's Going in Right Now?"
                 placeholderTextColor={Colors.grey}
                 onChangeText={(text) => {
-                  this.setState({progress: text});
+                  this.setState({ progress: text });
                 }}
               />
               <TouchableOpacity
@@ -115,7 +115,7 @@ export default class TaskModal extends React.Component {
                 onPress={() => {
                   this.createTaskProgress();
                 }}>
-                <Text style={[styles.doneText, {color: color}]}>DONE</Text>
+                <Text style={[styles.doneText, { color: color }]}>DONE</Text>
               </TouchableOpacity>
 
               <View>

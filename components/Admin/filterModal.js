@@ -38,7 +38,8 @@ export default function FilterModal(props) {
         <Modal
             animationType="slide"
             transparent={true}
-            visible={visible}>
+            visible={visible}
+            onRequestClose={() => { setVisible(false); }}>
             <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
 
                 <TouchableOpacity style={{ width: '100%', height: '10%', position: 'absolute', top: 0 }}

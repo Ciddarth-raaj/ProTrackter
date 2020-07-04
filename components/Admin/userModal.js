@@ -31,40 +31,40 @@ export default class TaskModal extends React.Component {
   }
 
   getTasks() {
-    const {id} = this.props;
+    const { id } = this.props;
     API.get('/task/user?userId=' + id)
       .then((res) => {
         if (res.data.code === 200) {
           const formattedTasks = utils.formatResponse(res.data.tasks);
-          this.setState({tasks: formattedTasks});
+          this.setState({ tasks: formattedTasks });
         }
       })
-      .then(() => {});
+      .then(() => { });
   }
 
   render() {
-    const {tasks} = this.state;
+    const { tasks } = this.state;
 
-    const {visible, setVisible, color} = this.props;
-    const {id, name, activeTasksCount} = this.props;
+    const { visible, setVisible, color } = this.props;
+    const { id, name, activeTasksCount } = this.props;
     return (
-      <Modal animationType="slide" transparent={true} visible={visible}>
-        <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>
+      <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={() => { setVisible(false); }}>
+        <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
           <TouchableOpacity
-            style={{width: '100%', height: '10%', position: 'absolute', top: 0}}
+            style={{ width: '100%', height: '10%', position: 'absolute', top: 0 }}
             onPress={() => setVisible(false)}
           />
-          <View style={[styles.container, {backgroundColor: color}]}>
+          <View style={[styles.container, { backgroundColor: color }]}>
             <TouchableOpacity
               style={styles.crossButton}
               onPress={() => setVisible(false)}>
               <Image
                 source={require('../../assests/cross.png')}
-                style={{width: 15, height: 15}}
+                style={{ width: 15, height: 15 }}
               />
             </TouchableOpacity>
 
-            <ScrollView style={{marginTop: 40, paddingHorizontal: 15}}>
+            <ScrollView style={{ marginTop: 40, paddingHorizontal: 15 }}>
               <UserCard
                 id={id}
                 name={name}
@@ -73,11 +73,11 @@ export default class TaskModal extends React.Component {
                 activeTasksCount={activeTasksCount}
               />
 
-              <Text style={[styles.text, styles.heading, {marginBottom: 10}]}>
+              <Text style={[styles.text, styles.heading, { marginBottom: 10 }]}>
                 Active Tasks
               </Text>
 
-              <View style={[Styles.tasksWrapper, {marginBottom: 10}]}>
+              <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
                 {tasks.map((t) => {
                   return (
                     <TaskCard
