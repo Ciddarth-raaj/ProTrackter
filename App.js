@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
 
 global.token = null;
 
@@ -28,7 +28,9 @@ function MyStack() {
   return (
     <NavigationContainer ref={this.navRef}>
       <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }}>
         <Stack.Screen
           name="Splash"
           component={Splash}
