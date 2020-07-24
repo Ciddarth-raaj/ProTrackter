@@ -1,21 +1,20 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, SafeAreaView, FlatList, Text, View, RefreshControl, TouchableOpacity, Image } from 'react-native';
 
 import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
 import Header from '../../components/header';
 import TaskCard from '../../components/taskCard';
-// import FilterModal from '../../components/filterModal';
+import FilterModal from '../../components/filterModal';
 
 import API from '../../api';
-import util from '../../util/helper';
 
 export default class Tasks extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            title: 'Project 1',
+            title: '',
             tasks: [],
             filters: {
                 INPROGRESS: {
@@ -45,7 +44,8 @@ export default class Tasks extends React.Component {
                 }
             },
             filter: false,
-            filterModal: false
+            filterModal: false,
+            refreshing: false
         };
     }
 
@@ -89,6 +89,7 @@ export default class Tasks extends React.Component {
                     this.setState({ tasks: tasks, refreshing: false });
                 } else {
                     alert(res.data.msg);
+                    this.setState({ refreshing: false })
                 }
             })
             .catch((err) => {
@@ -97,17 +98,39 @@ export default class Tasks extends React.Component {
     }
 
     componentDidMount() {
-        const loggedIn = localStorage.getItem('token');
-        if (loggedIn === 'null') {
-            alert('Login to Continue!');
-            this.props.history.push('/');
-            window.location.href = window.location.href;
-        }
-        else {
-            const id = this.props.location.state.id;
-            this.setState({ title: this.props.location.state.title });
-            this.getTasks(id);
-        }
+        const params = this.props.route.params;
+        this.setState({ title: params.title });
+        this.getTasks(params.id);
+    }
+
+    renderCards(t) {
+        const { filters, filter } = this.state;
+        return (
+            (!filter || filters[t.status].selected) && <TaskCard
+                key={'task-' + t.id}
+                id={t.id}
+                title={t.title}
+                product={t.product}
+                assignee={t.assignee}
+                color={t.color}
+                description={t.description}
+                state={t.state}
+                status={t.status}
+            />
+        )
+    }
+
+    listHeader() {
+        const { title, color } = this.state;
+        return (
+            <>
+                <Header isBack={true} navigation={this.props.navigation} />
+
+                <Text style={[Styles.headingText, { color: color, marginTop: 10, marginBottom: 10 }]}>
+                    {title}
+                </Text>
+            </>
+        )
     }
 
     selectFilter = (key, val) => {
@@ -117,24 +140,77 @@ export default class Tasks extends React.Component {
         this.setState({ filters: filters, filter: true });
     }
 
+    onRefresh = () => {
+        this.setState({ refreshing: true });
+        this.getTasks();
+    }
+
+    clearFilter = () => {
+        const { filters } = this.state;
+
+        Object.keys(filters).forEach(i => (filters[i].selected = false))
+        this.setState({ filter: false, filters: filters });
+    }
+
     render() {
-        const { title, tasks, filters, filter, filterModal } = this.state;
+        const { tasks, filterModal, refreshing, filters } = this.state;
+        const { navigation } = this.state;
 
         return (
-            <View>
+            <>
+                <SafeAreaView style={{ backgroundColor: Colors.notificationBar }} />
 
-            </View>
+                <FilterModal visible={filterModal} setVisible={v => this.setState({ filterModal: v })} filters={filters} selectFilter={this.selectFilter} clearFilter={() => this.clearFilter()} />
+
+                <View style={{ backgroundColor: 'white', flex: 1 }}>
+                    <FlatList
+                        data={tasks}
+                        renderItem={({ item }) => this.renderCards(item)}
+                        keyExtractor={item => item.id}
+                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
+                        contentContainerStyle={{ backgroundColor: Colors.background, padding: 10 }}
+                        ListHeaderComponent={this.listHeader()} />
+                </View>
+
+                <TouchableOpacity
+                    style={[styles.filterButton, styles.floatingButton]}
+                    onPress={() => this.setState({ filterModal: true })}>
+                    <Image
+                        source={require('../../assests/filter.png')}
+                        style={styles.filterImage}
+                    />
+                </TouchableOpacity>
+            </>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    cardWrapper: {
-        marginBottom: 10
+    floatingButton: {
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
+        elevation: 9,
     },
-    filterImg: {
+    filterButton: {
+        backgroundColor: Colors.blue,
+        position: 'absolute',
+        left: 10,
+        bottom: 30,
+    },
+    filterImage: {
         width: 30,
         height: 30,
-        marginTop: 15
+        alignSelf: 'center',
+        marginTop: 5,
     },
-})
+});
+
