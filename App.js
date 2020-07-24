@@ -11,6 +11,7 @@ import Tasks from './screens/User/Tasks';
 import Home from './screens/User/Home';
 import Login from './screens/User/Login';
 import Menu from './screens/User/Menu';
+import AllTasks from './screens/User/AllTasks';
 
 import AdminHome from './screens/Admin/Home';
 import AdminProjects from './screens/Admin/Projects';
@@ -61,6 +62,12 @@ function MyStack() {
         <Stack.Screen
           name="Tasks"
           component={Tasks}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="AllTasks"
+          component={AllTasks}
           options={{ headerShown: false }}
         />
 

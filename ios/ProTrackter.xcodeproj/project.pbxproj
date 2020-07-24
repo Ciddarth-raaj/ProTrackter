@@ -17,7 +17,6 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* ProTrackterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ProTrackterTests.m */; };
-		50968A8024867DA600FEE88C /* ArialRounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50968A7F24867DA600FEE88C /* ArialRounded.ttf */; };
 		6BB95D1FC4DA07133E5FFA46 /* libPods-ProTrackter-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D100B7B662758868DB58D9E /* libPods-ProTrackter-tvOS.a */; };
 		B95BAA494242013557BBF4CD /* libPods-ProTrackter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D7FB8446085CB8D801C92FF /* libPods-ProTrackter.a */; };
 		D51F42585FF0839BC1C65BEE /* libPods-ProTrackter-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CBC35FB2AE1C9A2CFB5A94 /* libPods-ProTrackter-tvOSTests.a */; };
@@ -56,7 +55,6 @@
 		2D02E47B1E0B4A5D006451C7 /* ProTrackter-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ProTrackter-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* ProTrackter-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ProTrackter-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE824DBC7A23DBBAD875F6F /* Pods-ProTrackter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProTrackter.debug.xcconfig"; path = "Target Support Files/Pods-ProTrackter/Pods-ProTrackter.debug.xcconfig"; sourceTree = "<group>"; };
-		50968A7F24867DA600FEE88C /* ArialRounded.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ArialRounded.ttf; path = "../../../../Downloads/arial-rounded/ArialRounded.ttf"; sourceTree = "<group>"; };
 		57CBC35FB2AE1C9A2CFB5A94 /* libPods-ProTrackter-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ProTrackter-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D7FB8446085CB8D801C92FF /* libPods-ProTrackter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ProTrackter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6757F492341D13F3F259B045 /* Pods-ProTrackter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProTrackter.release.xcconfig"; path = "Target Support Files/Pods-ProTrackter/Pods-ProTrackter.release.xcconfig"; sourceTree = "<group>"; };
@@ -151,14 +149,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		50968A7E24867D8600FEE88C /* fonts */ = {
-			isa = PBXGroup;
-			children = (
-				50968A7F24867DA600FEE88C /* ArialRounded.ttf */,
-			);
-			path = fonts;
-			sourceTree = "<group>";
-		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,7 +159,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				50968A7E24867D8600FEE88C /* fonts */,
 				13B07FAE1A68108700A75B9A /* ProTrackter */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ProTrackterTests */,
@@ -349,7 +338,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50968A8024867DA600FEE88C /* ArialRounded.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);

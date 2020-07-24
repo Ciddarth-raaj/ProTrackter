@@ -6,6 +6,7 @@ import Styles from '../../constants/styles';
 import HomeCard from '../../components/homeCard';
 import TaskCard from '../../components/taskCard';
 import AddTaskModal from '../../components/addTaskModal';
+import ProjectCard from '../../components/projectCard';
 
 import API from '../../api';
 import util from '../../util/helper';
@@ -52,6 +53,7 @@ export default class Home extends React.Component {
       projects: [],
       taskModal: false,
       tasks: [],
+      projectsFormatted: []
     };
   }
 
@@ -134,13 +136,42 @@ export default class Home extends React.Component {
     this.setState({ taskModal: val });
   }
 
+  formatProjectsResponse(response) {
+    const colors = [
+      Colors.blue,
+      Colors.orange,
+      Colors.indigo,
+      Colors.red,
+      Colors.green,
+      Colors.purple,
+    ];
+
+    const projects = [];
+    let count = 0;
+
+    for (const project of response) {
+      if (count >= colors.length) {
+        count = 0;
+      }
+
+      projects.push({
+        id: project.project_id,
+        title: project.label,
+        description: project.description,
+        color: colors[count++],
+      });
+    }
+
+    return projects;
+  }
+
   getProjects = () => {
     API.get('/project')
       .then((res) => {
-        // console.log(res.data.projects);
         if (res.data.code === 200) {
           const projects = this.formatProjects(res.data.projects);
-          this.setState({ projects: projects });
+          const projectsFormatted = this.formatProjectsResponse(res.data.projects);
+          this.setState({ projects: projects, projectsFormatted: projectsFormatted });
         } else {
           alert(res.data.msg);
         }
@@ -151,7 +182,7 @@ export default class Home extends React.Component {
   };
 
   render() {
-    const { tasks, items, projects, taskModal } = this.state;
+    const { tasks, items, projects, taskModal, projectsFormatted } = this.state;
     const { navigation } = this.props;
     return (
       <>
@@ -188,20 +219,19 @@ export default class Home extends React.Component {
           </View>
 
           <View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
-            {tasks.map((t) => (
-              <TaskCard
-                key={'task-' + t.id}
-                id={t.id}
-                title={t.title}
-                product={t.product}
-                assignee={t.assignee}
-                color={t.color}
-                description={t.description}
-                state={t.state}
-                status={t.status}
-                taskHistory={t.taskHistory}
-              />
-            ))}
+            {
+              projectsFormatted.map(l => (
+                <ProjectCard
+                  key={'project-' + l.id}
+                  id={l.id}
+                  title={l.title}
+                  description={l.description}
+                  history={this.props.history}
+                  color={l.color}
+                  navigation={navigation}
+                />
+              ))
+            }
           </View>
 
         </ScrollView>
