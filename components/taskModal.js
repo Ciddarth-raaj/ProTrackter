@@ -115,7 +115,7 @@ export default class TaskModal extends React.Component {
                 onPress={() => {
                   this.createTaskProgress();
                 }}>
-                <Text style={[styles.doneText, { color: color }]}>DONE</Text>
+                <Text style={[styles.doneText, { color: color }]}>Comment</Text>
               </TouchableOpacity>
 
               <View>
