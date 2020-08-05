@@ -79,6 +79,8 @@ export default class TaskModal extends React.Component {
 											status={t.status}
 											description={t.description}
 											type={'usermodal'}
+											key={'task-' + t.id}
+											id={t.id}
 										/>
 									);
 								})}
