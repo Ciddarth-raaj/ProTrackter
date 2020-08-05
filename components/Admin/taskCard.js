@@ -51,7 +51,7 @@ export default function Header(props) {
         options={
           [{ title: 'Edit', onPress: () => { setOptionsVisible(false); setEditable(true); setVisible(true); } },
           (status === 'INPROGRESS'
-            ? { title: 'Close', onPress: () => changeState('CLOSED') }
+            ? { title: 'Mark as Completed', onPress: () => changeState('CLOSED') }
             : { title: 'Reopen', onPress: () => changeState('INPROGRESS') })]
         }
       />
