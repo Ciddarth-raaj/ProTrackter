@@ -75,7 +75,8 @@ export default class Tasks extends React.Component {
                 status: task.status,
                 description: task.description,
                 assignedToId: task.user_id,
-                product: this.state.title
+                product: this.state.title,
+                assignee: task.first_name
             });
         }
 
