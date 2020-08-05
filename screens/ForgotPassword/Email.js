@@ -15,11 +15,12 @@ export default class Phone extends React.Component {
 
     handlePress() {
         const { email } = this.state;
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-            this.sendOtp(email);
-        } else {
-            alert('Enter a Valid Email ID!');
-        }
+        // if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+        //     this.sendOtp(email);
+        // } else {
+        //     alert('Enter a Valid Email ID!');
+        // }
+        this.sendOtp(email);
     }
 
     sendOtp(email) {
