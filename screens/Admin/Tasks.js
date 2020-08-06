@@ -95,7 +95,8 @@ export default class Tasks extends React.Component {
         color: colors[count++],
         status: task.status,
         description: task.description,
-        assignedToId: task.user_id ?? 3
+        assignedToId: task.user_id ?? 3,
+        state: task.state
       });
     }
 

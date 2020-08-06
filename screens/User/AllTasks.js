@@ -76,7 +76,8 @@ export default class Tasks extends React.Component {
                 description: task.description,
                 assignedToId: task.user_id,
                 product: this.state.title,
-                assignee: task.first_name
+                assignee: task.first_name,
+                state: task.state
             });
         }
 
@@ -89,6 +90,7 @@ export default class Tasks extends React.Component {
                 if (res.data.code === 200) {
                     const tasks = this.formatTasks(res.data.tasks);
                     this.setState({ tasks: tasks, refreshing: false });
+                    console.log(tasks);
                 } else {
                     alert(res.data.msg);
                     this.setState({ refreshing: false })

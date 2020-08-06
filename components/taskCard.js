@@ -6,7 +6,7 @@ import BottomMenu from '../util/bottomMenu';
 import API from '../api';
 
 const statusImage = {
-	INPROGRESS: require('../assests/hourglass.png'),
+	INPROGRESS: require('../assests/progress.png'),
 	COMPLETED: require('../assests/Tick.png'),
 	CLOSED: require('../assests/cross_red.png'),
 	OVERDUE: require('../assests/hourglass_red.png')
@@ -18,8 +18,8 @@ export default class TaskCard extends React.Component {
 		this.state = {
 			isOptionsVisible: false,
 			isModalVisible: false,
-			taskState: this.props.state,
-			status: this.props.status
+			status: this.props.status,
+			state: this.props.state
 		};
 	}
 
@@ -29,7 +29,7 @@ export default class TaskCard extends React.Component {
 		API.patch('/task/state', { taskId: id, state: state })
 			.then(async (res) => {
 				if (res.data.code === 200) {
-					this.setState({ taskState: state, isOptionsVisible: false });
+					this.setState({ state: state, isOptionsVisible: false });
 				} else {
 					alert(res.data.msg);
 				}
@@ -58,7 +58,7 @@ export default class TaskCard extends React.Component {
 	};
 
 	render() {
-		const { taskState, isOptionsVisible, isModalVisible, status } = this.state;
+		const { isOptionsVisible, isModalVisible, status, state } = this.state;
 		const { id, title, product, assignee, color, type, description } = this.props;
 
 		const options = [
@@ -68,7 +68,7 @@ export default class TaskCard extends React.Component {
 		];
 
 		if (status === 'INPROGRESS') {
-			if (taskState === 'STOP') {
+			if (state === 'STOP') {
 				options.push({
 					title: 'Start',
 					onPress: () => {
@@ -125,7 +125,10 @@ export default class TaskCard extends React.Component {
 						<Text style={[ styles.assignee, styles.containerText, { marginBottom: 0 } ]}>{assignee}</Text>
 					</View>
 					<View style={styles.imageWrapper}>
-						<Image source={statusImage[status]} style={styles.image} />
+						<Image
+							source={state === 'START' ? require('../assests/hourglass.png') : statusImage[status]}
+							style={styles.image}
+						/>
 					</View>
 				</View>
 			</TouchableOpacity>
