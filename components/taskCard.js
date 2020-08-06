@@ -113,6 +113,7 @@ export default class TaskCard extends React.Component {
 					description={description}
 					//taskHistory={taskHistory}
 					status={status}
+					state={state}
 				/>
 
 				<View style={[ styles.container, { backgroundColor: color }, type == 'modal' && { padding: 0 } ]}>

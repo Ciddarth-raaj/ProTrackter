@@ -187,6 +187,7 @@ export default class Tasks extends React.Component {
         description={t.description}
         users={this.state.users}
         assignedToId={t.assignedToId}
+        state={t.state}
       />
     );
   }

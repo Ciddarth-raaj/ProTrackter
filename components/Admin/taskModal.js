@@ -57,7 +57,7 @@ export default class TaskModal extends React.Component {
 	render() {
 		const { taskHistory, selectedUserId } = this.state;
 
-		const { visible, setVisible, color } = this.props;
+		const { visible, setVisible, color, state } = this.props;
 		const { title, product, assignedTo, description, status, editable } = this.props;
 
 		return (
@@ -104,6 +104,7 @@ export default class TaskModal extends React.Component {
 								}}
 								users={this.props.users}
 								assignedToId={this.props.assignedToId}
+								state={state}
 							/>
 
 							{editable ? (

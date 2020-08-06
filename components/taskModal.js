@@ -61,7 +61,7 @@ export default class TaskModal extends React.Component {
 		const { progressHistory } = this.state;
 
 		const { visible, setVisible, color } = this.props;
-		const { title, product, assignee, description, status } = this.props;
+		const { title, product, assignee, description, status, state } = this.props;
 
 		return (
 			<Modal
@@ -90,6 +90,7 @@ export default class TaskModal extends React.Component {
 								color={color}
 								type={'modal'}
 								status={status}
+								state={state}
 							/>
 
 							<Text style={[ styles.text ]}>{description}</Text>

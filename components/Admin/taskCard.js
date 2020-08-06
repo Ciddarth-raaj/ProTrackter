@@ -8,12 +8,12 @@ import Styles from '../../constants/styles';
 
 export default function Header(props) {
   const statusImage = {
-    INPROGRESS: require('../../assests/hourglass.png'),
+    INPROGRESS: require('../../assests/progress.png'),
     COMPLETED: require('../../assests/Tick.png'),
     CLOSED: require('../../assests/cross_red.png'),
     OVERDUE: require('../../assests/hourglass_red.png')
   };
-  const { id, title, assignedTo, color, type, description, setUserId, selectedUserId, users, assignedToId } = props;
+  const { id, title, assignedTo, color, type, description, setUserId, selectedUserId, users, assignedToId, state } = props;
   const [visible, setVisible] = React.useState(false);
   const [isOptionsVisible, setOptionsVisible] = React.useState(false);
   const [status, setStatus] = React.useState(props.status);
@@ -69,6 +69,7 @@ export default function Header(props) {
         setEditable={setEditable}
         users={users}
         assignedToId={assignedToId}
+        state={state}
       />
 
       <View
@@ -133,7 +134,7 @@ export default function Header(props) {
 
         </View>
         <View style={[styles.imageWrapper]}>
-          <Image source={statusImage[status]} style={styles.image} />
+          <Image source={state === 'START' ? require('../../assests/hourglass.png') : statusImage[status]} style={styles.image} />
         </View>
       </View>
     </TouchableOpacity>
