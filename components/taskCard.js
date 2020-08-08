@@ -59,7 +59,7 @@ export default class TaskCard extends React.Component {
 
 	render() {
 		const { isOptionsVisible, isModalVisible, status, state } = this.state;
-		const { id, title, product, assignee, color, type, description } = this.props;
+		const { id, title, product, assignee, color, type, description, deadline } = this.props;
 
 		const options = [
 			status === 'INPROGRESS'
@@ -114,6 +114,7 @@ export default class TaskCard extends React.Component {
 					//taskHistory={taskHistory}
 					status={status}
 					state={state}
+					deadline={deadline}
 				/>
 
 				<View style={[ styles.container, { backgroundColor: color }, type == 'modal' && { padding: 0 } ]}>

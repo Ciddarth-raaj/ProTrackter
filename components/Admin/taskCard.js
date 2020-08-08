@@ -13,7 +13,7 @@ export default function Header(props) {
     CLOSED: require('../../assests/cross_red.png'),
     OVERDUE: require('../../assests/hourglass_red.png')
   };
-  const { id, title, assignedTo, color, type, description, setUserId, selectedUserId, users, assignedToId, state } = props;
+  const { id, title, assignedTo, color, type, description, setUserId, selectedUserId, users, assignedToId, state, deadline } = props;
   const [visible, setVisible] = React.useState(false);
   const [isOptionsVisible, setOptionsVisible] = React.useState(false);
   const [status, setStatus] = React.useState(props.status);
@@ -70,6 +70,7 @@ export default function Header(props) {
         users={users}
         assignedToId={assignedToId}
         state={state}
+        deadline={deadline}
       />
 
       <View

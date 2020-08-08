@@ -57,7 +57,7 @@ export default class TaskModal extends React.Component {
 	render() {
 		const { taskHistory, selectedUserId } = this.state;
 
-		const { visible, setVisible, color, state } = this.props;
+		const { visible, setVisible, color, state, deadline } = this.props;
 		const { title, product, assignedTo, description, status, editable } = this.props;
 
 		return (
@@ -118,6 +118,10 @@ export default class TaskModal extends React.Component {
 							) : (
 								<Text style={[ styles.text ]}>{this.state.description}</Text>
 							)}
+
+							<Text style={[ styles.text, styles.deadlineText ]}>
+								{`Due on ${new Date(deadline).toLocaleString()}`}
+							</Text>
 
 							{editable && (
 								<TouchableOpacity style={[ styles.button ]} onPress={() => this.updateTask()}>
@@ -213,5 +217,9 @@ const styles = StyleSheet.create({
 	buttonText: {
 		textAlign: 'center',
 		fontWeight: '700'
+	},
+	deadlineText: {
+		marginTop: 10,
+		fontWeight: '500'
 	}
 });

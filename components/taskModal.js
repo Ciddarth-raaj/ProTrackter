@@ -61,7 +61,7 @@ export default class TaskModal extends React.Component {
 		const { progressHistory } = this.state;
 
 		const { visible, setVisible, color } = this.props;
-		const { title, product, assignee, description, status, state } = this.props;
+		const { title, product, assignee, description, status, state, deadline } = this.props;
 
 		return (
 			<Modal
@@ -94,6 +94,10 @@ export default class TaskModal extends React.Component {
 							/>
 
 							<Text style={[ styles.text ]}>{description}</Text>
+
+							<Text style={[ styles.text, styles.deadlineText ]}>
+								{`Due on ${new Date(deadline).toLocaleString()}`}
+							</Text>
 
 							<TextInput
 								multiline
@@ -187,5 +191,9 @@ const styles = StyleSheet.create({
 	tasksHistorySub: {
 		fontSize: 16,
 		marginBottom: 10
+	},
+	deadlineText: {
+		marginTop: 10,
+		fontWeight: '500'
 	}
 });

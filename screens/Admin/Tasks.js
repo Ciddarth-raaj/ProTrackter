@@ -95,8 +95,9 @@ export default class Tasks extends React.Component {
         color: colors[count++],
         status: task.status,
         description: task.description,
-        assignedToId: task.user_id ?? 3,
-        state: task.state
+        assignedToId: task.user_id,
+        state: task.state,
+        deadline: task.deadline_at
       });
     }
 
@@ -108,6 +109,7 @@ export default class Tasks extends React.Component {
     API.get('/task/company?project_id=' + id)
       .then(async (res) => {
         if (res.data.code === 200) {
+          console.log(res.data);
           tasks = this.formatTasks(res.data.tasks);
           this.setState({ tasks: tasks, refreshing: false });
         } else {
@@ -188,6 +190,7 @@ export default class Tasks extends React.Component {
         users={this.state.users}
         assignedToId={t.assignedToId}
         state={t.state}
+        deadline={t.deadline}
       />
     );
   }

@@ -73,6 +73,7 @@ export default class Tasks extends React.Component {
         description={t.description}
         state={t.state}
         status={t.status}
+        deadline={t.deadline}
       />
     )
   }
