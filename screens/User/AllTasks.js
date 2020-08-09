@@ -146,8 +146,9 @@ export default class Tasks extends React.Component {
     }
 
     onRefresh = () => {
+        const params = this.props.route.params;
         this.setState({ refreshing: true });
-        this.getTasks();
+        this.getTasks(params.id);
     }
 
     clearFilter = () => {
