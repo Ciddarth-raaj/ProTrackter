@@ -1,10 +1,14 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Modal, Image, ScrollView, TextInput } from 'react-native';
+import DatePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
 
 import Colors from '../../constants/colors';
 import Styles from '../../constants/styles';
 import TaskCard from './taskCard';
 import API from '../../api';
+
+const DATE_FORMAT = 'DD-MM-YYYY hh:mm:ss';
 
 export default class TaskModal extends React.Component {
 	constructor(props) {
@@ -14,12 +18,27 @@ export default class TaskModal extends React.Component {
 			description: props.description,
 			title: props.title,
 			id: props.id,
-			selectedUserId: undefined
+			selectedUserId: undefined,
+			dateVisibility: false,
+			timeVisibility: false,
+			date: undefined,
+			time: undefined
 		};
 	}
 
+	setDateTime() {
+		const date = moment(this.props.deadline).format('MM-DD-YYYY');
+		const time = moment(this.props.deadline).format('hh:mm:ss');
+		this.setState({
+			date: new Date(date),
+			time: time
+		});
+
+		console.log(this.state.date + ' - Date');
+		console.log(time + ' - Time\n\n');
+	}
+
 	getTaskHistory() {
-		console.log(this.props.id);
 		API.get('/taskprogress?taskId=' + this.props.id)
 			.then((res) => {
 				if (res.data.code === 200) {
@@ -35,12 +54,29 @@ export default class TaskModal extends React.Component {
 		if (newProps.visible) {
 			this.getTaskHistory();
 		}
+
+		if (newProps.editable) {
+			this.setState({
+				date: newProps.deadline,
+				time: newProps.deadline,
+				selectedUserId: newProps.assignedToId
+			});
+		}
 	}
 
 	updateTask = () => {
-		const { id, title, description, selectedUserId } = this.state;
-		// alert(`${id} - ${title} - ${description}`);
-		API.put('/task', { taskId: id, title: title, description: description, assignedTo: selectedUserId })
+		const { id, title, description, selectedUserId, date, time } = this.state;
+
+		let dateObj = undefined;
+		dateObj = new Date(moment(date).format('YYYY-MM-DD') + 'T' + moment(time).format('hh:mm:ss'));
+
+		const params = { taskId: id, title: title, description: description, assignedTo: selectedUserId };
+
+		if (dateObj) {
+			params.deadlineAt = moment(dateObj, DATE_FORMAT).toDate();
+		}
+
+		API.put('/task', params)
 			.then((res) => {
 				if (res.data.code === 200) {
 					alert('Successfully Updated!');
@@ -55,7 +91,7 @@ export default class TaskModal extends React.Component {
 	};
 
 	render() {
-		const { taskHistory, selectedUserId } = this.state;
+		const { taskHistory, selectedUserId, dateVisibility, timeVisibility, date, time } = this.state;
 
 		const { visible, setVisible, color, state, deadline } = this.props;
 		const { title, product, assignedTo, description, status, editable } = this.props;
@@ -117,6 +153,59 @@ export default class TaskModal extends React.Component {
 								/>
 							) : (
 								<Text style={[ styles.text ]}>{this.state.description}</Text>
+							)}
+
+							{editable && (
+								<View>
+									<TouchableOpacity
+										onPress={() => this.setState({ dateVisibility: true })}
+										style={[
+											styles.button,
+											{ backgroundColor: 'white', width: 200, marginBottom: 10 }
+										]}
+									>
+										<Text style={[ styles.buttonText ]}>{'Select Date'}</Text>
+									</TouchableOpacity>
+
+									<TouchableOpacity
+										onPress={() => this.setState({ timeVisibility: true })}
+										style={[ styles.button, { backgroundColor: 'white', width: 200 } ]}
+									>
+										<Text style={[ styles.buttonText ]}>{'Select Time'}</Text>
+									</TouchableOpacity>
+								</View>
+							)}
+
+							{dateVisibility && (
+								<DatePicker
+									style={{ width: 200 }}
+									value={new Date(date)}
+									mode="date"
+									display="spinner"
+									placeholder="Select Date"
+									minDate={new Date()}
+									confirmBtnText="Confirm"
+									cancelBtnText="Cancel"
+									onChange={(e, date) => {
+										this.setState({ date: date, timeVisibility: true, dateVisibility: false });
+									}}
+								/>
+							)}
+
+							{timeVisibility && (
+								<DatePicker
+									style={{ width: 200 }}
+									value={new Date(time)}
+									mode="time"
+									display="spinner"
+									placeholder="Select Time"
+									minDate={new Date()}
+									confirmBtnText="Confirm"
+									cancelBtnText="Cancel"
+									onChange={(e, time) => {
+										this.setState({ time: time, timeVisibility: false });
+									}}
+								/>
 							)}
 
 							<Text style={[ styles.text, styles.deadlineText ]}>
