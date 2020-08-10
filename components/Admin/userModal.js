@@ -82,6 +82,7 @@ export default class TaskModal extends React.Component {
 											key={'task-' + t.id}
 											id={t.id}
 											state={t.state}
+											deadline={t.deadline}
 										/>
 									);
 								})}

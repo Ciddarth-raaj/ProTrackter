@@ -59,7 +59,7 @@ export default class TaskCard extends React.Component {
 
 	render() {
 		const { isOptionsVisible, isModalVisible, status, state } = this.state;
-		const { id, title, product, assignee, color, type, description, deadline } = this.props;
+		const { id, title, product, assignee, color, type, description, deadline, allowEdit } = this.props;
 
 		const options = [
 			status === 'INPROGRESS'
@@ -90,7 +90,7 @@ export default class TaskCard extends React.Component {
 				style={{ width: '100%' }}
 				onPress={() => type != 'modal' && this.setState({ isModalVisible: true })}
 				activeOpacity={type == 'modal' ? 1 : 0.8}
-				onLongPress={() => type != 'modal' && this.setState({ isOptionsVisible: true })}
+				onLongPress={() => type != 'modal' && allowEdit && this.setState({ isOptionsVisible: true })}
 			>
 				<BottomMenu
 					visible={isOptionsVisible}
