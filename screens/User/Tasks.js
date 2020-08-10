@@ -74,6 +74,7 @@ export default class Tasks extends React.Component {
         state={t.state}
         status={t.status}
         deadline={t.deadline}
+        allowEdit={true}
       />
     )
   }
