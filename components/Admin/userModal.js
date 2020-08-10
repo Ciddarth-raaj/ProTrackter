@@ -58,7 +58,11 @@ export default class TaskModal extends React.Component {
 							<Image source={require('../../assests/cross.png')} style={{ width: 15, height: 15 }} />
 						</TouchableOpacity>
 
-						<ScrollView style={{ marginTop: 40, paddingHorizontal: 15 }}>
+						<ScrollView
+							style={{ marginTop: 40, paddingHorizontal: 15 }}
+							showsHorizontalScrollIndicator={false}
+							showsVerticalScrollIndicator={false}
+						>
 							<UserCard
 								id={id}
 								name={name}

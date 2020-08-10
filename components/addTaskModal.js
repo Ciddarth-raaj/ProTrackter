@@ -92,7 +92,7 @@ export default function AddTaskModal(props) {
 						<Image source={require('../assests/cross_black.png')} style={{ width: 15, height: 15 }} />
 					</TouchableOpacity>
 
-					<ScrollView>
+					<ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
 						<View
 							style={{
 								marginTop: 50,
