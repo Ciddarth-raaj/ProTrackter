@@ -2,16 +2,38 @@ import React from 'react';
 import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 import UserModal from './userModal';
+import BottomMenu from '../../util/bottomMenu';
+import API from '../../api';
 
-export default function Header(props) {
-  const {id, name, role, color, type, activeTasksCount, status} = props;
+export default function UserCard(props) {
+  const {id, name, role, color, type, activeTasksCount} = props;
   const [visible, setVisible] = React.useState(false);
+  const [isOptionsVisible, setOptionsVisible] = React.useState(false);
+  const [status, setStatus] = React.useState(props.status);
+
+  const makeOffline = (id) => {
+    API.patch('/user/offline', {userId: id})
+      .then(async (res) => {
+        console.log(res.data);
+        if (res.data.code === 200) {
+          setStatus('Offline');
+        } else {
+          alert(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <TouchableOpacity
       style={{width: '100%'}}
       onPress={() => type != 'modal' && setVisible(true)}
-      activeOpacity={type != 'modal' ? 0.5 : 1}>
+      activeOpacity={type != 'modal' ? 0.5 : 1}
+      onLongPress={() =>
+        type != 'modal' && status === 'Online' && setOptionsVisible(true)
+      }>
       <UserModal
         visible={visible}
         setVisible={setVisible}
@@ -19,6 +41,20 @@ export default function Header(props) {
         id={id}
         name={name}
         activeTasksCount={activeTasksCount}
+      />
+
+      <BottomMenu
+        visible={isOptionsVisible}
+        setVisible={setOptionsVisible}
+        options={[
+          {
+            title: 'Make Offline',
+            onPress: () => {
+              makeOffline(id);
+              setOptionsVisible(false);
+            },
+          },
+        ]}
       />
 
       <View
