@@ -12,13 +12,20 @@ export default class TaskModal extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			tasks: []
+			tasks: [],
+			userLog: [
+				// {
+				// 	label: 'Test',
+				// 	time: new Date()
+				// }
+			]
 		};
 	}
 
 	UNSAFE_componentWillReceiveProps(newProps) {
 		if (newProps.visible) {
 			this.getTasks();
+			this.getUserLog();
 		}
 	}
 
@@ -34,11 +41,34 @@ export default class TaskModal extends React.Component {
 			.then(() => {});
 	}
 
-	render() {
-		const { tasks } = this.state;
+	formatResponse(response) {
+		const logs = [];
+		for (const log of response) {
+			logs.push({
+				label: log.label,
+				time: log.created_at
+			});
+		}
+		return logs;
+	}
 
-		const { visible, setVisible, color } = this.props;
-		const { id, name, activeTasksCount } = this.props;
+	getUserLog() {
+		const { id } = this.props;
+		API.get('/user/status_history?userId=' + id)
+			.then((res) => {
+				console.log(res.data);
+				if (res.data.code === 200) {
+					const formattedLogs = this.formatResponse(res.data.reocords);
+					this.setState({ userLog: formattedLogs });
+				}
+			})
+			.then(() => {});
+	}
+
+	render() {
+		const { tasks, userLog } = this.state;
+
+		const { visible, setVisible, color, id, name, activeTasksCount } = this.props;
 		return (
 			<Modal
 				animationType="slide"
@@ -90,6 +120,22 @@ export default class TaskModal extends React.Component {
 										/>
 									);
 								})}
+							</View>
+
+							<View>
+								<Text style={[ styles.text, styles.heading, { marginBottom: 10 } ]}>
+									Status History
+								</Text>
+								{userLog.map((l) => (
+									<View>
+										<Text style={[ styles.text, { fontWeight: 'bold', marginBottom: 5 } ]}>
+											{l.label === 'Online' ? 'Logged In' : 'Logged Out'}
+										</Text>
+										<Text style={[ styles.text, { marginBottom: 10 } ]}>{`${new Date(
+											l.time
+										).toLocaleString()}`}</Text>
+									</View>
+								))}
 							</View>
 						</ScrollView>
 					</View>

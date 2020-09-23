@@ -17,6 +17,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* ProTrackterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ProTrackterTests.m */; };
+		505DB53A251A6C6B0073AA01 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		6BB95D1FC4DA07133E5FFA46 /* libPods-ProTrackter-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D100B7B662758868DB58D9E /* libPods-ProTrackter-tvOS.a */; };
 		B95BAA494242013557BBF4CD /* libPods-ProTrackter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D7FB8446085CB8D801C92FF /* libPods-ProTrackter.a */; };
 		D51F42585FF0839BC1C65BEE /* libPods-ProTrackter-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CBC35FB2AE1C9A2CFB5A94 /* libPods-ProTrackter-tvOSTests.a */; };
@@ -338,6 +339,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				505DB53A251A6C6B0073AA01 /* main.jsbundle in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
