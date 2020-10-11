@@ -81,8 +81,8 @@ export default class Users extends React.Component {
         status={u.status}
         role={u.role}
         activeTasksCount={u.activeTasksCount}
-        showLog={false}
-        showTasks={true}
+        showLog={true}
+        showTasks={false}
       />
     )
   }
@@ -138,11 +138,6 @@ export default class Users extends React.Component {
             contentContainerStyle={{ backgroundColor: Colors.background, padding: 10 }}
             ListHeaderComponent={this.listHeader()} />
         </View>
-
-        {/* <ScrollView
-          showsHorizontalScrollIndicator={false}
-          style={{ flex: 1, backgroundColor: Colors.background, padding: 10 }}>
-        </ScrollView> */}
 
         <TouchableOpacity
           style={[styles.addButton, styles.floatingButton]}

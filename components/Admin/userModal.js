@@ -38,7 +38,7 @@ export default class TaskModal extends React.Component {
 					this.setState({ tasks: formattedTasks });
 				}
 			})
-			.then(() => {});
+			.then(() => { });
 	}
 
 	formatResponse(response) {
@@ -62,13 +62,13 @@ export default class TaskModal extends React.Component {
 					this.setState({ userLog: formattedLogs });
 				}
 			})
-			.then(() => {});
+			.then(() => { });
 	}
 
 	render() {
 		const { tasks, userLog } = this.state;
 
-		const { visible, setVisible, color, id, name, activeTasksCount } = this.props;
+		const { visible, setVisible, color, id, name, activeTasksCount, showLog, showTasks } = this.props;
 		return (
 			<Modal
 				animationType="slide"
@@ -83,7 +83,7 @@ export default class TaskModal extends React.Component {
 						style={{ width: '100%', height: '10%', position: 'absolute', top: 0 }}
 						onPress={() => setVisible(false)}
 					/>
-					<View style={[ styles.container, { backgroundColor: color } ]}>
+					<View style={[styles.container, { backgroundColor: color }]}>
 						<TouchableOpacity style={styles.crossButton} onPress={() => setVisible(false)}>
 							<Image source={require('../../assests/cross.png')} style={{ width: 15, height: 15 }} />
 						</TouchableOpacity>
@@ -101,42 +101,48 @@ export default class TaskModal extends React.Component {
 								activeTasksCount={activeTasksCount}
 							/>
 
-							<Text style={[ styles.text, styles.heading, { marginBottom: 10 } ]}>Active Tasks</Text>
+							{
+								showTasks && <View>
+								<Text style={[styles.text, styles.heading, { marginBottom: 10 }]}>Active Tasks</Text>
 
-							<View style={[ Styles.tasksWrapper, { marginBottom: 10 } ]}>
-								{tasks.map((t) => {
-									return (
-										<TaskCard
-											title={t.title}
-											assignedTo={t.assignedTo}
-											color={t.color}
-											status={t.status}
-											description={t.description}
-											type={'usermodal'}
-											key={'task-' + t.id}
-											id={t.id}
-											state={t.state}
-											deadline={t.deadline}
-										/>
-									);
-								})}
+								<View style={[Styles.tasksWrapper, { marginBottom: 10 }]}>
+									{tasks.map((t) => {
+										return (
+											<TaskCard
+												title={t.title}
+												assignedTo={t.assignedTo}
+												color={t.color}
+												status={t.status}
+												description={t.description}
+												type={'usermodal'}
+												key={'task-' + t.id}
+												id={t.id}
+												state={t.state}
+												deadline={t.deadline}
+											/>
+										);
+									})}
+								</View>
 							</View>
+							}
 
-							<View>
-								<Text style={[ styles.text, styles.heading, { marginBottom: 10 } ]}>
-									Status History
+							{
+								showLog && <View>
+									<Text style={[styles.text, styles.heading, { marginBottom: 10 }]}>
+										Status History
 								</Text>
-								{userLog.map((l) => (
-									<View>
-										<Text style={[ styles.text, { fontWeight: 'bold', marginBottom: 5 } ]}>
-											{l.label === 'Online' ? 'Logged In' : 'Logged Out'}
-										</Text>
-										<Text style={[ styles.text, { marginBottom: 10 } ]}>{`${new Date(
-											l.time
-										).toLocaleString()}`}</Text>
-									</View>
-								))}
-							</View>
+									{userLog.map((l) => (
+										<View>
+											<Text style={[styles.text, { fontWeight: 'bold', marginBottom: 5 }]}>
+												{l.label === 'Online' ? 'Logged In' : 'Logged Out'}
+											</Text>
+											<Text style={[styles.text, { marginBottom: 10 }]}>{`${new Date(
+												l.time
+											).toLocaleString()}`}</Text>
+										</View>
+									))}
+								</View>
+							}
 						</ScrollView>
 					</View>
 				</View>

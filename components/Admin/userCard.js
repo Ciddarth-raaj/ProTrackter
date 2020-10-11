@@ -6,7 +6,7 @@ import BottomMenu from '../../util/bottomMenu';
 import API from '../../api';
 
 export default function UserCard(props) {
-  const {id, name, role, color, type, activeTasksCount} = props;
+  const {id, name, role, color, type, activeTasksCount, showLog, showTasks} = props;
   const [visible, setVisible] = React.useState(false);
   const [isOptionsVisible, setOptionsVisible] = React.useState(false);
   const [status, setStatus] = React.useState(props.status);
@@ -41,6 +41,8 @@ export default function UserCard(props) {
         id={id}
         name={name}
         activeTasksCount={activeTasksCount}
+        showLog={showLog}
+        showTasks={showTasks}
       />
 
       <BottomMenu
