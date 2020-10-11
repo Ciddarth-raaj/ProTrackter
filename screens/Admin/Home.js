@@ -29,8 +29,8 @@ export default class Home extends React.Component {
           openPage: () => this.props.navigation.navigate('AdminUsers'),
         },
         {
-          title: 'Reports',
-          image: require('../../assests/stats.png'),
+          title: 'User Log',
+          image: require('../../assests/clock.png'),
           color: Colors.green,
           lightColor: Colors.greenLight,
           notificationCount: 0,
