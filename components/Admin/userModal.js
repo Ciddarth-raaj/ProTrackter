@@ -55,6 +55,7 @@ export default class TaskModal extends React.Component {
             logs.push({
                 label: log.label,
                 time: log.created_at,
+                by_admin: log.by_admin,
             });
         }
         return logs;
@@ -247,7 +248,13 @@ export default class TaskModal extends React.Component {
                                                     ]}>{`${moment(
                                                     new Date(l.time),
                                                 ).format('hh:mm A')}`}</Text>
-                                                <Text style={[styles.text]}>
+                                                <Text
+                                                    style={[
+                                                        styles.text,
+                                                        l.by_admin && {
+                                                            color: 'red',
+                                                        },
+                                                    ]}>
                                                     {l.label === 'Online'
                                                         ? 'Logged In'
                                                         : 'Logged Out'}
