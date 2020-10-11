@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, Modal, Image, ScrollView } from 'react-native';
+import moment from 'moment';
+import DatePicker from '@react-native-community/datetimepicker';
 
 import Styles from '../../constants/styles';
 import UserCard from './userCard';
@@ -132,13 +134,13 @@ export default class TaskModal extends React.Component {
 										Status History
 								</Text>
 									{userLog.map((l) => (
-										<View>
-											<Text style={[styles.text, { fontWeight: 'bold', marginBottom: 5 }]}>
+										<View style={{flexDirection: "row", marginBottom: 10}}>
+											<Text style={[styles.text, { fontWeight: 'bold', marginRight: 10}]}>{`${moment(new Date(
+												l.time
+											)).format('hh:mm A')}`}</Text>
+											<Text style={[styles.text]}>
 												{l.label === 'Online' ? 'Logged In' : 'Logged Out'}
 											</Text>
-											<Text style={[styles.text, { marginBottom: 10 }]}>{`${new Date(
-												l.time
-											).toLocaleString()}`}</Text>
 										</View>
 									))}
 								</View>
