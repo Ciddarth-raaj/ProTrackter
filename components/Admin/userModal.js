@@ -82,7 +82,7 @@ export default class TaskModal extends React.Component {
         const timeLog = [];
 
         allUserLog.forEach((l) => {
-            if (new Date(l.time).getDate() === date.getDate()) timeLog.push(l);
+            if (new Date(l.time).toDateString() === date.toDateString()) timeLog.push(l);
         });
 
         this.setState({userLog: timeLog});
